@@ -59,6 +59,20 @@
 				</picUrl>
 			</properties>
 		</developer>
+		<developer>
+			<id>juamunnav</id>
+			<name>Juan Luis</name>
+			<email>juamunnav@alum.us.es</email>
+			<url>https://github.com/juamunnav</url>
+			<roles>
+				<role>development team</role>
+			</roles>
+			<properties>
+				<picUrl>
+					https://github.com/juamunnav
+				</picUrl>
+			</properties>
+		</developer>
 	</developers>
 	
 	<dependencies>
