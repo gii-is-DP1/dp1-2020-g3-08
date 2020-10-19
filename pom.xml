@@ -59,6 +59,21 @@
 				</picUrl>
 			</properties>
 		</developer>
+		
+		<developer>
+			<id>marrodoso</id>
+			<name>Marcos</name>
+			<email>marrodoso@alum.us.es</email>
+			<url>https://github.com/marrodoso</url>
+			<roles>
+				<role>development team</role>
+			</roles>
+			<properties>
+				<picUrl>
+					https://github.com/marrodoso
+				</picUrl>
+			</properties>
+		</developer>
 	</developers>
 	
 	<dependencies>
