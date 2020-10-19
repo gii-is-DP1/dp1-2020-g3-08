@@ -45,6 +45,20 @@
 				</picUrl>
 			</properties>
 		</developer>
+		<developer>
+			<id>gonferjim</id>
+			<name>Gonzalo</name>
+			<email>gonferjim@alum.us.es</email>
+			<url>https://github.com/gonferjim</url>
+			<roles>
+				<role>development team</role>
+			</roles>
+			<properties>
+				<picUrl>
+					https://avatars0.githubusercontent.com/u/56033637
+				</picUrl>
+			</properties>
+		</developer>
 	</developers>
 	
 	<dependencies>
