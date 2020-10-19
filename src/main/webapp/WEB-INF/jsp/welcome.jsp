@@ -8,8 +8,8 @@
     <h2><fmt:message key="welcome"/></h2>
     <div class="row">
         <div class="col-md-12">
-            <spring:url value="/resources/images/pets.png" htmlEscape="true" var="petsImage"/>
-            <img class="img-responsive" src="${petsImage}"/>
+            <spring:url value="/resources/images/us-logo.png" htmlEscape="true" var="usLogo"/>
+            <img class="img-responsive" src="${usLogo}"/>
         </div>
     </div>
 </petclinic:layout>
