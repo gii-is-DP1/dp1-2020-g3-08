@@ -59,8 +59,36 @@
 				</picUrl>
 			</properties>
 		</developer>
-		
+	<developer>
+			<id>juamunnav</id>
+			<name>Juan Luis</name>
+			<email>juamunnav@alum.us.es</email>
+			<url>https://github.com/juamunnav</url>
+			<roles>
+				<role>development team</role>
+			</roles>
+			<properties>
+				<picUrl>
+					https://github.com/juamunnav
+				</picUrl>
+			</properties>
+		</developer>
 		<developer>
+			<id>javgrogom</id>
+			<name>Javier</name>
+			<email>javiggt@gmail.com</email>
+			<url>https://github.com/javgrogom</url>
+			<roles>
+				<role>development team</role>
+			</roles>
+			<properties>
+				<picUrl>
+					https://avatars0.githubusercontent.com/u/72520174
+				</picUrl>
+			</properties>
+		</developer>
+	</developers>
+  <developer>
 			<id>marrodoso</id>
 			<name>Marcos</name>
 			<email>marrodoso@alum.us.es</email>
