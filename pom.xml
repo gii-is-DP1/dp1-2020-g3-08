@@ -32,16 +32,16 @@
 	</properties>
 	<developers>
 		<developer>
-			<id>ignsanalo</id>
-			<name>Ignacio</name>
-			<email>ignsanalo@alum.us.es</email>
-			<url>https://github.com/ignsanalo</url>
+			<id>bogste</id>
+			<name>Bogdan Marian</name>
+			<email></email>
+			<url></url>
 			<roles>
 				<role>development team</role>
 			</roles>
 			<properties>
 				<picUrl>
-					https://github.com/ignsanalo
+					
 				</picUrl>
 			</properties>
 		</developer>
