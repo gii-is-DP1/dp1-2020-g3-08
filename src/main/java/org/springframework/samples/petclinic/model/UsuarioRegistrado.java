@@ -15,28 +15,17 @@
  */
 package org.springframework.samples.petclinic.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
+import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-
-import org.springframework.beans.support.MutableSortDefinition;
-import org.springframework.beans.support.PropertyComparator;
-import org.springframework.core.style.ToStringCreator;
-
 
 @Entity
 @Table(name = "usuariosRegistrados")
@@ -55,20 +44,17 @@ public class UsuarioRegistrado extends Person {
 	@NotEmpty
 	@Digits(fraction = 0, integer = 10)
 	private String telephone;
-	
+
 	@Column(name = "sexo")
 	@NotEmpty
 	@Email
 	private Sexo sexo;
-	
 
-	
 	//
 	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "username", referencedColumnName = "username")
+	@JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 	//
-	
 
 	public String getCorreoElectronico() {
 		return correoElectronico;
@@ -94,11 +80,6 @@ public class UsuarioRegistrado extends Person {
 		this.telephone = telephone;
 	}
 
-	
-
-
-
-
 	public User getUser() {
 		return user;
 	}
@@ -120,7 +101,5 @@ public class UsuarioRegistrado extends Person {
 		return "UsuarioRegistrado [correoElectronico=" + correoElectronico + ", fechaDeNacimiento=" + fechaDeNacimiento
 				+ ", telephone=" + telephone + ", sexo=" + sexo + "]";
 	}
-
-	
 
 }
