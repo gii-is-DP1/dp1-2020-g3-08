@@ -9,9 +9,6 @@ INSERT INTO authorities(id,username,authority) VALUES (4,'ignsanalo','owner');
 INSERT INTO users(username,password,enabled) VALUES ('gonferjim','gonferjim',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (5,'gonferjim','owner');
 
-
-
-
 INSERT INTO users(username,password,enabled) VALUES ('juamunnav','juamunnav',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (6,'juamunnav','owner');
 INSERT INTO users(username,password,enabled) VALUES ('javgrogom','javgrogom',TRUE);
@@ -39,6 +36,9 @@ INSERT INTO vet_specialties VALUES (3, 2);
 INSERT INTO vet_specialties VALUES (3, 3);
 INSERT INTO vet_specialties VALUES (4, 2);
 INSERT INTO vet_specialties VALUES (5, 1);
+
+INSERT INTO sexos VALUES (1, 'hombre');
+INSERT INTO sexos VALUES (2, 'mujer');
 
 INSERT INTO types VALUES (1, 'cat');
 INSERT INTO types VALUES (2, 'dog');
