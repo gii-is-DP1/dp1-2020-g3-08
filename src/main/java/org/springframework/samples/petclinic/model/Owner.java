@@ -66,18 +66,18 @@ public class Owner extends Person {
 	//
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
-	private User user;
+	private UserPetclinic user;
 	//
 	
 	public String getAddress() {
 		return this.address;
 	}
 
-	public User getUser() {
+	public UserPetclinic getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(UserPetclinic user) {
 		this.user = user;
 	}
 
