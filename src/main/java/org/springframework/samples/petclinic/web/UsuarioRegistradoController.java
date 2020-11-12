@@ -100,7 +100,7 @@ public class UsuarioRegistradoController {
 	 */
 	@GetMapping("/usuariosRegistrados/{usuarioRegistradoID}")
 	public ModelAndView showUsuarioRegistrado(@PathVariable("usuarioRegistradoID") int usuarioRegistradoID) {
-		ModelAndView mav = new ModelAndView("owners/ownerDetails");
+		ModelAndView mav = new ModelAndView("usuariosRegistrados/usuarioRegistradoDetails");
 		mav.addObject(this.usuarioRegistradoService.findUsuarioRegistradoById(usuarioRegistradoID));
 		return mav;
 	}
