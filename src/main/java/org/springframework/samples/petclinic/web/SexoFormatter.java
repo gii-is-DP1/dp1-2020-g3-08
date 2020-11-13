@@ -21,8 +21,8 @@ import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
-import org.springframework.samples.petclinic.model.Sexo;
-import org.springframework.samples.petclinic.service.UsuarioRegistradoService;
+import org.springframework.samples.petclinic.model.Genre;
+import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.stereotype.Component;
 
 /**
@@ -41,24 +41,24 @@ import org.springframework.stereotype.Component;
  * @author Michael Isvy
  */
 @Component
-public class SexoFormatter implements Formatter<Sexo> {
+public class SexoFormatter implements Formatter<Genre> {
 
-	private final UsuarioRegistradoService userService;
+	private final UserService userService;
 
 	@Autowired
-	public SexoFormatter(final UsuarioRegistradoService userService) {
+	public SexoFormatter(final UserService userService) {
 		this.userService = userService;
 	}
 
 	@Override
-	public String print(final Sexo sexo, final Locale locale) {
+	public String print(final Genre sexo, final Locale locale) {
 		return sexo.getName();
 	}
 
 	@Override
-	public Sexo parse(final String text, final Locale locale) throws ParseException {
-		Collection<Sexo> findSexos = this.userService.findGenres();
-		for (Sexo sexo : findSexos) {
+	public Genre parse(final String text, final Locale locale) throws ParseException {
+		Collection<Genre> findSexos = this.userService.findGenres();
+		for (Genre sexo : findSexos) {
 			if (sexo.getName().equals(text)) {
 				return sexo;
 			}

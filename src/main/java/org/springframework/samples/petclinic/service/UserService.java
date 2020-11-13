@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2013 the original author or authors.
+ * Copyright Futvilla Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,30 +15,41 @@
  */
 package org.springframework.samples.petclinic.service;
 
-
-import java.util.Optional;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Genre;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Mostly used as a facade for all Petclinic controllers Also a placeholder
- * for @Transactional and @Cacheable annotations
- *
- * @author Michael Isvy
- */
+
 @Service
 public class UserService {
 
 	private UserRepository userRepository;
 
 	@Autowired
-	public UserService(UserRepository userRepository) {
-		this.userRepository = userRepository;
+	public UserService(UserRepository usuarioRegistradoRepository) {
+		userRepository = usuarioRegistradoRepository;
+	}
+
+	@Transactional(readOnly = true)
+	public Collection<Genre> findGenres() throws DataAccessException {
+		return userRepository.findGenres();
+	}
+
+
+	@Transactional(readOnly = true)
+	public Collection<User> findAll() throws DataAccessException {
+		return userRepository.findAll();
+	}
+
+	@Transactional(readOnly = true)
+	public User findUserByUsername(String username) {
+		return userRepository.findByUsername(username);
 	}
 
 	@Transactional
@@ -46,8 +57,10 @@ public class UserService {
 		user.setEnabled(true);
 		userRepository.save(user);
 	}
-	
-	public Optional<User> findUser(String username) {
-		return userRepository.findById(username);
+
+	@Transactional
+	public void delete(User user) throws DataAccessException {
+		userRepository.delete(user);
 	}
+
 }

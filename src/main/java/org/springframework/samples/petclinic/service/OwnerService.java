@@ -46,7 +46,7 @@ public class OwnerService {
 	private OwnerRepository ownerRepository;	
 	
 	@Autowired
-	private UserService userService;
+	private UserPetclinicService userService;
 	
 	@Autowired
 	private AuthoritiesService authoritiesService;

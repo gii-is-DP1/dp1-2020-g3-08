@@ -16,7 +16,9 @@
 package org.springframework.samples.petclinic.service;
 
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -45,21 +47,37 @@ public class AuthoritiesService {
 	}
 
 	@Transactional
+	public Collection<Authorities> findAllAuthorities() throws DataAccessException {
+		List<Authorities> result = new ArrayList<>();
+		authoritiesRepository.findAll().forEach(result::add);
+		System.out.println(result.toString());
+		return  result;
+	}
+
+
+	@Transactional
 	public void saveAuthorities(Authorities authorities) throws DataAccessException {
 		authoritiesRepository.save(authorities);
 	}
-	
+
+
 	@Transactional
 	public void saveAuthorities(String username, String role) throws DataAccessException {
-		Authorities authority = new Authorities();
-		Optional<User> user = userService.findUser(username);
-		if(user.isPresent()) {
-			authority.setUser(user.get());
-			authority.setAuthority(role);
+		Authorities authorities = new Authorities();
+		User user = userService.findUserByUsername(username);
+		if(user!=null) {
+			authorities.setUser(user);
+			authorities.setAuthority(role);
 			//user.get().getAuthorities().add(authority);
-			authoritiesRepository.save(authority);
-		}else
+			authoritiesRepository.save(authorities);
+		} else {
 			throw new DataAccessException("User '"+username+"' not found!") {};
+		}
+	}
+
+	@Transactional
+	public void deleteAuthorities(Authorities authorities) throws DataAccessException {
+		authoritiesRepository.delete(authorities);
 	}
 
 

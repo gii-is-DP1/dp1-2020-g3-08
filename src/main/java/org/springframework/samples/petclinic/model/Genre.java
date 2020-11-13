@@ -22,7 +22,7 @@ import javax.persistence.Table;
  * @author Juergen Hoeller Can be Cat, Dog, Hamster...
  */
 @Entity
-@Table(name = "sexos")
-public class Sexo extends NamedEntity {
+@Table(name = "genres")
+public class Genre extends NamedEntity {
 
 }
