@@ -27,6 +27,9 @@ import org.springframework.samples.petclinic.model.Genre;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.UserService;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -83,14 +86,14 @@ public class UserController {
 	}
 
 	@GetMapping(value = "/users/{username}/edit")
-	public String initUpdateUsuarioRegistradoForm(@PathVariable("username") String username, Model model) {
+	public String initUpdateUserForm(@PathVariable("username") String username, Model model) {
 		User user = userService.findUserByUsername(username);
 		model.addAttribute(user);
 		return VIEWS_USER_CREATE_OR_UPDATE_FORM;
 	}
 
 	@PostMapping(value = "/users/{username}/edit")
-	public String processUpdateUsuarioRegistradoForm(@Valid User user, BindingResult result, @PathVariable("username") String username) {
+	public String processUpdateUserForm(@Valid User user, BindingResult result, @PathVariable("username") String username) {
 		if (result.hasErrors()) {
 			return VIEWS_USER_CREATE_OR_UPDATE_FORM;
 		} else {
@@ -104,7 +107,13 @@ public class UserController {
 					filter(x->x.getUser().getUsername().equals(username)).findFirst().get();
 				authoritiesService.deleteAuthorities(auto);
 				userService.delete(userService.findUserByUsername(username));
+				//Actualizamos el Authentication
+				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
+				org.springframework.security.core.userdetails.User updatedUser = new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), auth.getAuthorities());
+				Authentication newAuth = new UsernamePasswordAuthenticationToken(updatedUser, auth.getCredentials(), auth.getAuthorities());
+
+				SecurityContextHolder.getContext().setAuthentication(newAuth);
 			}
 
 			return "redirect:/users/" + user.getUsername();
@@ -112,7 +121,7 @@ public class UserController {
 	}
 
 	@GetMapping("/users/{username}")
-	public ModelAndView showUsuarioRegistrado(@PathVariable("username") String username) {
+	public ModelAndView showUser(@PathVariable("username") String username) {
 		ModelAndView mav = new ModelAndView(VIEWS_USER_SHOW);
 		mav.addObject(userService.findUserByUsername(username));
 		return mav;
