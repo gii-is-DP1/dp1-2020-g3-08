@@ -16,26 +16,22 @@
 package org.springframework.samples.petclinic.repository;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
-import org.springframework.samples.petclinic.model.Sexo;
-import org.springframework.samples.petclinic.model.UsuarioRegistrado;
+import org.springframework.data.repository.query.Param;
+import org.springframework.samples.petclinic.model.Noticia;
 
 
-public interface UsuarioRegistradoRepository extends Repository<UsuarioRegistrado, Integer> {
+public interface NoticiaRepository extends Repository<Noticia, String> {
 
 
-	void save(UsuarioRegistrado usuarioRegistrado) throws DataAccessException;
+	void save(Noticia noticia) throws DataAccessException;
 
-	@Query("SELECT sexo FROM Sexo sexo ORDER BY sexo.name")
-	List<Sexo> findGenres() throws DataAccessException;
+	Collection<Noticia> findAll() throws DataAccessException;
 
-	Collection<UsuarioRegistrado> findAll();
-
-	UsuarioRegistrado findById(int id);
-
+	@Query("SELECT noticia FROM Noticia noticia WHERE noticia.id =:id")
+	Noticia findById(@Param("id") int id) throws DataAccessException;
 
 }

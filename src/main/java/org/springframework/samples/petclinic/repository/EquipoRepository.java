@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2013 the original author or authors.
+ *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.petclinic.model;
+package org.springframework.samples.petclinic.repository;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import java.util.Collection;
 
-/**
- * @author Juergen Hoeller Can be Cat, Dog, Hamster...
- */
-@Entity
-@Table(name = "sexos")
-public class Sexo extends NamedEntity {
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.repository.Repository;
+import org.springframework.samples.petclinic.model.Equipo;
+
+
+public interface EquipoRepository extends Repository<Equipo, Integer>{
+
+	void save(Equipo equipo) throws DataAccessException;
+
+	Collection<Equipo> findAll() throws DataAccessException;
 
 }
