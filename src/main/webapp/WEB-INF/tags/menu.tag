@@ -48,9 +48,6 @@
 
 			</ul>
 
-
-
-
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="!isAuthenticated()">
 					<li><a href="<c:url value="/login" />">Login</a></li>
@@ -75,6 +72,11 @@
 											<p class="text-left">
 												<strong><sec:authentication property="name" /></strong>
 											</p>
+											<p class="text-left">
+												<a href="<c:url value="/users/"/><sec:authentication property="name" />"
+													class="btn btn-primary btn-block btn-sm">User Details</a>
+											</p>
+											<br>
 											<p class="text-left">
 												<a href="<c:url value="/logout" />"
 													class="btn btn-primary btn-block btn-sm">Logout</a>

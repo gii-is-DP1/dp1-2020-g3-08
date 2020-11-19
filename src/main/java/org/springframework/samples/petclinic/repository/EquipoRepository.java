@@ -1,5 +1,5 @@
 /*
- * Copyright Futvilla Team
+ *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,30 +16,16 @@
 package org.springframework.samples.petclinic.repository;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.dao.DataAccessException;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
-import org.springframework.data.repository.query.Param;
-import org.springframework.samples.petclinic.model.Genre;
-import org.springframework.samples.petclinic.model.User;
+import org.springframework.samples.petclinic.model.Equipo;
 
 
-public interface UserRepository extends Repository<User, String> {
+public interface EquipoRepository extends Repository<Equipo, Integer>{
 
+	void save(Equipo equipo) throws DataAccessException;
 
-	void save(User user) throws DataAccessException;
-
-	void delete(User user) throws DataAccessException;
-
-	@Query("SELECT genre FROM Genre genre ORDER BY genre.name")
-	List<Genre> findGenres() throws DataAccessException;
-
-	Collection<User> findAll() throws DataAccessException;
-
-	@Query("SELECT user FROM User user WHERE user.username = ?1")
-	User findByUsername(@Param("username") String username) throws DataAccessException;
-
+	Collection<Equipo> findAll() throws DataAccessException;
 
 }
