@@ -15,6 +15,8 @@ INSERT INTO users(username,password,enabled) VALUES ('javgrogom','javgrogom',TRU
 INSERT INTO authorities(id,username,authority) VALUES (7,'javgrogom','owner');
 INSERT INTO users(username,password,enabled) VALUES ('marrodoso','marrodoso',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (8,'marrodoso','owner');
+INSERT INTO users(username,password,enabled) VALUES ('bogste','bogste',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (9,'bogste','owner');
 
 -- One vet user, named vet1 with passwor v3t
 INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
@@ -66,6 +68,7 @@ INSERT INTO owners VALUES (12, 'Gonzalo', 'Fernandez', '22 Enrique Linde', 'Sevi
 INSERT INTO owners VALUES (13, 'Juan Luis', 'Muñoz', 'Mateo Aleman 6', 'Sevilla', '603559843', 'juamunnav');
 INSERT INTO owners VALUES (14, 'Javier', 'Grosso', 'MTomares', 'Sevilla', '123456789', 'javgrogom');
 INSERT INTO owners VALUES (15, 'Marcos', 'Rodriguez', '6 Carlos Boutelou', 'Sevilla', '685256234', 'marrodoso');
+INSERT INTO owners VALUES (16, 'Bogdan Marian', 'Stefan', '105 Cantares', 'Sevilla', '695348226', 'bogste');
 
 
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);
@@ -90,6 +93,7 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (15, 'Toby', '2015-
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (16, 'Thor', '2017-02-02', 2, 13);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (17, 'Flopi', '2014-04-11', 6, 14);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (18, 'Figaro', '2019-01-01', 1, 15);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (19, 'Smoky', '2020-09-27', 2, 16);
 
 
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 7, '2013-01-01', 'rabies shot');
