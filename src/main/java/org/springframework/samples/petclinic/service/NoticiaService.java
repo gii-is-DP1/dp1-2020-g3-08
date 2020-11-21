@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2013 the original author or authors.
+ * Copyright Futvilla Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,31 +19,36 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.model.Equipo;
-import org.springframework.samples.petclinic.repository.EquipoRepository;
+import org.springframework.samples.petclinic.model.Noticia;
+import org.springframework.samples.petclinic.repository.NoticiaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
-public class EquipoService {
+public class NoticiaService {
 
-	private EquipoRepository equipoRepository;
-
+	private NoticiaRepository noticiaRepository;
 
 	@Autowired
-	public EquipoService(EquipoRepository equipoRepository) {
-		this.equipoRepository = equipoRepository;
+	public NoticiaService(NoticiaRepository noticiaRepository) {
+		this.noticiaRepository = noticiaRepository;
 	}
 
 	@Transactional(readOnly = true)
-	public Collection<Equipo> findEquipos() throws DataAccessException {
-		return equipoRepository.findAll();
+	public Collection<Noticia> findAll() throws DataAccessException {
+		return noticiaRepository.findAll();
+	}
+
+	@Transactional(readOnly = true)
+	public Noticia findById(int id) throws DataAccessException {
+		return noticiaRepository.findById(id);
 	}
 
 	@Transactional
-	public void saveEquipo(Equipo equipo) throws DataAccessException {
-		equipoRepository.save(equipo);
+	public void saveNoticia(Noticia noticia) throws DataAccessException {
+		noticiaRepository.save(noticia);
 	}
+
 
 }

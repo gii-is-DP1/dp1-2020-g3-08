@@ -1,5 +1,5 @@
 /*
- *
+ * Copyright Futvilla Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,14 +18,17 @@ package org.springframework.samples.petclinic.repository;
 import java.util.Collection;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
-import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.data.repository.query.Param;
+import org.springframework.samples.petclinic.model.Partido;
 
-
-public interface EquipoRepository extends Repository<Equipo, Integer>{
-
-	void save(Equipo equipo) throws DataAccessException;
-
-	Collection<Equipo> findAll() throws DataAccessException;
+public interface PartidoRepository extends Repository<Partido, String> {
+	void save(Partido partido) throws DataAccessException;
+	
+	Collection<Partido> findAll() throws DataAccessException;
+	
+	@Query("SELECT partido FROM Partido partido WHERE partido.id=:id")
+	Partido findById(@Param("id") int id) throws DataAccessException;
 
 }
