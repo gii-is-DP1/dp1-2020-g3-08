@@ -3,4 +3,10 @@ INSERT INTO genres VALUES (2, 'mujer');
 
 INSERT INTO noticias VALUES (1, '2010-09-07','titulo', 'texto');
 
-/*INSERT INTO entrenadores VALUES (1);*/
+
+INSERT INTO competiciones VALUES(1,'Competicion prueba');
+INSERT INTO competiciones VALUES(2,'Competicion prueba 2');
+
+INSERT INTO arbitros VALUES(1,'Matheu');
+
+
