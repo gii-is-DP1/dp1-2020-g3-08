@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
@@ -24,7 +25,6 @@ import org.springframework.samples.petclinic.repository.EquipoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @Service
 public class EquipoService {
 
@@ -32,18 +32,33 @@ public class EquipoService {
 
 
 	@Autowired
-	public EquipoService(EquipoRepository equipoRepository) {
+	public EquipoService(final EquipoRepository equipoRepository) {
 		this.equipoRepository = equipoRepository;
 	}
 
 	@Transactional(readOnly = true)
+	public Equipo findEquipoById(final int id) throws DataAccessException {
+		return this.equipoRepository.findById(id);
+	}
+
+	@Transactional(readOnly = true)
+	public Collection<Equipo> findEquipoByNombre(final String nombre) throws DataAccessException {
+		return this.equipoRepository.findByNombre(nombre);
+	}
+
+	@Transactional(readOnly = true)
 	public Collection<Equipo> findEquipos() throws DataAccessException {
-		return equipoRepository.findAll();
+		return this.equipoRepository.findAll();
 	}
 
 	@Transactional
-	public void saveEquipo(Equipo equipo) throws DataAccessException {
-		equipoRepository.save(equipo);
+	public void saveEquipo(final Equipo equipo) throws DataAccessException {
+		this.equipoRepository.save(equipo);
+	}
+
+	@Transactional
+	public void deleteEquipo(final Equipo equipo) {
+		this.equipoRepository.delete(equipo);
 	}
 
 }
