@@ -17,7 +17,7 @@
 		</p>
 		<p>
 			<u1> <c:forEach items="${persons}" var="person">
-				<li>${person.firstName}${person.lastName}</li>
+				<li>${person.nombre}${person.apellidos}</li>
 			</c:forEach> </u1>
 		</p>
 		</div>

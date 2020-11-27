@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,11 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.springframework.samples.petclinic.model;
+
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Simple JavaBean domain object representing an person.
@@ -25,30 +35,31 @@ import javax.validation.constraints.NotEmpty;
  * @author Ken Krebs
  */
 @MappedSuperclass
+@Getter
+@Setter
 public class Person extends BaseEntity {
 
-	@Column(name = "first_name")
+	@Column(name = "nombre")
 	@NotEmpty
-	protected String firstName;
+	@Length(min = 3, max = 16)
+	protected String	nombre;
 
-	@Column(name = "last_name")
+	@Column(name = "apellidos")
 	@NotEmpty
-	protected String lastName;
+	@Length(min = 3, max = 24)
+	protected String	apellidos;
 
-	public String getFirstName() {
-		return this.firstName;
-	}
+	@Column(name = "fecha_nacimiento")
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	protected LocalDate	fecha_nacimiento;
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+	@Column(name = "nacionalidad")
+	@NotEmpty
+	protected String	nacionalidad;
 
-	public String getLastName() {
-		return this.lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+	@Column(name = "dni")
+	@NotEmpty
+	@Pattern(regexp = "[0-9]{8,8}[A-Z]")
+	protected String	dni;
 
 }

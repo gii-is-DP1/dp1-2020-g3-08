@@ -9,7 +9,7 @@
 <petclinic:layout pageName="noticias">
 
     <h2>
-        <c:if test="${noticia['new']}">New </c:if> Noticia
+        <c:if test="${noticia['new']}">Nueva </c:if> Noticia
     </h2>
     <form:form modelAttribute="noticia" class="form-horizontal" id="add-noticia-form">
     	<input type="hidden" name="date" value=""/>
