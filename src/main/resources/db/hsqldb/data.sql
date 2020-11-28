@@ -14,3 +14,9 @@ INSERT INTO jugador VALUES (2, 'López', '13625381K', '1993-09-07', 'España', '
 
 INSERT INTO partidos VALUES (1, '2012-12-12', 'lugar');
 
+INSERT INTO competiciones VALUES(1,'Competicion prueba');
+INSERT INTO competiciones VALUES(2,'Competicion prueba 2');
+
+INSERT INTO arbitros VALUES(1,'Matheu');
+
+
