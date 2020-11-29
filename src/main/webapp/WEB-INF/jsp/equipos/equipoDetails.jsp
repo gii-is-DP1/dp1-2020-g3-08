@@ -46,10 +46,45 @@
 		<spring:param name="equipoId" value="${equipo.id}" />
 	</spring:url>
 	<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">Añadir nuevo jugador</a>
+	<spring:url value="{equipoId}/entrenadores/new" var="addUrl">
+		<spring:param name="equipoId" value="${equipo.id}" />
+	</spring:url>
+	<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">Añadir nuevo entrenador</a>
 
 	<br />
 	<br />
 	<br />
+	<h2>Entrenador</h2>
+
+	<table class="table table-striped">
+		<c:forEach var="entrenador" items="${equipo.entrenadores}">
+			<tr>
+				<td valign="top">
+					<dl class="dl-horizontal">
+						<dt>Nombre</dt>
+						<dd>
+							<c:out value="${entrenador.user.firstName}" />
+						</dd>
+						<dt>Apellidos</dt>
+						<dd>
+							<c:out value="${entrenador.user.lastName}" />
+						</dd>
+						<spring:url value="/equipos/{equipoId}/entrenadores/{entrenadorId}/edit" var="entrenadorUrl">
+							<spring:param name="equipoId" value="${equipo.id}" />
+							<spring:param name="entrenadorId" value="${entrenador.id}" />
+						</spring:url>
+						<a href="${fn:escapeXml(entrenadorUrl)}">Editar entrenador</a>
+						<spring:url value="/equipos/{equipoId}/entrenadores/{entrenadorId}/delete" var="entrenadorUrl">
+							<spring:param name="equipoId" value="${equipo.id}" />
+							<spring:param name="entrenadorId" value="${entrenador.id}" />
+						</spring:url>
+						<a href="${fn:escapeXml(entrenadorUrl)}">Borrar entrenador</a>
+					</dl>
+				</td>
+			</tr>
+		</c:forEach>
+	</table>
+	
 
 	<h2>Jugadores</h2>
 
@@ -81,5 +116,6 @@
 			</tr>
 		</c:forEach>
 	</table>
-
+	
+	
 </petclinic:layout>
