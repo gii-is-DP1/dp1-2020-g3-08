@@ -19,48 +19,36 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.model.Genre;
-import org.springframework.samples.petclinic.model.User;
-import org.springframework.samples.petclinic.repository.UserRepository;
+import org.springframework.samples.petclinic.model.Noticia;
+import org.springframework.samples.petclinic.repository.NoticiaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
-public class UserService {
+public class NoticiaService {
 
-	private UserRepository userRepository;
+	private NoticiaRepository noticiaRepository;
 
 	@Autowired
-	public UserService(UserRepository usuarioRegistradoRepository) {
-		userRepository = usuarioRegistradoRepository;
+	public NoticiaService(NoticiaRepository noticiaRepository) {
+		this.noticiaRepository = noticiaRepository;
 	}
 
 	@Transactional(readOnly = true)
-	public Collection<Genre> findGenres() throws DataAccessException {
-		return userRepository.findGenres();
-	}
-
-
-	@Transactional(readOnly = true)
-	public Collection<User> findAll() throws DataAccessException {
-		return userRepository.findAll();
+	public Collection<Noticia> findAll() throws DataAccessException {
+		return noticiaRepository.findAll();
 	}
 
 	@Transactional(readOnly = true)
-	public User findUserByUsername(String username) {
-		return userRepository.findByUsername(username);
+	public Noticia findById(int id) throws DataAccessException {
+		return noticiaRepository.findById(id);
 	}
 
 	@Transactional
-	public void saveUser(User user) throws DataAccessException {
-		user.setEnabled(true);
-		userRepository.save(user);
+	public void saveNoticia(Noticia noticia) throws DataAccessException {
+		noticiaRepository.save(noticia);
 	}
 
-	@Transactional
-	public void delete(User user) throws DataAccessException {
-		userRepository.delete(user);
-	}
 
 }

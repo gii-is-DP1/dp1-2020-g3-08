@@ -28,16 +28,28 @@
 					<span>Home</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/find"
-					title="find owners">
+<%-- 				<petclinic:menuItem active="${name eq 'equipos'}" url="/equipos/find"
+					title="buscar equipos">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<span>Find owners</span>
+					<span>Buscar equipos</span>
+				</petclinic:menuItem> --%>
+				
+				<petclinic:menuItem active="${name eq 'equipos'}" url="/equipos/new"
+					title="equipos">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Crear Equipo</span>
+				</petclinic:menuItem>
+				
+				<petclinic:menuItem active="${name eq 'equipos'}" url="/equipos/find"
+					title="equipos">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Buscar Equipo</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'vets'}" url="/vets"
-					title="veterinarians">
+				<petclinic:menuItem active="${name eq 'noticias'}" url="/noticias/new"
+					title="noticias">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Veterinarians</span>
+					<span>Crear Noticia</span>
 				</petclinic:menuItem>
 
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
@@ -51,7 +63,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="!isAuthenticated()">
 					<li><a href="<c:url value="/login" />">Login</a></li>
-					<li><a href="<c:url value="/usuariosRegistrados/new" />">Register</a></li>
+					<li><a href="<c:url value="/users/new" />">Register</a></li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -72,6 +84,11 @@
 											<p class="text-left">
 												<strong><sec:authentication property="name" /></strong>
 											</p>
+											<p class="text-left">
+												<a href="<c:url value="/users/"/><sec:authentication property="name" />"
+													class="btn btn-primary btn-block btn-sm">User Details</a>
+											</p>
+											<br>
 											<p class="text-left">
 												<a href="<c:url value="/logout" />"
 													class="btn btn-primary btn-block btn-sm">Logout</a>
