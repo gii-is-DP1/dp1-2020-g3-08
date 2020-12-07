@@ -17,11 +17,15 @@
 package org.springframework.samples.petclinic.web;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Equipos;
 import org.springframework.samples.petclinic.model.Noticia;
 import org.springframework.samples.petclinic.service.NoticiaService;
 import org.springframework.stereotype.Controller;
@@ -78,6 +82,14 @@ public class NoticiaController {
 		ModelAndView mav = new ModelAndView(VIEWS_NOTICIA_SHOW);
 		mav.addObject(noticiaService.findById(id));
 		return mav;
+	}
+	
+	//Lista de noticias
+	@GetMapping("/noticias/list")
+	public String showEquipoList(final Map<String, Object> model) {
+		Collection<Noticia> noticias = noticiaService.findAll();
+		model.put("noticias", noticias);
+		return "noticias/noticiasList";
 	}
 
 }
