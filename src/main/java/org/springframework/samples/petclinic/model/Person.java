@@ -49,9 +49,9 @@ public class Person extends BaseEntity {
 	@Length(min = 3, max = 24)
 	protected String	apellidos;
 
-	@Column(name = "fecha_nacimiento")
+	@Column(name = "fechaNacimiento")
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
-	protected LocalDate	fecha_nacimiento;
+	protected LocalDate	fechaNacimiento;
 
 	@Column(name = "nacionalidad")
 	@NotEmpty

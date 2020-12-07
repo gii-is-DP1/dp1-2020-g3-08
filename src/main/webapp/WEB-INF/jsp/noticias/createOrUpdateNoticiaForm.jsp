@@ -14,8 +14,8 @@
     <form:form modelAttribute="noticia" class="form-horizontal" id="add-noticia-form">
     	<input type="hidden" name="date" value=""/>
         <div class="form-group has-feedback">
-            <petclinic:inputField label="Titulo" name="title"/>
-            <petclinic:inputField label="Texto" name="text"/>
+            <petclinic:inputField label="Titulo" name="titulo"/>
+            <petclinic:inputField label="Texto" name="texto"/>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">

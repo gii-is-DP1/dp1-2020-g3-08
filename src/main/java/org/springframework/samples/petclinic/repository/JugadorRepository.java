@@ -17,4 +17,6 @@ public interface JugadorRepository extends Repository<Jugador, String> {
 
 	void delete(Jugador jugador);
 
+	Collection<Jugador> findJugadorByNombre(String nombre);
+
 }

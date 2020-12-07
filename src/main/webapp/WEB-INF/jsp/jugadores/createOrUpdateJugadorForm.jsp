@@ -22,7 +22,7 @@
                 <div class="form-group has-feedback">
                 <petclinic:inputField label="Nombre" name="nombre" />
                 <petclinic:inputField label="Apellidos" name="apellidos" />
-                <petclinic:inputField label="Fecha Nacimiento" name="fecha_nacimiento" />
+                <petclinic:inputField label="Fecha Nacimiento" name="fechaNacimiento" />
                 <petclinic:inputField label="Nacionalidad" name="nacionalidad" />
                 <petclinic:inputField label="DNI" name="dni" />
             </div>

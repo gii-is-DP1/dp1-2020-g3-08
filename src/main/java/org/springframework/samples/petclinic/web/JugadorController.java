@@ -16,6 +16,7 @@
 
 package org.springframework.samples.petclinic.web;
 
+import java.util.Collection;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -99,6 +100,33 @@ public class JugadorController {
 				return JugadorController.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
 			}
 			return "redirect:/equipos/{equipoId}";
+		}
+	}
+
+	@GetMapping(value = "/jugadores/find")
+	public String initFindForm(final Map<String, Object> model) {
+		model.put("jugador", new Jugador());
+		return "jugadores/findJugadores";
+	}
+
+	@GetMapping(value = "/jugadores")
+	public String processFindForm(final Jugador jugador, final BindingResult result, final Map<String, Object> model) {
+
+		// allow parameterless GET request for /Jugadores to return all records
+		if (jugador.getNombre() == null) {
+			jugador.setNombre(""); // empty string signifies broadest possible search
+		}
+
+		// find Jugadores by nombre
+		Collection<Jugador> results = this.jugadorService.findJugadorByNombre(jugador.getNombre());
+		if (results.isEmpty()) {
+			// no Jugadores found
+			result.rejectValue("nombre", "notFound", "not found");
+			return "jugadores/findJugadores";
+		} else {
+			// multiple Jugadores found
+			model.put("selections", results);
+			return "jugadores/jugadoresList";
 		}
 	}
 
