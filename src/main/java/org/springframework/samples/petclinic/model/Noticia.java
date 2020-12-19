@@ -1,13 +1,13 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.PastOrPresent;
 
@@ -31,5 +31,10 @@ public class Noticia extends BaseEntity{
 	@PastOrPresent
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate	date;
+	
+	@ManyToMany
+	@JoinTable(name = "partidos_noticias", joinColumns = @JoinColumn(name = "partido_id"),
+	inverseJoinColumns = @JoinColumn(name = "noticia_id"))
+	private List<Partido> partidos;
 	
 }
