@@ -16,17 +16,17 @@ import lombok.Setter;
 @Table(name = "jugador")
 public class Jugador extends Person {
 
-	@Column(name = "t_amarilla")
-	protected Integer	t_amarilla;
+	@Column(name = "tarjetaAmarilla")
+	protected Integer	tarjetaAmarilla;
 
-	@Column(name = "t_roja")
-	protected Integer	t_roja;
+	@Column(name = "tarjetaRoja")
+	protected Integer	tarjetaRoja;
 
 	@Column(name = "lesion")
 	protected Boolean	lesion;
 
 	@ManyToOne
-	@JoinColumn(name = "equipo_id")
+	@JoinColumn(name = "equipoId")
 	private Equipo		equipo;
 
 }

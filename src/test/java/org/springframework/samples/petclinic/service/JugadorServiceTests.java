@@ -1,10 +1,11 @@
-package org.springframework.samples.petclinic.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
+package org.springframework.samples.petclinic.service;
 
 import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -49,11 +50,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 class JugadorServiceTests {
-        @Autowired
-	protected JugadorService jugadorService;
 
-        @Autowired
-	protected EquipoService equipoService;
+	@Autowired
+	protected JugadorService	jugadorService;
+
+	@Autowired
+	protected EquipoService		equipoService;
+
 
 	@Test
 	void shouldFindJugadorWithCorrectId() {
@@ -68,24 +71,24 @@ class JugadorServiceTests {
 	public void shouldInsertJugadorIntoDatabaseAndGenerateId() {
 		Equipo equipo1 = this.equipoService.findEquipoById(1);
 		int found = equipo1.getJugadores().size();
-		
+
 		Jugador jugador = new Jugador();
 		jugador.setNombre("Paco");
 		jugador.setApellidos("Perez");
 		jugador.setDni("29517543X");
-		jugador.setFecha_nacimiento(LocalDate.now().minusYears(12));
+		jugador.setFechaNacimiento(LocalDate.now().minusYears(12));
 		jugador.setNacionalidad("España");
 		jugador.setLesion(false);
-		jugador.setT_amarilla(0);
-		jugador.setT_roja(0);
+		jugador.setTarjetaAmarilla(0);
+		jugador.setTarjetaRoja(0);
 		equipo1.addJugador(jugador);
 		assertThat(equipo1.getJugadores().size()).isEqualTo(found + 1);
 
-            try {
-                this.jugadorService.saveJugador(jugador);
-            } catch (DuplicatedJugadorDNIException ex) {
-                Logger.getLogger(JugadorServiceTests.class.getName()).log(Level.SEVERE, null, ex);
-            }
+		try {
+			this.jugadorService.saveJugador(jugador);
+		} catch (DuplicatedJugadorDNIException ex) {
+			Logger.getLogger(JugadorServiceTests.class.getName()).log(Level.SEVERE, null, ex);
+		}
 		this.equipoService.saveEquipo(equipo1);
 
 		equipo1 = this.equipoService.findEquipoById(1);
@@ -99,18 +102,18 @@ class JugadorServiceTests {
 	public void shouldThrowExceptionInsertingJugadoresWithTheSameDNI() {
 		Equipo equipo1 = this.equipoService.findEquipoById(1);
 		Jugador jugador = new Jugador();
-		
+
 		jugador.setNombre("Paco");
 		jugador.setApellidos("Perez");
 		jugador.setDni("29517543X");
-		jugador.setFecha_nacimiento(LocalDate.now().minusYears(12));
+		jugador.setFechaNacimiento(LocalDate.now().minusYears(12));
 		jugador.setNacionalidad("España");
 		jugador.setLesion(false);
-		jugador.setT_amarilla(0);
-		jugador.setT_roja(0);
+		jugador.setTarjetaAmarilla(0);
+		jugador.setTarjetaRoja(0);
 		equipo1.addJugador(jugador);
 		try {
-			jugadorService.saveJugador(jugador);
+			this.jugadorService.saveJugador(jugador);
 		} catch (DuplicatedJugadorDNIException e) {
 			// Jugador already exists!
 			e.printStackTrace();
@@ -120,15 +123,15 @@ class JugadorServiceTests {
 		anotherJugadorWithTheSameDNI.setNombre("Pepe");
 		anotherJugadorWithTheSameDNI.setApellidos("Pepin");
 		anotherJugadorWithTheSameDNI.setDni("29517543X");
-		anotherJugadorWithTheSameDNI.setFecha_nacimiento(LocalDate.now().minusYears(12));
+		anotherJugadorWithTheSameDNI.setFechaNacimiento(LocalDate.now().minusYears(12));
 		anotherJugadorWithTheSameDNI.setNacionalidad("España");
 		anotherJugadorWithTheSameDNI.setLesion(false);
-		anotherJugadorWithTheSameDNI.setT_amarilla(0);
-		anotherJugadorWithTheSameDNI.setT_roja(0);
-		
-		Assertions.assertThrows(DuplicatedJugadorDNIException.class, () ->{
+		anotherJugadorWithTheSameDNI.setTarjetaAmarilla(0);
+		anotherJugadorWithTheSameDNI.setTarjetaRoja(0);
+
+		Assertions.assertThrows(DuplicatedJugadorDNIException.class, () -> {
 			equipo1.addJugador(anotherJugadorWithTheSameDNI);
-			jugadorService.saveJugador(anotherJugadorWithTheSameDNI);
+			this.jugadorService.saveJugador(anotherJugadorWithTheSameDNI);
 		});
 	}
 
@@ -137,19 +140,19 @@ class JugadorServiceTests {
 	public void shouldUpdateJugador() throws Exception {
 		Jugador jugador1 = this.jugadorService.findJugadorById(1);
 		String oldName = jugador1.getNombre();
-		String oldLastName= jugador1.getApellidos();
-		String oldNacionalidad= jugador1.getNacionalidad();
-		
+		String oldLastName = jugador1.getApellidos();
+		String oldNacionalidad = jugador1.getNacionalidad();
+
 		String newName = oldName + "X";
-		String newLastName= oldLastName + "XX";
+		String newLastName = oldLastName + "XX";
 		LocalDate newFechaNacimiento = LocalDate.now().minusYears(12);
-		String newDNI="29557543X";
-		String newNacionalidad= oldNacionalidad + "Argelia";
+		String newDNI = "29557543X";
+		String newNacionalidad = oldNacionalidad + "Argelia";
 		jugador1.setNombre(newName);
 		jugador1.setApellidos(newLastName);
 		jugador1.setDni(newDNI);
 		jugador1.setNacionalidad(newNacionalidad);
-		jugador1.setFecha_nacimiento(newFechaNacimiento);
+		jugador1.setFechaNacimiento(newFechaNacimiento);
 		this.jugadorService.saveJugador(jugador1);
 
 		jugador1 = this.jugadorService.findJugadorById(1);
@@ -161,39 +164,38 @@ class JugadorServiceTests {
 	public void shouldThrowExceptionUpdatingJugadorWithTheSameDNI() {
 		Equipo equipo1 = this.equipoService.findEquipoById(1);
 		Jugador jugador = new Jugador();
-		
+
 		jugador.setNombre("Paco");
 		jugador.setApellidos("Perez");
 		jugador.setDni("29517543X");
-		jugador.setFecha_nacimiento(LocalDate.now().minusYears(12));
+		jugador.setFechaNacimiento(LocalDate.now().minusYears(12));
 		jugador.setNacionalidad("España");
 		jugador.setLesion(false);
-		jugador.setT_amarilla(0);
-		jugador.setT_roja(0);
+		jugador.setTarjetaAmarilla(0);
+		jugador.setTarjetaRoja(0);
 		equipo1.addJugador(jugador);
-
 
 		Jugador anotherJugador = new Jugador();
 		anotherJugador.setNombre("Paco");
 		anotherJugador.setApellidos("Pepe");
 		anotherJugador.setDni("22222222F");
-		anotherJugador.setFecha_nacimiento(LocalDate.now().minusYears(12));
+		anotherJugador.setFechaNacimiento(LocalDate.now().minusYears(12));
 		anotherJugador.setNacionalidad("España");
 		anotherJugador.setLesion(false);
-		anotherJugador.setT_amarilla(0);
-		anotherJugador.setT_roja(0);
+		anotherJugador.setTarjetaAmarilla(0);
+		anotherJugador.setTarjetaRoja(0);
 		equipo1.addJugador(anotherJugador);
 		try {
-			jugadorService.saveJugador(jugador);
-			jugadorService.saveJugador(anotherJugador);
+			this.jugadorService.saveJugador(jugador);
+			this.jugadorService.saveJugador(anotherJugador);
 		} catch (DuplicatedJugadorDNIException e) {
 			// The pets already exists!
 			e.printStackTrace();
 		}
 
-		Assertions.assertThrows(DuplicatedJugadorDNIException.class, () ->{
+		Assertions.assertThrows(DuplicatedJugadorDNIException.class, () -> {
 			anotherJugador.setDni("29517543X");
-			jugadorService.saveJugador(anotherJugador);
+			this.jugadorService.saveJugador(anotherJugador);
 		});
 	}
 

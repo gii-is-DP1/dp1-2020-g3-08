@@ -45,6 +45,12 @@
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Buscar Equipo</span>
 				</petclinic:menuItem>
+				
+				<petclinic:menuItem active="${name eq 'jugadores'}" url="/jugadores/find"
+					title="jugadores">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Buscar Jugadores</span>
+				</petclinic:menuItem>
 
 				<petclinic:menuItem active="${name eq 'noticias'}" url="/noticias/new"
 					title="noticias">
