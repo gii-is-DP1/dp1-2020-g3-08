@@ -16,22 +16,25 @@
     </jsp:attribute>
     <jsp:body>
     <h2>
-        <c:if test="${partido['new']}">New </c:if> Partido
+        Update Jugadores en Partido
     </h2>
     <form:form modelAttribute="partido" class="form-horizontal" id="add-partido-form">
         <div class="form-group has-feedback">
-            <petclinic:inputField label="Lugar" name="lugar"/>
-            <petclinic:inputField label="fecha" name="fecha"/>
-            <div class="control-group">	
+        	<petclinic:inputField label="Lugar" name="lugar"/>
+        	<petclinic:inputField label="fecha" name="fecha"/>
+        	<div class="control-group">	
 	            	<petclinic:selectField label="Equipo1" name="equipo1" size="5" names="${equipos}"/>
 	        </div>
 	        <div class="control-group">	
 	            	<petclinic:selectField label="Equipo2" name="equipo2" size="5" names="${equipos}"/>
 	        </div>
+            <div class="control-group">	
+	            	<petclinic:selectField label="JugadoresParticipantes" name="jugadoresParticipantes" size="20" names="${jugadores}"/>
+	        </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-            	<button class="btn btn-default" type="submit">Add Partido</button>
+            	<button class="btn btn-default" type="submit">Update Jugadores</button>
             </div>
         </div>
     </form:form>

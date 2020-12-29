@@ -33,8 +33,8 @@ public class Noticia extends BaseEntity{
 	private LocalDate	date;
 	
 	@ManyToMany
-	@JoinTable(name = "partidos_noticias", joinColumns = @JoinColumn(name = "partido_id"),
-	inverseJoinColumns = @JoinColumn(name = "noticia_id"))
+	@JoinTable(name = "partidos_noticias", joinColumns = @JoinColumn(name = "noticia_id"),
+	inverseJoinColumns = @JoinColumn(name = "partido_id"))
 	private List<Partido> partidos;
 	
 }

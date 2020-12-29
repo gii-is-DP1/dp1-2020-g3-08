@@ -27,12 +27,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PartidoService {
 	private PartidoRepository partidoRepository;
-	
+
 	@Autowired
 	public PartidoService(PartidoRepository partidoRepository) {
 		this.partidoRepository = partidoRepository;
 	}
-	
+
 	@Transactional(readOnly = true)
 	public Collection<Partido> findAll() throws DataAccessException {
 		return partidoRepository.findAll();
@@ -44,7 +44,7 @@ public class PartidoService {
 	}
 
 	@Transactional
-	public void saveNoticia(Partido partido) throws DataAccessException {
+	public void savePartido(Partido partido) throws DataAccessException {
 		partidoRepository.save(partido);
 	}
 }
