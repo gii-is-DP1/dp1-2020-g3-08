@@ -12,15 +12,15 @@
     <table class="table table-striped">
     	<tr>
             <th>Fecha</th>
-            <td><c:out value="${noticia.date}"/></td>
+            <td><c:out value="${noticia.fecha}"/></td>
         </tr>
         <tr>
             <th>Titular</th>
-            <td><b><c:out value="${noticia.title}"/></b></td>
+            <td><b><c:out value="${noticia.titulo}"/></b></td>
         </tr>
         <tr>
             <th>Texto</th>
-            <td><c:out value="${noticia.text}"/></td>
+            <td><c:out value="${noticia.texto}"/></td>
         </tr>
     </table>
     <h3>Partidos Relacionados</h3>

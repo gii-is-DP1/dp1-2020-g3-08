@@ -40,8 +40,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class NoticiaController {
 
-	private static final String				VIEWS_NOTICIA_CREATE_OR_UPDATE_FORM= "noticias/createOrUpdateNoticiaForm";
-	private static final String				VIEWS_NOTICIA_SHOW					= "noticias/noticiaDetails";
+	private static final String		VIEWS_NOTICIA_CREATE_OR_UPDATE_FORM	= "noticias/createOrUpdateNoticiaForm";
+	private static final String		VIEWS_NOTICIA_SHOW					= "noticias/noticiaDetails";
 
 	private final NoticiaService	noticiaService;
 
@@ -55,7 +55,7 @@ public class NoticiaController {
 	}
 
 	@InitBinder
-	public void setAllowedFields(WebDataBinder dataBinder) {
+	public void setAllowedFields(final WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
 	}
 
@@ -65,37 +65,36 @@ public class NoticiaController {
 	}
 
 	@GetMapping(value = "/noticias/new")
-	public String initCreationForm(Map<String, Object> model) {
+	public String initCreationForm(final Map<String, Object> model) {
 		Noticia noticia = new Noticia();
 		model.put("noticia", noticia);
-		return VIEWS_NOTICIA_CREATE_OR_UPDATE_FORM;
+		return NoticiaController.VIEWS_NOTICIA_CREATE_OR_UPDATE_FORM;
 	}
 
 	@PostMapping(value = "/noticias/new")
-	public String processCreationForm(@Valid Noticia noticia, BindingResult result) {
+	public String processCreationForm(@Valid final Noticia noticia, final BindingResult result) {
 		if (result.hasErrors()) {
-			return VIEWS_NOTICIA_CREATE_OR_UPDATE_FORM;
-		}
-		else {
+			return NoticiaController.VIEWS_NOTICIA_CREATE_OR_UPDATE_FORM;
+		} else {
 			LocalDate fechaActual = LocalDate.now();
-			noticia.setDate(fechaActual);
-			noticiaService.saveNoticia(noticia);
+			noticia.setFecha(fechaActual);
+			this.noticiaService.saveNoticia(noticia);
 
 			return "redirect:/noticias/" + noticia.getId();
 		}
 	}
 
 	@GetMapping("/noticias/{id}")
-	public ModelAndView showNoticia(@PathVariable("id") int id) {
-		ModelAndView mav = new ModelAndView(VIEWS_NOTICIA_SHOW);
-		mav.addObject(noticiaService.findById(id));
+	public ModelAndView showNoticia(@PathVariable("id") final int id) {
+		ModelAndView mav = new ModelAndView(NoticiaController.VIEWS_NOTICIA_SHOW);
+		mav.addObject(this.noticiaService.findById(id));
 		return mav;
 	}
 
 	//Lista de noticias
 	@GetMapping("/noticias/list")
 	public String showEquipoList(final Map<String, Object> model) {
-		Collection<Noticia> noticias = noticiaService.findAll();
+		Collection<Noticia> noticias = this.noticiaService.findAll();
 		model.put("noticias", noticias);
 		return "noticias/noticiasList";
 	}

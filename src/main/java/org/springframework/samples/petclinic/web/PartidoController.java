@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.springframework.samples.petclinic.web;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Equipo;
@@ -29,13 +28,11 @@ import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -55,7 +52,7 @@ public class PartidoController {
 	}
 
 	@InitBinder
-	public void setAllowedFields(WebDataBinder dataBinder) {
+	public void setAllowedFields(final WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
 	}
 
@@ -65,10 +62,10 @@ public class PartidoController {
 	}
 
 	@GetMapping(value = "/partidos/new")
-	public String initCreationForm(Map<String, Object> model) {
+	public String initCreationForm(final Map<String, Object> model) {
 		Partido partido = new Partido();
 		model.put("partido", partido);
-		return VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM;
+		return PartidoController.VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM;
 	}
 
 	@PostMapping(value = "/partidos/new")
@@ -82,10 +79,11 @@ public class PartidoController {
 		}
 	}
 
+
 	@GetMapping("/partidos/{id}")
-	public ModelAndView showPartido(@PathVariable("id") int id) {
-		ModelAndView mav = new ModelAndView(VIEWS_PARTIDO_SHOW);
-		mav.addObject(partidoService.findById(id));
+	public ModelAndView showPartido(@PathVariable("id") final int id) {
+		ModelAndView mav = new ModelAndView(PartidoController.VIEWS_PARTIDO_SHOW);
+		mav.addObject(this.partidoService.findById(id));
 		return mav;
 	}
 
