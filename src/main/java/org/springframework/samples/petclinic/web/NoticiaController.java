@@ -17,22 +17,22 @@
 package org.springframework.samples.petclinic.web;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Equipos;
 import org.springframework.samples.petclinic.model.Noticia;
+import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.service.NoticiaService;
+import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -45,15 +45,23 @@ public class NoticiaController {
 
 	private final NoticiaService	noticiaService;
 
+	private final PartidoService	partidoService;
+
 
 	@Autowired
-	public NoticiaController(NoticiaService noticiaService) {
+	public NoticiaController(NoticiaService noticiaService,PartidoService partidoService) {
 		this.noticiaService = noticiaService;
+		this.partidoService = partidoService;
 	}
 
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
+	}
+
+	@ModelAttribute("partidos")
+	public Collection<Partido> populatePartidos() {
+		return partidoService.findAll();
 	}
 
 	@GetMapping(value = "/noticias/new")
@@ -83,7 +91,7 @@ public class NoticiaController {
 		mav.addObject(noticiaService.findById(id));
 		return mav;
 	}
-	
+
 	//Lista de noticias
 	@GetMapping("/noticias/list")
 	public String showEquipoList(final Map<String, Object> model) {
