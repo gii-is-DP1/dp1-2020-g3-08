@@ -6,37 +6,30 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
 
 <petclinic:layout pageName="equipos">
-	<h2>Equipos</h2>
+	<h2>Jugadores</h2>
 
 	<table id="ownersTable" class="table table-striped">
         <thead>
         <tr>
             <th style="width: 150px;">Nombre</th>
-            <th style="width: 200px;">Lugar</th>
+            <th style="width: 200px;">Apellidos</th>
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${selections}" var="equipo">
+        <c:forEach items="${selections}" var="jugador">
             <tr>
                 <td>
-                    <spring:url value="/equipos/{equipoId}" var="equipoUrl">
-                        <spring:param name="equipoId" value="${equipo.id}"/>
+                    <spring:url value="/jugadores/{jugadorId}" var="jugadorUrl">
+                        <spring:param name="jugadorId" value="${jugador.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(equipoUrl)}"><c:out value="${equipo.nombre}"/></a>
+                    <a href="${fn:escapeXml(jugadorUrl)}"><c:out value="${jugador.nombre}"/></a>
                 </td>
                 <td>
-                    <c:out value="${equipo.lugar}"/>
+                    <c:out value="${jugador.apellidos}"/>
                 </td>
                 
       
-<!--
-                <td> 
-                    <c:out value="${owner.user.username}"/> 
-                </td>
-                <td> 
-                   <c:out value="${owner.user.password}"/> 
-                </td> 
--->
+
                 
             </tr>
         </c:forEach>
