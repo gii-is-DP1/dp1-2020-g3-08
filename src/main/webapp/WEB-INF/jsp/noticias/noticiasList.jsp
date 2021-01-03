@@ -28,7 +28,8 @@
                     <c:out value="${noticia.fecha}"/>
                 </td>           
             </tr>
-        </c:forEach>
+        </c:forEach>            
         </tbody>
     </table>
+    <a href="/noticias/new" class="btn btn-default">Nueva Noticia</a>
 </petclinic:layout>

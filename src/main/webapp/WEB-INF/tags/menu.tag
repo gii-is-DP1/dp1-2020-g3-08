@@ -52,10 +52,10 @@
 					<span>Buscar Jugadores</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'noticias'}" url="/noticias/new"
+				<petclinic:menuItem active="${name eq 'noticias'}" url="/noticias/list"
 					title="noticias">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Crear Noticia</span>
+					<span>Noticias</span>
 				</petclinic:menuItem>
 
 				<%-- <petclinic:menuItem active="${name eq 'error'}" url="/oups"
