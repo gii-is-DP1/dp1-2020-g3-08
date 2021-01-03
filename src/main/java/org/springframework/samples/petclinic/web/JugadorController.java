@@ -126,7 +126,7 @@ public class JugadorController {
 		} else {
 			// multiple Jugadores found
 			model.put("selections", results);
-			return "jugadores/jugadoresList";
+			return "jugadores/jugadoresList()";
 		}
 	}
 
@@ -175,7 +175,7 @@ public class JugadorController {
 		Jugadores jugadores = new Jugadores();
 		jugadores.getJugadorList().addAll(this.jugadorService.findJugadores());
 		model.put("jugadores", jugadores);
-		return "jugadores/jugadoresList";
+		return "jugadores/jugadoresList()";
 	}
 
 	@GetMapping(value = "/jugadores/{jugadorId}/delete")
