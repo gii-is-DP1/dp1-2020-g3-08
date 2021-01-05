@@ -80,7 +80,7 @@ public class EntrenadorController {
 		// objects
 		// so it is simpler for Object-Xml mapping
 		Entrenadores entrenadores = new Entrenadores();
-		entrenadores.getEntrenadorList().addAll(this.entrenadorService.findEntrenadores());
+		entrenadores.getEntrenadorList().addAll(this.entrenadorService.findAll());
 		model.put("entrenadores", entrenadores);
 		return "entrenadores/entrenadoresList";
 	}

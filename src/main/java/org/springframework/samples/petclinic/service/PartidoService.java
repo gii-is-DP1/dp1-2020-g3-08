@@ -19,6 +19,7 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Arbitro;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.repository.PartidoRepository;
 import org.springframework.stereotype.Service;
@@ -27,19 +28,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PartidoService {
 	private PartidoRepository partidoRepository;
-	
+
 	@Autowired
 	public PartidoService(PartidoRepository partidoRepository) {
 		this.partidoRepository = partidoRepository;
 	}
-	
+
 	@Transactional(readOnly = true)
 	public Collection<Partido> findAll() throws DataAccessException {
 		return partidoRepository.findAll();
 	}
 
 	@Transactional(readOnly = true)
-	public Partido findById(int id) throws DataAccessException {
+	public Partido findById(final int id) throws DataAccessException {
 		return partidoRepository.findById(id);
 	}
 
@@ -47,4 +48,15 @@ public class PartidoService {
 	public void saveNoticia(Partido partido) throws DataAccessException {
 		partidoRepository.save(partido);
 	}
+
+	public void savePartido(Partido p) throws DataAccessException {
+		this.partidoRepository.save(p);
+
+	}
+
+	public Partido findPartidoByArbitro(int arbitroId) {
+
+		return partidoRepository.findPartidoByArbitroId(arbitroId);
+	}
+
 }

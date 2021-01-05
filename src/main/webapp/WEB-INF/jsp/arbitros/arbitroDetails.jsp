@@ -10,11 +10,23 @@
 
 
     <table class="table table-striped">
-    	<tr>
+    	 <tr>
             <th>Nombre</th>
-            <td><c:out value="${arbitro.nombreArbitro}"/></td>
+            <td><b><c:out value="${arbitro.nombre} ${arbitro.apellidos}"/></b></td>
         </tr>
-       
+        
+        <tr>
+            <th>Fecha de nacimiento</th>
+            <td><c:out value="${arbitro.fecha_nacimiento}"/></td>
+        </tr>
+        <tr>
+            <th>Nacionalidad</th>
+            <td><c:out value="${arbitro.nacionalidad}"/></td>
+        </tr>
+        <tr>
+            <th>Dni</th>
+            <td><c:out value="${arbitro.dni}"/></td>
+        </tr>
     </table>
 
 </petclinic:layout>

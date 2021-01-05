@@ -16,5 +16,15 @@
         </tr>
         
     </table>
+    
+    <spring:url value="{competicionId}/edit" var="editUrl">
+		<spring:param name="competicionId" value="${competicion.id}" />
+	</spring:url>
+	<a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Competicion</a>
+	
+	<spring:url value="{competicionId}/delete" var="deleteUrl">
+		<spring:param name="competicionId" value="${competicion.id}" />
+	</spring:url>
+	<a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Borrar Competicion</a>
 
 </petclinic:layout>

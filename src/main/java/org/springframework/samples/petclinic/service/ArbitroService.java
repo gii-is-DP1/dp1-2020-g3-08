@@ -37,5 +37,9 @@ public class ArbitroService {
 		arbitroRepository.save(arbitro);
 
 	}
+	@Transactional
+	public void deleteArbitro(final Arbitro arbitro) {
+		this.arbitroRepository.delete(arbitro);
+	}
 
 }

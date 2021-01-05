@@ -20,7 +20,7 @@ public class Entrenador extends BaseEntity {
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 	
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name = "equipo_id")
 	private Equipo		equipo;
 	

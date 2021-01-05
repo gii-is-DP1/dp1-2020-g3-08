@@ -7,8 +7,11 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Competicion;
 import org.springframework.samples.petclinic.model.Competiciones;
+import org.springframework.samples.petclinic.model.Entrenador;
+import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.service.CompeticionService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,7 +50,7 @@ public class CompeticionController {
 		// objects
 		// so it is simpler for Object-Xml mapping
 		Competiciones competiciones = new Competiciones();
-		competiciones.getCompeticionList().addAll(this.competicionService.findCompeticiones());
+		competiciones.getCompeticionList().addAll(this.competicionService.findAll());
 		model.put("competiciones", competiciones);
 		return "competiciones/competicionesList";
 	}
@@ -62,6 +65,37 @@ public class CompeticionController {
 			return "redirect:/competiciones/" + competicion.getNombreComp();
 		}
 	}
+	
+	
+	@GetMapping(value = "/competiciones/{competicionId}/edit")
+	public String initUpdateForm(@PathVariable("competicionId") final int competicionId, final ModelMap model) {
+		Competicion competicion = this.competicionService.findById(competicionId);
+		model.put("competicion", competicion);
+		return CompeticionController.VIEWS_COMPETICION_CREATE_OR_UPDATE_FORM;
+	}
+
+	@PostMapping(value = "/competiciones/{competicionId}/edit")
+	public String processUpdateForm(@Valid final Competicion competicion, final BindingResult result, @PathVariable("competicionId") final int competicionId, final ModelMap model) {
+
+		if (result.hasErrors()) {
+			model.put("competicion", competicion);
+			return CompeticionController.VIEWS_COMPETICION_CREATE_OR_UPDATE_FORM;
+		} else {
+			competicion.setId(competicionId);
+			this.competicionService.saveCompeticion(competicion);
+			return "redirect:/competiciones/{competicionId}";
+		}
+	}
+	
+	@GetMapping(value = "/competiciones/{competicionId}/delete")
+	public String processDeleteForm(@PathVariable("competicionId") final int competicionId) {
+
+		Competicion competicion= this.competicionService.findById(competicionId);
+		this.competicionService.deleteCompeticion(competicion);
+		return "redirect:/competiciones/{competicionId}";
+	}
+
+
 
 	@GetMapping("/competiciones/{id}")
 	public ModelAndView showCompeticion(@PathVariable("id") int id) {

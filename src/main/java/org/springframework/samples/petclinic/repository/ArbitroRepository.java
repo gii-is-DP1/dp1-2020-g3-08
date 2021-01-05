@@ -17,4 +17,8 @@ public interface ArbitroRepository extends Repository<Arbitro, Integer> {
 	
 	@Query("SELECT arbitro FROM Arbitro arbitro WHERE arbitro.id =:id")
 	Arbitro findById(@Param("id") int id) throws DataAccessException;
+	
+	
+	
+	void delete(Arbitro arbitro);
 }

@@ -37,7 +37,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 		http.authorizeRequests().antMatchers("/resources/**", "/webjars/**", "/h2-console/**").permitAll().antMatchers(HttpMethod.GET, "/", "/oups").permitAll().antMatchers("/noticias/**").permitAll().antMatchers("/users/new").permitAll()
 			.antMatchers("/users/**").hasAnyAuthority("user", "admin").antMatchers("/admin/**").hasAnyAuthority("admin").antMatchers("/equipos/**").permitAll().antMatchers("/jugadores/**").permitAll().antMatchers("/arbitros/**").permitAll()
-		.antMatchers("/competiciones/**").permitAll()
+		.antMatchers("/competiciones/**").permitAll().antMatchers("/partidos/**").permitAll()
 		.antMatchers("/entrenadores/**").permitAll().anyRequest().denyAll().and().formLogin()
 			.failureUrl("/login-error").and().logout().logoutSuccessUrl("/");
 
