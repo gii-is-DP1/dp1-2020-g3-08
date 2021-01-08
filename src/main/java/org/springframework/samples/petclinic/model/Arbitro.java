@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.model;
 
 
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -38,6 +39,10 @@ public class Arbitro extends Person {
 	
 	protected void setPartidosInternal(final Set<Partido> partidos) {
 		this.partidos = partidos;
+	}
+
+	public void addPartido(Partido partido) {
+		getPartidosInternal().add(partido);
 	}
 
 

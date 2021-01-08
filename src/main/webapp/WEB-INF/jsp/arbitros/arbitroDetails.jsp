@@ -28,5 +28,9 @@
             <td><c:out value="${arbitro.dni}"/></td>
         </tr>
     </table>
+    <spring:url value="{arbitroId}/delete" var="deleteUrl">
+		<spring:param name="arbitroId" value="${arbitro.id}" />
+	</spring:url>
+	<a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Borrar Arbitro</a>
 
 </petclinic:layout>

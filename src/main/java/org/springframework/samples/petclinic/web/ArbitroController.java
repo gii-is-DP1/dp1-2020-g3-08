@@ -11,6 +11,7 @@ import org.springframework.samples.petclinic.model.Arbitro;
 import org.springframework.samples.petclinic.model.Arbitros;
 import org.springframework.samples.petclinic.model.Entrenadores;
 import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.service.ArbitroService;
 import org.springframework.samples.petclinic.service.PartidoService;
@@ -41,10 +42,10 @@ public class ArbitroController {
 		this.partidoService = partidoService;
 	}
 	
-	@ModelAttribute("partido")
-	public Partido findPartido(@PathVariable("partidoId") final int partidoId) {
-		return this.partidoService.findById(partidoId);
-	}
+//	@ModelAttribute("partido")
+//	public Partido findPartido(@PathVariable("partidoId") final int partidoId) {
+//		return this.partidoService.findById(partidoId);
+//	}
 	
 	@InitBinder("arbitro")
 	public void initJugadorBinder(final WebDataBinder dataBinder) {
@@ -52,8 +53,9 @@ public class ArbitroController {
 	}
 
 	@GetMapping(value = "/arbitros/new")
-	public String initCreationForm(Map<String, Object> model, @PathVariable("partidoId") final int partidoId) {
+	public String initCreationForm(Map<String, Object> model) {
 		Arbitro arbitro = new Arbitro();
+
 		model.put("arbitro", arbitro);
 		return VIEWS_ARBITRO_CREATE_OR_UPDATE_FORM;
 	}
@@ -63,23 +65,20 @@ public class ArbitroController {
 		// objects
 		// so it is simpler for Object-Xml mapping
 		Arbitros arbitros= new Arbitros();
-		arbitros.getArbitroList().addAll(this.arbitroService.findArbitros());
+		arbitros.getArbitroList().addAll(this.arbitroService.findAll());
 		model.put("arbitros", arbitros);
 		return "arbitros/arbitrosList";
 	}
 
 	@PostMapping(value = "/arbitros/new")
-	public String processCreationForm(@Valid Arbitro arbitro, BindingResult result,@PathVariable("partidoId") final int partidoId,final ModelMap model) {
+	public String processCreationForm(@Valid Arbitro arbitro, BindingResult result,final ModelMap model) {
 		if (result.hasErrors()) {
 			model.put("arbitro", arbitro);
 			return ArbitroController.VIEWS_ARBITRO_CREATE_OR_UPDATE_FORM;
 		}
 		else {
-			Partido p= new Partido();
-			p.addArbitro(arbitro);
 			this.arbitroService.saveArbitro(arbitro);
-			this.partidoService.savePartido(p);
-			return "redirect:/partidos/{partidoId}";
+			return "redirect:/arbitros/"+ arbitro.getId();
 		}
 	}
 
@@ -101,30 +100,27 @@ public class ArbitroController {
 	 * @param model
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	@PostMapping(value = "/arbitros/{arbitroId}/edit")
-	public String processUpdateForm(@Valid final Arbitro arbitro, final BindingResult result, @PathVariable("arbitroId") final int arbitroId, @PathVariable("partidoId") final int partidoId, final ModelMap model) {
+	public String processUpdateForm(@Valid final Arbitro arbitro, final BindingResult result, @PathVariable("arbitroId") final int arbitroId, final ModelMap model) {
 
 		if (result.hasErrors()) {
 			model.put("arbitro", arbitro);
 			return ArbitroController.VIEWS_ARBITRO_CREATE_OR_UPDATE_FORM;
 		} else {
-			Partido p= this.partidoService.findById(partidoId);
-			arbitro.setId(arbitroId);
-			arbitro.setPartidos((Set<Partido>) p);
-			this.arbitroService.saveArbitro(arbitro);
+			Arbitro a= arbitroService.findById(arbitroId);
+			this.arbitroService.saveArbitro(a);
 			return "redirect:/partidos/{partidoId}";
 		}
 	}
 	@GetMapping(value = "/arbitros/{arbitroId}/delete")
-	public String processDeleteForm(@PathVariable("arbitroId") final int arbitroId, @PathVariable("partidoId") final int partidoId) {
+	public String processDeleteForm(@PathVariable("arbitroId") final int arbitroId) {
 
-		Arbitro arbitro = this.arbitroService.findById(arbitroId);
-		Partido partido= this.partidoService.findPartidoByArbitro(arbitroId);
-		partido.removeArbitro(arbitro);
+		Arbitro arbitro= this.arbitroService.findById(arbitroId);
+		
 		this.arbitroService.deleteArbitro(arbitro);
-		return "redirect:/partidos/{partidoId}";
+		return "redirect:/arbitros";
 	}
+
 
 
 	

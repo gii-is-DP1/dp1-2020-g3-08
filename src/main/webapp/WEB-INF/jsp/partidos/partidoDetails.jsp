@@ -3,13 +3,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
-<%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@taglib prefix="jstl"	uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
-<%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+
 <petclinic:layout pageName="partidos">
 
     <h2>Partido Information</h2>
@@ -24,18 +18,42 @@
             <th>Lugar</th>
             <td><c:out value="${partido.lugar}"/></td>
         </tr>
+        <tr>
+            <th>Equipo Visitante</th>
+            <td><c:out value="${partido.equipo1.nombre}"/></td>
+        </tr>
+        <tr>
+            <th>Equipo Casa</th>
+            <td><c:out value="${partido.equipo2.nombre}"/></td>
+        </tr>
+        <tr>
+            <th>Arbitro</th>
+            <td><c:out value="${partido.arbitro.nombre}"/></td>
+        </tr>
     </table>
-    <spring:url value="{partidoId}/arbitros/new" var="addUrl">
-		<spring:param name="partidoId" value="${partido.id}" />
-	</spring:url>
-	<jstl:if test="${partido.arbitro.nombre != null}">
-				<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">Añadir nuevo arbitro</a>
-	    </jstl:if>	
-	
+    <h2>Jugadores</h2>
 
-	<br />
-	<br />
-	<br />
-    
+	<table class="table table-striped">
+		<c:forEach var="jugador" items="${partido.jugadoresParticipantes}">
+			<tr>
+				<td valign="top">
+					<dl class="dl-horizontal">
+						<dt>Nombre</dt>
+						<dd>
+							<c:out value="${jugador.nombre}" />
+						</dd>
+						<dt>Apellidos</dt>
+						<dd>
+							<c:out value="${jugador.apellidos}" />
+						</dd>
+					</dl>
+				</td>
+			</tr>
+		</c:forEach>
+	</table>
+    <spring:url value="{id}/administrarJugadores" var="adminUrl">
+        <spring:param name="id" value="${partido.id}"/>
+    </spring:url>
+    <a href="${fn:escapeXml(adminUrl)}" class="btn btn-default">Admin Jugadores</a>
 
 </petclinic:layout>

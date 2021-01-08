@@ -40,23 +40,13 @@ public class PartidoService {
 	}
 
 	@Transactional(readOnly = true)
-	public Partido findById(final int id) throws DataAccessException {
+	public Partido findById(int id) throws DataAccessException {
 		return partidoRepository.findById(id);
 	}
 
 	@Transactional
-	public void saveNoticia(Partido partido) throws DataAccessException {
+	public void savePartido(Partido partido) throws DataAccessException {
 		partidoRepository.save(partido);
-	}
-
-	public void savePartido(Partido p) throws DataAccessException {
-		this.partidoRepository.save(p);
-
-	}
-
-	public Partido findPartidoByArbitro(int arbitroId) {
-
-		return partidoRepository.findPartidoByArbitroId(arbitroId);
 	}
 
 }

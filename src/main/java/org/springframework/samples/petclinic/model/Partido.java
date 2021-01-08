@@ -16,24 +16,18 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.PastOrPresent;
 
-import org.springframework.beans.support.MutableSortDefinition;
-import org.springframework.beans.support.PropertyComparator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Getter;
@@ -44,71 +38,31 @@ import lombok.Setter;
 @Entity
 @Table(name = "partidos")
 public class Partido extends BaseEntity {
-
-	/*
-	 * @NotEmpty private String fecha;
-	 */
-
-	@PastOrPresent
+	
+ /*   @NotEmpty
+    private String fecha;  */
+    
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate fecha;
-
-	@NotEmpty
-	private String lugar;
-
-	@ManyToOne(optional = true)
+    
+    @NotEmpty
+    private String lugar;
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "equipo1_id", referencedColumnName = "id")
+    private Equipo equipo1;
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "equipo2_id", referencedColumnName = "id")
+    private Equipo equipo2;
+    
+    @ManyToMany
+    @JoinTable(name = "jugador_partido", joinColumns = @JoinColumn(name = "partido_id"),
+	inverseJoinColumns = @JoinColumn(name = "jugador_id"))
+	private Set<Jugador>	jugadoresParticipantes;
+    
+    @ManyToOne
 	@JoinColumn(name = "arbitro_id")
-	private Set<Arbitro> arbitro;
-	
-	protected Set<Arbitro> getArbitrosInternal() {
-		if (this.arbitro == null) {
-			this.arbitro = new HashSet<>();
-		}
-		return this.arbitro;
-	}
-
-	protected void setArbitrosInternal(final Set<Arbitro> arbitros) {
-		this.arbitro = arbitros;
-	}
-
-	public List<Arbitro> getArbitros() {
-		List<Arbitro> sortedArbitros = new ArrayList<>(this.getArbitrosInternal());
-		PropertyComparator.sort(sortedArbitros, new MutableSortDefinition("name", true, true));
-		return Collections.unmodifiableList(sortedArbitros);
-	}
-
-	@SuppressWarnings("unchecked")
-	public void addArbitro(final Arbitro arbitro) {
-		this.getArbitrosInternal().add(arbitro);
-		arbitro.setPartidos((Set<Partido>) this);
-	}
-
-	public boolean removeArbitro(final Arbitro arbitro) {
-		return this.getArbitrosInternal().remove(arbitro);
-	}
-
-	public Arbitro getArbitro(final String name) {
-		return this.getPartido(name, false);
-	}
-	
-	public Arbitro getPartido(String name, final boolean ignoreNew) {
-		name = name.toLowerCase();
-		for (Arbitro arbitro: this.getArbitrosInternal()) {
-			if (!ignoreNew || !arbitro.isNew()) {
-				String compName = arbitro.getNombre();
-				compName = compName.toLowerCase();
-				if (compName.equals(name)) {
-					return arbitro;
-				}
-			}
-		}
-		return null;
-	}
-
-
-
-
-
-
-
+	private Arbitro arbitro;
+       
 }

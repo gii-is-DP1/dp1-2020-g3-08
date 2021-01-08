@@ -16,6 +16,7 @@
 package org.springframework.samples.petclinic.repository;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
@@ -25,18 +26,14 @@ import org.springframework.samples.petclinic.model.Arbitro;
 import org.springframework.samples.petclinic.model.Partido;
 
 public interface PartidoRepository extends Repository<Partido, String> {
-	void save(Partido partido) throws DataAccessException;
+void save(Partido partido) throws DataAccessException;
 	
 	Collection<Partido> findAll() throws DataAccessException;
 	
 	@Query("SELECT partido FROM Partido partido WHERE partido.id=:id")
 	Partido findById(@Param("id") int id) throws DataAccessException;
-	
-	
-	
-	@Query("SELECT partido FROM Partido partido WHERE arbitro.id=:id")
-	Partido findPartidoByArbitroId(@Param("id") int id);
-//	@Query("DELETE arbitro FROM Partido partido WHERE arbitro.id=:id")
-//	void removeArbitroFromPartido(@Param("arbitro") Arbitro arbitro,@Param("partido") Partido partido);
+
+	List<Partido> findByArbitroId(int arbitroId);;
+
 
 }
