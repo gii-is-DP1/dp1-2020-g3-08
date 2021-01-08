@@ -16,7 +16,7 @@
     </jsp:attribute>
 	<jsp:body>
         <h2>
-            <c:if test="${jugador['new']}">New </c:if> Jugador
+            <c:if test="${jugador['new']}">Nuevo </c:if> Jugador
         </h2>
         <form:form modelAttribute="jugador" class="form-horizontal">
                 <div class="form-group has-feedback">

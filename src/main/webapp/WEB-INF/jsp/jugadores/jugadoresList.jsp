@@ -11,17 +11,31 @@
 	<table id="ownersTable" class="table table-striped">
 		<thead>
 			<tr>
-				<th style="width: 150px;">Nombre</th>
+				<th style="width: 200px;">Nombre</th>
 				<th style="width: 200px;">Apellidos</th>
+				<th style="width: 200px;">Equipo</th>
+				<th style="width: 200px;">Amarillas</th>
+				<th style="width: 200px;">Rojas</th>
+				<th style="width: 200px;">Lesión</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach items="${selections}" var="jugador">
 				<tr>
-					<td><spring:url value="/jugadores/{jugadorId}" var="jugadorUrl">
-							<spring:param name="jugadorId" value="${jugador.id}" />
-						</spring:url> <a href="${fn:escapeXml(jugadorUrl)}"><c:out value="${jugador.nombre}" /></a></td>
+					<td><c:out value="${jugador.nombre}" /></td>
 					<td><c:out value="${jugador.apellidos}" /></td>
+					<td><c:out value="${jugador.equipo.nombre}" /></td>
+					<td><c:out value="${jugador.tarjetaAmarilla}" /></td>
+					<td><c:out value="${jugador.tarjetaRoja}" /></td>
+					<c:choose>
+                        <c:when test="${jugador['lesion']}">
+                            <td><c:out value="Sí" /></td>
+                        </c:when>
+                        <c:otherwise>
+                            <td><c:out value="No" /></td>
+                        </c:otherwise>
+                    </c:choose>			
+					
 
 
 					<!--

@@ -16,35 +16,49 @@
 
 package org.springframework.samples.petclinic.web;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
+import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class PartidoController {
 
-	private static final String		VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM	= "partidos/createOrUpdatePartidoForm";
-	private static final String		VIEWS_PARTIDO_SHOW					= "partidos/partidoDetails";
+	private static final String VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM = "partidos/createOrUpdatePartidoForm";
+	private static final String VIEWS_PARTIDO_SHOW = "partidos/partidoDetails";
+	private static final String VIEWS_PARTIDO_ADMIN_JUGADORES_FORM = "partidos/adminJugadoresForm";
 
-	private final PartidoService	partidoService;
-
+	private final PartidoService partidoService;
+	private final EquipoService equipoService;
 
 	@Autowired
-	public PartidoController(final PartidoService partidoService) {
+	public PartidoController(PartidoService partidoService, EquipoService equipoService) {
 		this.partidoService = partidoService;
+		this.equipoService = equipoService;
 	}
 
 	@InitBinder
 	public void setAllowedFields(final WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
+	}
+
+	@ModelAttribute("equipos")
+	public Collection<Equipo> populateEquipos() {
+		return equipoService.findEquipos();
 	}
 
 	@GetMapping(value = "/partidos/new")
@@ -54,25 +68,45 @@ public class PartidoController {
 		return PartidoController.VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM;
 	}
 
-	/*
-	 * @PostMapping(value = "/partidos/new")
-	 * public String processCreationForm(@Valid Partido partido, BindingResult result) {
-	 * if (result.hasErrors()) {
-	 * return VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM;
-	 * } else {
-	 * LocalDate fechaActual = LocalDate.now();
-	 * partido.setDate(fechaActual);
-	 * partidoService.savePartido(partido);
-	 * 
-	 * return "redirect:/partidos/" + partido.getId();
-	 * }
-	 * }
-	 */
+	@PostMapping(value = "/partidos/new")
+	public String processCreationForm(@Valid Partido partido, BindingResult result) {
+		if (result.hasErrors())
+			return VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM;
+		else {
+			partidoService.savePartido(partido);
+
+			return "redirect:/partidos/" + partido.getId();
+		}
+	}
+
 
 	@GetMapping("/partidos/{id}")
 	public ModelAndView showPartido(@PathVariable("id") final int id) {
 		ModelAndView mav = new ModelAndView(PartidoController.VIEWS_PARTIDO_SHOW);
 		mav.addObject(this.partidoService.findById(id));
 		return mav;
+	}
+
+	@GetMapping(value="/partidos/{id}/administrarJugadores")
+	public String initAdministrarJugadores(@PathVariable("id") int id,Map<String, Object> model) {
+		Partido partido = partidoService.findById(id);
+		List<Jugador> jugadores = new ArrayList<>();
+		jugadores.addAll(partido.getEquipo1().getJugadores());
+		jugadores.addAll(partido.getEquipo2().getJugadores());
+		model.put("jugadores", jugadores);
+		model.put("partido", partido);
+		return VIEWS_PARTIDO_ADMIN_JUGADORES_FORM;
+	}
+
+	@PostMapping(value="/partidos/{id}/administrarJugadores")
+	public String processAdministrarJugadores(@PathVariable("id") int id,@Valid Partido partido, BindingResult result) {
+		if (result.hasErrors())
+			return VIEWS_PARTIDO_ADMIN_JUGADORES_FORM;
+		else {
+			partido.setId(id);
+			partidoService.savePartido(partido);
+
+			return "redirect:/partidos/" + partido.getId();
+		}
 	}
 }
