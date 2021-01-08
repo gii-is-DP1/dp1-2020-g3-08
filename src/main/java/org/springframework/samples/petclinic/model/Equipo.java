@@ -58,6 +58,10 @@ public class Equipo extends BaseEntity {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "equipo")
 	private Set<Jugador>	jugadores;
 
+	//	@ManyToMany
+	//	@JoinTable(name = "equipo_partido", joinColumns = @JoinColumn(name = "partido_id"), inverseJoinColumns = @JoinColumn(name = "equipo_id"))
+	//	private Set<Partido>	partidos;
+
 
 	protected Set<Jugador> getJugadoresInternal() {
 		if (this.jugadores == null) {
@@ -121,5 +125,24 @@ public class Equipo extends BaseEntity {
 		}
 		return null;
 	}
+
+	//	protected Set<Partido> getPartidosInternal() {
+	//		if (this.partidos == null) {
+	//			this.partidos = new HashSet<>();
+	//		}
+	//		return this.partidos;
+	//	}
+	//
+	//	protected void setPartidosInternal(final Set<Partido> partidos) {
+	//		this.partidos = partidos;
+	//	}
+	//
+	//	public boolean removePartido(final Partido partido) {
+	//		return this.getPartidosInternal().remove(partido);
+	//	}
+	//
+	//	public boolean removeAllPartidos(final Partido partido) {
+	//		return this.getPartidosInternal().removeAll(this.partidos);
+	//	}
 
 }

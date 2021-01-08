@@ -21,6 +21,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.repository.EquipoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,11 +29,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class EquipoService {
 
-	private EquipoRepository equipoRepository;
+	private EquipoRepository	equipoRepository;
+	private PartidoService		partidoService;
 
 
 	@Autowired
-	public EquipoService(final EquipoRepository equipoRepository) {
+	public EquipoService(final EquipoRepository equipoRepository, final PartidoService partidoService) {
+		this.partidoService = partidoService;
 		this.equipoRepository = equipoRepository;
 	}
 
@@ -58,6 +61,12 @@ public class EquipoService {
 
 	@Transactional
 	public void deleteEquipo(final Equipo equipo) {
+		Collection<Partido> partidos = this.partidoService.findAll();
+		for (Partido partido : partidos) {
+			if (partido.getEquipo1().getId() == equipo.getId() || partido.getEquipo2().getId() == equipo.getId()) {
+				this.partidoService.deletePartido(partido);
+			}
+		}
 		this.equipoRepository.delete(equipo);
 	}
 

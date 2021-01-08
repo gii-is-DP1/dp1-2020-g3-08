@@ -1,3 +1,4 @@
+
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
@@ -45,7 +46,10 @@ import org.springframework.transaction.annotation.Transactional;
 class EquipoServiceTests {
 
 	@Autowired
-	protected EquipoService equipoService;
+	protected EquipoService		equipoService;
+
+	@Autowired
+	protected PartidoService	partidoService;
 
 
 	@Test
@@ -66,18 +70,18 @@ class EquipoServiceTests {
 		Equipo Equipo = new Equipo();
 		Equipo.setNombre("Villareal");
 		Equipo.setLugar("Campo de la ceramica");
-		
+
 		this.equipoService.saveEquipo(Equipo);
 		Assertions.assertThat(Equipo.getId().longValue()).isNotEqualTo(0);
 
 		Equipos = this.equipoService.findEquipoByNombre("Villareal");
 		Assertions.assertThat(Equipos.size()).isEqualTo(found + 1);
 	}
-		
+
 	@Test
 	void shouldFindEquipoById() {
 		Equipo equipo = this.equipoService.findEquipoById(1);
-		Assertions.assertThat(equipo!=null);
+		Assertions.assertThat(equipo != null);
 	}
 
 	@Test
@@ -94,16 +98,14 @@ class EquipoServiceTests {
 		Equipo = this.equipoService.findEquipoById(1);
 		Assertions.assertThat(Equipo.getNombre()).isEqualTo(newNombre);
 	}
-	
+
 	@Test
+	@Transactional
 	public void shouldDeleteEquipo() throws Exception {
 		Equipo equipo = this.equipoService.findEquipoById(1);
 		this.equipoService.deleteEquipo(equipo);
 		Equipo equipoNew = this.equipoService.findEquipoById(1);
 		Assertions.assertThat(equipoNew).isEqualTo(null);
 	}
-
-	
-	
 
 }
