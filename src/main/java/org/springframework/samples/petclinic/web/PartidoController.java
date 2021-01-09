@@ -42,15 +42,16 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class PartidoController {
 
-	private static final String VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM = "partidos/createOrUpdatePartidoForm";
-	private static final String VIEWS_PARTIDO_SHOW = "partidos/partidoDetails";
-	private static final String VIEWS_PARTIDO_ADMIN_JUGADORES_FORM = "partidos/adminJugadoresForm";
+	private static final String		VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM	= "partidos/createOrUpdatePartidoForm";
+	private static final String		VIEWS_PARTIDO_SHOW					= "partidos/partidoDetails";
+	private static final String		VIEWS_PARTIDO_ADMIN_JUGADORES_FORM	= "partidos/adminJugadoresForm";
 
-	private final PartidoService partidoService;
-	private final EquipoService equipoService;
+	private final PartidoService	partidoService;
+	private final EquipoService		equipoService;
+
 
 	@Autowired
-	public PartidoController(PartidoService partidoService, EquipoService equipoService) {
+	public PartidoController(final PartidoService partidoService, final EquipoService equipoService) {
 		this.partidoService = partidoService;
 		this.equipoService = equipoService;
 	}
@@ -62,7 +63,7 @@ public class PartidoController {
 
 	@ModelAttribute("equipos")
 	public Collection<Equipo> populateEquipos() {
-		return equipoService.findEquipos();
+		return this.equipoService.findEquipos();
 	}
 
 	@GetMapping(value = "/partidos/new")
@@ -73,16 +74,15 @@ public class PartidoController {
 	}
 
 	@PostMapping(value = "/partidos/new")
-	public String processCreationForm(@Valid Partido partido, BindingResult result) {
-		if (result.hasErrors())
-			return VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM;
-		else {
-			partidoService.savePartido(partido);
+	public String processCreationForm(@Valid final Partido partido, final BindingResult result) {
+		if (result.hasErrors()) {
+			return PartidoController.VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM;
+		} else {
+			this.partidoService.savePartido(partido);
 
 			return "redirect:/partidos/" + partido.getId();
 		}
 	}
-
 
 	@GetMapping("/partidos/{id}")
 	public ModelAndView showPartido(@PathVariable("id") final int id) {
@@ -91,24 +91,24 @@ public class PartidoController {
 		return mav;
 	}
 
-	@GetMapping(value="/partidos/{id}/administrarJugadores")
-	public String initAdministrarJugadores(@PathVariable("id") int id,Map<String, Object> model) {
-		Partido partido = partidoService.findById(id);
+	@GetMapping(value = "/partidos/{id}/administrarJugadores")
+	public String initAdministrarJugadores(@PathVariable("id") final int id, final Map<String, Object> model) {
+		Partido partido = this.partidoService.findById(id);
 		List<Jugador> jugadores = new ArrayList<>();
 		jugadores.addAll(partido.getEquipo1().getJugadores());
 		jugadores.addAll(partido.getEquipo2().getJugadores());
 		model.put("jugadores", jugadores);
 		model.put("partido", partido);
-		return VIEWS_PARTIDO_ADMIN_JUGADORES_FORM;
+		return PartidoController.VIEWS_PARTIDO_ADMIN_JUGADORES_FORM;
 	}
 
-	@PostMapping(value="/partidos/{id}/administrarJugadores")
-	public String processAdministrarJugadores(@PathVariable("id") int id,@Valid Partido partido, BindingResult result) {
-		if (result.hasErrors())
-			return VIEWS_PARTIDO_ADMIN_JUGADORES_FORM;
-		else {
+	@PostMapping(value = "/partidos/{id}/administrarJugadores")
+	public String processAdministrarJugadores(@PathVariable("id") final int id, @Valid final Partido partido, final BindingResult result) {
+		if (result.hasErrors()) {
+			return PartidoController.VIEWS_PARTIDO_ADMIN_JUGADORES_FORM;
+		} else {
 			partido.setId(id);
-			partidoService.savePartido(partido);
+			this.partidoService.savePartido(partido);
 
 			return "redirect:/partidos/" + partido.getId();
 		}

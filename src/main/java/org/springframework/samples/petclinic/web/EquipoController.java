@@ -176,4 +176,13 @@ public class EquipoController {
 		return "redirect:/competiciones/{competicionId}";
 	}
 
+	//	@GetMapping(value = "/equipos/{equipoId}/delete")
+	//	public String processDeleteEquipo(@PathVariable("partidoId") final int partidoId, @PathVariable("equipoId") final int equipoId) {
+	//		//		Partido partido = this.partidoService.findById(partidoId);
+	//		Equipo equipo = this.equipoService.findEquipoById(equipoId);
+	//		//		equipo.removeAllPartidos(partido);
+	//		this.equipoService.deleteEquipo(equipo);
+	//		return "redirect:/equipos/find";
+	//	}
+
 }

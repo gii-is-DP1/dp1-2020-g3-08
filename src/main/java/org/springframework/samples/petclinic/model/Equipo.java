@@ -64,6 +64,10 @@ public class Equipo extends BaseEntity {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "equipo")
 	private Set<Jugador>	jugadores;
 
+	//	@ManyToMany
+	//	@JoinTable(name = "equipo_partido", joinColumns = @JoinColumn(name = "partido_id"), inverseJoinColumns = @JoinColumn(name = "equipo_id"))
+	//	private Set<Partido>	partidos;
+
 
 	protected Set<Jugador> getJugadoresInternal() {
 		if (this.jugadores == null) {
@@ -127,6 +131,5 @@ public class Equipo extends BaseEntity {
 		}
 		return null;
 	}
-
 
 }
