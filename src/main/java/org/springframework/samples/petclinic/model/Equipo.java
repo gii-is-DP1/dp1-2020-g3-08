@@ -23,10 +23,17 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.Entity;
+
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+
+import javax.persistence.JoinColumn;
+
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -63,6 +70,16 @@ public class Equipo extends BaseEntity {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "equipo")
 	private Set<Jugador>	jugadores;
+	
+	@OneToOne
+	@JoinColumn(name = "entrenador_id")
+	private Entrenador entrenador;
+	
+	
+	@ManyToMany
+	@JoinTable(name = "equipo_partidos", joinColumns = @JoinColumn(name = "equipo_id"),
+	inverseJoinColumns = @JoinColumn(name = "partido_id"))
+	private Set<Partido> partidos;
 
 	//	@ManyToMany
 	//	@JoinTable(name = "equipo_partido", joinColumns = @JoinColumn(name = "partido_id"), inverseJoinColumns = @JoinColumn(name = "equipo_id"))
@@ -131,5 +148,9 @@ public class Equipo extends BaseEntity {
 		}
 		return null;
 	}
+	
+
+	
+	
 
 }

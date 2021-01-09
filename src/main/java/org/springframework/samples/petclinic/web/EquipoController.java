@@ -141,13 +141,6 @@ public class EquipoController {
 		}
 	}
 
-	/**
-	 * Custom handler for displaying an Equipo.
-	 *
-	 * @param EquipoId
-	 *            the ID of the Equipo to display
-	 * @return a ModelMap with the model attributes for the view
-	 */
 	@GetMapping("/equipos/{equipoId}")
 	public ModelAndView showEquipo(@PathVariable("equipoId") final int equipoId) {
 		ModelAndView mav = new ModelAndView("equipos/equipoDetails");

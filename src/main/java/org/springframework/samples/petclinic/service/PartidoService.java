@@ -20,6 +20,7 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Arbitro;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.repository.PartidoRepository;
 import org.springframework.stereotype.Service;
@@ -54,5 +55,7 @@ public class PartidoService {
 	@Transactional
 	public void deletePartido(final Partido partido) {
 		this.partidoRepository.delete(partido);
+
 	}
+
 }

@@ -24,9 +24,17 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.samples.petclinic.model.Arbitro;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
+import org.springframework.samples.petclinic.service.ArbitroService;
+
+import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.model.Partido;
+
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.stereotype.Controller;
@@ -42,18 +50,21 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class PartidoController {
 
-	private static final String		VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM	= "partidos/createOrUpdatePartidoForm";
-	private static final String		VIEWS_PARTIDO_SHOW					= "partidos/partidoDetails";
-	private static final String		VIEWS_PARTIDO_ADMIN_JUGADORES_FORM	= "partidos/adminJugadoresForm";
+	
+	private static final String VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM = "partidos/createOrUpdatePartidoForm";
+	private static final String VIEWS_PARTIDO_SHOW = "partidos/partidoDetails";
+	private static final String VIEWS_PARTIDO_ADMIN_JUGADORES_FORM = "partidos/adminJugadoresForm";
 
-	private final PartidoService	partidoService;
-	private final EquipoService		equipoService;
-
+	private final PartidoService partidoService;
+	private final EquipoService equipoService;
+	private final ArbitroService arbitroService;
 
 	@Autowired
-	public PartidoController(final PartidoService partidoService, final EquipoService equipoService) {
+	public PartidoController(PartidoService partidoService, EquipoService equipoService,ArbitroService arbitroService) {
 		this.partidoService = partidoService;
 		this.equipoService = equipoService;
+		this.arbitroService=arbitroService;
+
 	}
 
 	@InitBinder
@@ -63,7 +74,13 @@ public class PartidoController {
 
 	@ModelAttribute("equipos")
 	public Collection<Equipo> populateEquipos() {
-		return this.equipoService.findEquipos();
+
+		return equipoService.findEquipos();
+	}
+	@ModelAttribute("arbitros")
+	public Collection<Arbitro> populateArbitros() {
+		return arbitroService.findAll();
+
 	}
 
 	@GetMapping(value = "/partidos/new")
@@ -74,15 +91,15 @@ public class PartidoController {
 	}
 
 	@PostMapping(value = "/partidos/new")
-	public String processCreationForm(@Valid final Partido partido, final BindingResult result) {
-		if (result.hasErrors()) {
-			return PartidoController.VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM;
-		} else {
-			this.partidoService.savePartido(partido);
-
+	public String processCreationForm(@Valid Partido partido, BindingResult result) {
+		if (result.hasErrors())
+			return VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM;
+		else {
+			partidoService.savePartido(partido);
 			return "redirect:/partidos/" + partido.getId();
 		}
 	}
+
 
 	@GetMapping("/partidos/{id}")
 	public ModelAndView showPartido(@PathVariable("id") final int id) {
@@ -90,6 +107,7 @@ public class PartidoController {
 		mav.addObject(this.partidoService.findById(id));
 		return mav;
 	}
+
 
 	@GetMapping(value = "/partidos/{id}/administrarJugadores")
 	public String initAdministrarJugadores(@PathVariable("id") final int id, final Map<String, Object> model) {
@@ -109,7 +127,6 @@ public class PartidoController {
 		} else {
 			partido.setId(id);
 			this.partidoService.savePartido(partido);
-
 			return "redirect:/partidos/" + partido.getId();
 		}
 	}

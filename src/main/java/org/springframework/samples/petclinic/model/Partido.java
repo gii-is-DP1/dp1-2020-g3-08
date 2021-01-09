@@ -19,10 +19,14 @@ package org.springframework.samples.petclinic.model;
 import java.time.LocalDate;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+
+import javax.persistence.ManyToOne;
+
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
@@ -38,27 +42,35 @@ import lombok.Setter;
 @Table(name = "partidos")
 public class Partido extends BaseEntity {
 
-	/*
-	 * @NotEmpty
-	 * private String fecha;
-	 */
-
+	
+ /*   @NotEmpty
+    private String fecha;  */
+    
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
-	private LocalDate		fecha;
-
-	@NotEmpty
-	private String			lugar;
-
-	@OneToOne
-	@JoinColumn(name = "equipo1_id", referencedColumnName = "id")
-	private Equipo			equipo1;
-
-	@OneToOne
-	@JoinColumn(name = "equipo2_id", referencedColumnName = "id")
-	private Equipo			equipo2;
-
-	@ManyToMany
-	@JoinTable(name = "jugador_partido", joinColumns = @JoinColumn(name = "partido_id"), inverseJoinColumns = @JoinColumn(name = "jugador_id"))
+	private LocalDate fecha;
+    
+    @NotEmpty
+    private String lugar;
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "equipo1_id", referencedColumnName = "id")
+    private Equipo equipo1;
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "equipo2_id", referencedColumnName = "id")
+    private Equipo equipo2;
+    
+    @ManyToMany
+    @JoinTable(name = "jugador_partido", joinColumns = @JoinColumn(name = "partido_id"),
+	inverseJoinColumns = @JoinColumn(name = "jugador_id"))
 	private Set<Jugador>	jugadoresParticipantes;
+    
+    @ManyToOne
+	@JoinColumn(name = "arbitro_id")
+	private Arbitro arbitro;
+ 
+
+	
+       
 
 }
