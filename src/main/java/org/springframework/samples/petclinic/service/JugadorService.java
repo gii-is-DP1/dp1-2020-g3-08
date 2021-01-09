@@ -24,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.repository.JugadorRepository;
-import org.springframework.samples.petclinic.service.exceptions.DuplicatedJugadorNameException;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedJugadorDNIException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -46,11 +46,11 @@ public class JugadorService {
 		this.jugadorRepository = jugadorRepository;
 	}
 
-	@Transactional(rollbackFor = DuplicatedJugadorNameException.class)
-	public void saveJugador(final Jugador jugador) throws DataAccessException, DuplicatedJugadorNameException {
-		Jugador otherJugador = jugador.getEquipo().getJugadorwithIdDifferent(jugador.getNombre(), jugador.getId());
-		if (StringUtils.hasLength(jugador.getNombre()) && otherJugador != null && otherJugador.getId() != jugador.getId()) {
-			throw new DuplicatedJugadorNameException();
+	@Transactional(rollbackFor = DuplicatedJugadorDNIException.class)
+	public void saveJugador(final Jugador jugador) throws DataAccessException, DuplicatedJugadorDNIException {
+		Jugador otherJugador = jugador.getEquipo().getJugadorwithIdDifferent(jugador.getDni(), jugador.getId());
+		if (StringUtils.hasLength(jugador.getDni()) && otherJugador != null && otherJugador.getId() != jugador.getId()) {
+			throw new DuplicatedJugadorDNIException();
 		} else {
 			this.jugadorRepository.save(jugador);
 		}
@@ -59,6 +59,11 @@ public class JugadorService {
 	@Transactional(readOnly = true)
 	public Jugador findJugadorById(final int id) throws DataAccessException {
 		return this.jugadorRepository.findById(id);
+	}
+
+	@Transactional(readOnly = true)
+	public Collection<Jugador> findJugadorByNombre(final String nombre) throws DataAccessException {
+		return this.jugadorRepository.findJugadorByNombre(nombre);
 	}
 
 	@Transactional(readOnly = true)

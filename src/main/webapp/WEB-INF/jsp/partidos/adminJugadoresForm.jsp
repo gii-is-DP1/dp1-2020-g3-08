@@ -9,6 +9,7 @@
 <petclinic:layout pageName="partidos">
 	<jsp:attribute name="customScript">
         <script>
+
 									$(function() {
 										$("#fecha").datepicker({
 											dateFormat : 'yy/mm/dd'
@@ -40,6 +41,7 @@
             <div class="control-group">	
 	            	<petclinic:selectField label="JugadoresParticipantes"
 						name="jugadoresParticipantes" size="20" names="${jugadores}" />
+
 	        </div>
         </div>
         <div class="form-group">
@@ -49,5 +51,5 @@
         </div>
     </form:form>
     </jsp:body>
-
 </petclinic:layout>
+

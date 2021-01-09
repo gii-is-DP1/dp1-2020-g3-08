@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.springframework.samples.petclinic.web;
 
 import java.util.ArrayList;
@@ -23,11 +24,17 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.samples.petclinic.model.Arbitro;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.service.ArbitroService;
+
+import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.model.Partido;
+
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.stereotype.Controller;
@@ -42,6 +49,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class PartidoController {
+
 	
 	private static final String VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM = "partidos/createOrUpdatePartidoForm";
 	private static final String VIEWS_PARTIDO_SHOW = "partidos/partidoDetails";
@@ -56,6 +64,7 @@ public class PartidoController {
 		this.partidoService = partidoService;
 		this.equipoService = equipoService;
 		this.arbitroService=arbitroService;
+
 	}
 
 	@InitBinder
@@ -65,11 +74,13 @@ public class PartidoController {
 
 	@ModelAttribute("equipos")
 	public Collection<Equipo> populateEquipos() {
+
 		return equipoService.findEquipos();
 	}
 	@ModelAttribute("arbitros")
 	public Collection<Arbitro> populateArbitros() {
 		return arbitroService.findAll();
+
 	}
 
 	@GetMapping(value = "/partidos/new")
@@ -85,7 +96,6 @@ public class PartidoController {
 			return VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM;
 		else {
 			partidoService.savePartido(partido);
-
 			return "redirect:/partidos/" + partido.getId();
 		}
 	}
@@ -98,25 +108,25 @@ public class PartidoController {
 		return mav;
 	}
 
-	@GetMapping(value="/partidos/{id}/administrarJugadores")
-	public String initAdministrarJugadores(@PathVariable("id") int id,Map<String, Object> model) {
-		Partido partido = partidoService.findById(id);
+
+	@GetMapping(value = "/partidos/{id}/administrarJugadores")
+	public String initAdministrarJugadores(@PathVariable("id") final int id, final Map<String, Object> model) {
+		Partido partido = this.partidoService.findById(id);
 		List<Jugador> jugadores = new ArrayList<>();
 		jugadores.addAll(partido.getEquipo1().getJugadores());
 		jugadores.addAll(partido.getEquipo2().getJugadores());
 		model.put("jugadores", jugadores);
 		model.put("partido", partido);
-		return VIEWS_PARTIDO_ADMIN_JUGADORES_FORM;
+		return PartidoController.VIEWS_PARTIDO_ADMIN_JUGADORES_FORM;
 	}
 
-	@PostMapping(value="/partidos/{id}/administrarJugadores")
-	public String processAdministrarJugadores(@PathVariable("id") int id,@Valid Partido partido, BindingResult result) {
-		if (result.hasErrors())
-			return VIEWS_PARTIDO_ADMIN_JUGADORES_FORM;
-		else {
+	@PostMapping(value = "/partidos/{id}/administrarJugadores")
+	public String processAdministrarJugadores(@PathVariable("id") final int id, @Valid final Partido partido, final BindingResult result) {
+		if (result.hasErrors()) {
+			return PartidoController.VIEWS_PARTIDO_ADMIN_JUGADORES_FORM;
+		} else {
 			partido.setId(id);
-			partidoService.savePartido(partido);
-
+			this.partidoService.savePartido(partido);
 			return "redirect:/partidos/" + partido.getId();
 		}
 	}

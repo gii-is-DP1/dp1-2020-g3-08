@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2002-2013 the original author or authors.
  *
@@ -14,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.springframework.samples.petclinic.web;
 
 import java.text.ParseException;
@@ -23,9 +21,8 @@ import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
-import org.springframework.samples.petclinic.model.Partido;
-import org.springframework.samples.petclinic.service.PartidoService;
-
+import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.stereotype.Component;
 
 /**
@@ -44,29 +41,27 @@ import org.springframework.stereotype.Component;
  * @author Michael Isvy
  */
 @Component
-public class PartidoFormatter implements Formatter<Partido> {
+public class JugadorFormatter implements Formatter<Jugador> {
 
-
-	private final PartidoService partidoService;
+	private final JugadorService jugadorService;
 
 	@Autowired
-	public PartidoFormatter(final PartidoService partidoService) {
-		this.partidoService = partidoService;
+	public JugadorFormatter(final JugadorService jugadorService) {
+		this.jugadorService = jugadorService;
 	}
 
 	@Override
-	public String print(final Partido partido, final Locale locale) {
-		return partido.getLugar()+" "+partido.getFecha().toString();
-
+	public String print(final Jugador jugador, final Locale locale) {
+		return jugador.getNombre()+" "+jugador.getApellidos();
 	}
 
 	@Override
-	public Partido parse(final String text, final Locale locale) throws ParseException {
-		Collection<Partido> findPartidos = partidoService.findAll();
-		for (Partido partido : findPartidos)
-			if (print(partido,locale).equals(text))
-				return partido;
-		throw new ParseException("partido not found: " + text, 0);
+	public Jugador parse(final String text, final Locale locale) throws ParseException {
+		Collection<Jugador> findJugadores = jugadorService.findJugadores();
+		for (Jugador jugador : findJugadores)
+			if ((jugador.getNombre()+" "+jugador.getApellidos()).equals(text))
+				return jugador;
+		throw new ParseException("jugador not found: " + text, 0);
 	}
 
 }

@@ -16,6 +16,7 @@
 
 package org.springframework.samples.petclinic.web;
 
+import java.util.Collection;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -26,17 +27,15 @@ import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Jugadores;
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.JugadorService;
-import org.springframework.samples.petclinic.service.exceptions.DuplicatedJugadorNameException;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedJugadorDNIException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @author Juergen Hoeller
@@ -44,7 +43,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author Arjen Poutsma
  */
 @Controller
-@RequestMapping("/equipos/{equipoId}")
 public class JugadorController {
 
 	private static final String		VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM	= "jugadores/createOrUpdateJugadorForm";
@@ -64,37 +62,37 @@ public class JugadorController {
 	//		return this.jugadorService.findPosicionJugadores();
 	//	}
 
-	@ModelAttribute("equipo")
-	public Equipo findEquipo(@PathVariable("equipoId") final int equipoId) {
-		return this.equipoService.findEquipoById(equipoId);
-	}
+	//	@ModelAttribute("equipo")
+	//	public Equipo findEquipo(@PathVariable("equipoId") final int equipoId) {
+	//		return this.equipoService.findEquipoById(equipoId);
+	//	}
 
 	@InitBinder("jugador")
 	public void initJugadorBinder(final WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
 	}
 
-	@GetMapping(value = "/jugadores/new")
+	@GetMapping(value = "/equipos/{equipoId}/jugadores/new")
 	public String initCreationForm(final ModelMap model, @PathVariable("equipoId") final int equipoId) {
 		Jugador jugador = new Jugador();
-		jugador.setEquipo(this.findEquipo(equipoId));
+		jugador.setEquipo(this.equipoService.findEquipoById(equipoId));
 		model.put("jugador", jugador);
 		return JugadorController.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
 	}
 
-	@PostMapping(value = "/jugadores/new")
+	@PostMapping(value = "/equipos/{equipoId}/jugadores/new")
 	public String processCreationForm(@Valid final Jugador jugador, final BindingResult result, final ModelMap model, @PathVariable("equipoId") final int equipoId) {
 
 		if (result.hasErrors()) {
 			model.put("jugador", jugador);
 			return JugadorController.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
 		} else {
-			Equipo e = this.findEquipo(equipoId);
+			Equipo e = this.equipoService.findEquipoById(equipoId);
 			try {
 				e.addJugador(jugador);
 				this.jugadorService.saveJugador(jugador);
 				this.equipoService.saveEquipo(e);
-			} catch (DuplicatedJugadorNameException ex) {
+			} catch (DuplicatedJugadorDNIException ex) {
 				result.rejectValue("name", "duplicate", "already exists");
 				return JugadorController.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
 			}
@@ -102,7 +100,34 @@ public class JugadorController {
 		}
 	}
 
-	@GetMapping(value = "/jugadores/{jugadorId}/edit")
+	@GetMapping(value = "/jugadores/find")
+	public String initFindForm(final Map<String, Object> model) {
+		model.put("jugador", new Jugador());
+		return "jugadores/findJugadores";
+	}
+
+	@GetMapping(value = "/jugadores")
+	public String processFindForm(final Jugador jugador, final BindingResult result, final Map<String, Object> model) {
+
+		// allow parameterless GET request for /Jugadores to return all records
+		if (jugador.getNombre() == null) {
+			jugador.setNombre(""); // empty string signifies broadest possible search
+		}
+
+		// find Jugadores by nombre
+		Collection<Jugador> results = this.jugadorService.findJugadorByNombre(jugador.getNombre());
+		if (results.isEmpty()) {
+			// no Jugadores found
+			result.rejectValue("nombre", "notFound", "not found");
+			return "jugadores/findJugadores";
+		} else {
+			// multiple Jugadores found
+			model.put("selections", results);
+			return "jugadores/jugadoresList";
+		}
+	}
+
+	@GetMapping(value = "/equipos/{equipoId}/jugadores/{jugadorId}/edit")
 	public String initUpdateForm(@PathVariable("jugadorId") final int jugadorId, final ModelMap model) {
 		Jugador jugador = this.jugadorService.findJugadorById(jugadorId);
 		model.put("jugador", jugador);
@@ -119,7 +144,7 @@ public class JugadorController {
 	 * @param model
 	 * @return
 	 */
-	@PostMapping(value = "/jugadores/{jugadorId}/edit")
+	@PostMapping(value = "/equipos/{equipoId}/jugadores/{jugadorId}/edit")
 	public String processUpdateForm(@Valid final Jugador jugador, final BindingResult result, @PathVariable("jugadorId") final int jugadorId, @PathVariable("equipoId") final int equipoId, final ModelMap model) {
 
 		if (result.hasErrors()) {
@@ -131,7 +156,7 @@ public class JugadorController {
 				jugador.setId(jugadorId);
 				jugador.setEquipo(e);
 				this.jugadorService.saveJugador(jugador);
-			} catch (DuplicatedJugadorNameException ex) {
+			} catch (DuplicatedJugadorDNIException ex) {
 				result.rejectValue("name", "duplicate", "already exists");
 				return JugadorController.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
 			}
@@ -150,7 +175,7 @@ public class JugadorController {
 		return "jugadores/jugadoresList";
 	}
 
-	@GetMapping(value = "/jugadores/{jugadorId}/delete")
+	@GetMapping(value = "/equipos/{equipoId}/jugadores/{jugadorId}/delete")
 	public String processDeleteForm(@PathVariable("jugadorId") final int jugadorId, @PathVariable("equipoId") final int equipoId) {
 
 		Jugador jugador = this.jugadorService.findJugadorById(jugadorId);

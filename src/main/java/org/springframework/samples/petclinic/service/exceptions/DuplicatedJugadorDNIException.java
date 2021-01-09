@@ -9,6 +9,6 @@ package org.springframework.samples.petclinic.service.exceptions;
  *
  * @author japarejo
  */
-public class DuplicatedJugadorNameException extends Exception{
+public class DuplicatedJugadorDNIException extends Exception{
     
 }

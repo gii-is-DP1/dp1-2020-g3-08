@@ -12,16 +12,39 @@
     <table class="table table-striped">
     	<tr>
             <th>Fecha</th>
-            <td><c:out value="${noticia.date}"/></td>
+            <td><c:out value="${noticia.fecha}"/></td>
         </tr>
         <tr>
             <th>Titular</th>
-            <td><b><c:out value="${noticia.title}"/></b></td>
+            <td><b><c:out value="${noticia.titulo}"/></b></td>
         </tr>
         <tr>
             <th>Texto</th>
-            <td><c:out value="${noticia.text}"/></td>
+            <td><c:out value="${noticia.texto}"/></td>
         </tr>
     </table>
+    <h3>Partidos Relacionados</h3>
+    <table class="table table-striped">
+		<c:forEach var="partido" items="${noticia.partidos}">
+			<tr>
+				<td valign="top">
+					<dl class="dl-horizontal">
+						<dt>Lugar</dt>
+						<dd>
+							<c:out value="${partido.lugar}" />
+						</dd>
+						<dt>Fecha</dt>
+						<dd>
+							<c:out value="${partido.fecha}" />
+						</dd>
+						<spring:url value="/partidos/{partidoId}" var="partidoUrl">
+							<spring:param name="partidoId" value="${partido.id}" />
+						</spring:url>
+						<a href="${fn:escapeXml(partidoUrl)}">Ver Partido</a>
+					</dl>
+				</td>
+			</tr>
+		</c:forEach>
+	</table>
 
 </petclinic:layout>

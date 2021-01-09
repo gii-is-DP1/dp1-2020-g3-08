@@ -30,6 +30,7 @@
             <th>Arbitro</th>
             <td><c:out value="${partido.arbitro.nombre}"/></td>
         </tr>
+
     </table>
     <h2>Jugadores</h2>
 
