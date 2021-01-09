@@ -24,6 +24,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
@@ -45,7 +47,11 @@ import lombok.Setter;
 @Entity
 @Table(name = "equipos")
 public class Equipo extends BaseEntity {
-
+	
+	@ManyToOne
+	@JoinColumn(name = "competicionId")
+	private Competicion		competicion;
+	
 	@Column(name = "nombre")
 	@Size(min = 4, max = 50)
 	@NotEmpty
@@ -125,24 +131,5 @@ public class Equipo extends BaseEntity {
 		}
 		return null;
 	}
-
-	//	protected Set<Partido> getPartidosInternal() {
-	//		if (this.partidos == null) {
-	//			this.partidos = new HashSet<>();
-	//		}
-	//		return this.partidos;
-	//	}
-	//
-	//	protected void setPartidosInternal(final Set<Partido> partidos) {
-	//		this.partidos = partidos;
-	//	}
-	//
-	//	public boolean removePartido(final Partido partido) {
-	//		return this.getPartidosInternal().remove(partido);
-	//	}
-	//
-	//	public boolean removeAllPartidos(final Partido partido) {
-	//		return this.getPartidosInternal().removeAll(this.partidos);
-	//	}
 
 }
