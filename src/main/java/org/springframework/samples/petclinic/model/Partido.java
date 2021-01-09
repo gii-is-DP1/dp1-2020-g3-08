@@ -64,5 +64,8 @@ public class Partido extends BaseEntity {
     @ManyToOne
 	@JoinColumn(name = "arbitro_id")
 	private Arbitro arbitro;
+ 
+
+	
        
 }

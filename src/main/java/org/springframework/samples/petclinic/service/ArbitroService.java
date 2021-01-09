@@ -51,4 +51,9 @@ public class ArbitroService {
 		return partidoRepostory.findByArbitroId(arbitroId);
 	}
 
+	public Collection<Arbitro> findArbitroByNombre(String nombre) {
+		
+		return arbitroRepository.findByNombre(nombre);
+	}
+
 }

@@ -29,6 +29,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -62,8 +63,10 @@ public class Equipo extends BaseEntity {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "equipo")
 	private Set<Jugador>	jugadores;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "equipo")
-	private Set<Entrenador>	entrenadores;
+	@OneToOne
+	@JoinColumn(name = "entrenador_id")
+	private Entrenador entrenador;
+	
 	
 	@ManyToMany
 	@JoinTable(name = "equipo_partidos", joinColumns = @JoinColumn(name = "equipo_id"),
@@ -133,68 +136,9 @@ public class Equipo extends BaseEntity {
 		}
 		return null;
 	}
-	protected Set<Entrenador> getEntrenadoresInternal() {
-		if (this.entrenadores == null) {
-			this.entrenadores = new HashSet<>();
-		}
-		return this.entrenadores;
-	}
+	
 
-	protected void setEntrenadoresInternal(final Set<Entrenador> entrenadores) {
-		this.entrenadores = entrenadores;
-	}
-
-	public List<Entrenador> getEntrenadores() {
-		List<Entrenador> sortedEntrenadores = new ArrayList<>(this.getEntrenadoresInternal());
-		PropertyComparator.sort(sortedEntrenadores, new MutableSortDefinition("name", true, true));
-		return Collections.unmodifiableList(sortedEntrenadores);
-	}
-
-	public void addEntrenador(final Entrenador entrenador) {
-		this.getEntrenadoresInternal().add(entrenador);
-		entrenador.setEquipo(this);
-	}
-
-	public boolean removeEntrenador(final Entrenador entrenador) {
-		return this.getEntrenadoresInternal().remove(entrenador);
-	}
-
-	public Jugador getEntrenador(final String name) {
-		return this.getJugador(name, false);
-	}
-
-	public Entrenador getEntrenadorwithIdDifferent(String name, final Integer id) {
-		name = name.toLowerCase();
-		for (Entrenador entrenador : this.getEntrenadoresInternal()) {
-			String compName = entrenador.getUser().getFirstName();
-			compName = compName.toLowerCase();
-			if (compName.equals(name) && entrenador.getId() != id) {
-				return entrenador;
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * Return the Pet with the given name, or null if none found for this Owner.
-	 *
-	 * @param name
-	 *            to test
-	 * @return true if pet name is already in use
-	 */
-	public Entrenador getEntrenador(String name, final boolean ignoreNew) {
-		name = name.toLowerCase();
-		for (Entrenador entrenador : this.getEntrenadoresInternal()) {
-			if (!ignoreNew || !entrenador.isNew()) {
-				String compName = entrenador.getUser().getFirstName();
-				compName = compName.toLowerCase();
-				if (compName.equals(name)) {
-					return entrenador;
-				}
-			}
-		}
-		return null;
-	}
+	
 	
 
 }

@@ -32,5 +32,10 @@
 		<spring:param name="arbitroId" value="${arbitro.id}" />
 	</spring:url>
 	<a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Borrar Arbitro</a>
+	
+	<spring:url value="{arbitroId}/edit" var="editUrl">
+		<spring:param name="arbitroId" value="${arbitro.id}" />
+	</spring:url>
+	<a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Arbitro</a>
 
 </petclinic:layout>

@@ -21,4 +21,6 @@ public interface ArbitroRepository extends Repository<Arbitro, Integer> {
 	
 	
 	void delete(Arbitro arbitro);
+	@Query("SELECT DISTINCT arbitro FROM Arbitro arbitro WHERE arbitro.nombre LIKE :nombre%")
+	Collection<Arbitro> findByNombre(@Param("nombre") String nombre);
 }
