@@ -22,13 +22,16 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Competicion;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Equipos;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
+import org.springframework.samples.petclinic.service.CompeticionService;
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,11 +52,12 @@ public class EquipoController {
 	private static final String	VIEWS_EQUIPO_CREATE_OR_UPDATE_FORM	= "equipos/createOrUpdateEquiposForm";
 
 	private final EquipoService	equipoService;
-
+	private final CompeticionService competicionService;
 
 	@Autowired
-	public EquipoController(final EquipoService equipoService, final UserService userService, final AuthoritiesService authoritiesService) {
+	public EquipoController(final EquipoService equipoService,final CompeticionService competicionService, final UserService userService, final AuthoritiesService authoritiesService) {
 		this.equipoService = equipoService;
+		this.competicionService= competicionService;
 	}
 
 	@InitBinder
@@ -61,24 +65,29 @@ public class EquipoController {
 		dataBinder.setDisallowedFields("id");
 	}
 
-	@GetMapping(value = "/equipos/new")
-	public String initCreationForm(final Map<String, Object> model) {
+	@GetMapping(value = "/competiciones/{competicionId}/equipos/new")
+	public String initCreationForm(final Map<String, Object> model, @PathVariable("competicionId") final int competicionId) {
 		Equipo equipo = new Equipo();
+		equipo.setCompeticion(this.competicionService.findCompeticionById(competicionId));
 		model.put("equipo", equipo);
 		return EquipoController.VIEWS_EQUIPO_CREATE_OR_UPDATE_FORM;
 	}
 
-	@PostMapping(value = "/equipos/new")
-	public String processCreationForm(@Valid final Equipo equipo, final BindingResult result) {
+	@PostMapping(value = "/competiciones/{competicionId}/equipos/new")
+	public String processCreationForm(@Valid final Equipo equipo, final BindingResult result,final ModelMap model ,@PathVariable("competicionId") final int competicionId) {
 		if (result.hasErrors()) {
+			model.put("equipo", equipo);
 			return EquipoController.VIEWS_EQUIPO_CREATE_OR_UPDATE_FORM;
 		} else {
-			//creating Equipo, user and authorities
-			this.equipoService.saveEquipo(equipo);
-
-			return "redirect:/equipos/" + equipo.getId();
+			Competicion e = this.competicionService.findCompeticionById(competicionId);
+				e.addEquipo(equipo);
+				this.equipoService.saveEquipo(equipo);
+				this.competicionService.saveCompeticion(e);
+			
+			return "redirect:/competiciones/{competicionId}";
 		}
 	}
+
 
 	@GetMapping(value = "/equipos/find")
 	public String initFindForm(final Map<String, Object> model) {
@@ -111,20 +120,23 @@ public class EquipoController {
 		}
 	}
 
-	@GetMapping(value = "/equipos/{equipoId}/edit")
-	public String initUpdateEquipoForm(@PathVariable("equipoId") final int equipoId, final Model model) {
+	@GetMapping(value = "/competiciones/{competicionId}/equipos/{equipoId}/edit")
+	public String initUpdateEquipoForm(@PathVariable("equipoId") final int equipoId,@PathVariable("competicionId") final int competicionId, final Model model) {
 		Equipo Equipo = this.equipoService.findEquipoById(equipoId);
 		model.addAttribute(Equipo);
 		return EquipoController.VIEWS_EQUIPO_CREATE_OR_UPDATE_FORM;
 	}
 
-	@PostMapping(value = "/equipos/{equipoId}/edit")
-	public String processUpdateEquipoForm(@Valid final Equipo equipo, final BindingResult result, @PathVariable("equipoId") final int equipoId) {
+	@PostMapping(value = "/competiciones/{competicionId}/equipos/{equipoId}/edit")
+	public String processUpdateEquipoForm(@Valid final Equipo equipo, final BindingResult result, @PathVariable("equipoId") final int equipoId, @PathVariable("competicionId") final int competicionId) {
 		if (result.hasErrors()) {
 			return EquipoController.VIEWS_EQUIPO_CREATE_OR_UPDATE_FORM;
 		} else {
+			Competicion e = this.competicionService.findCompeticionById(competicionId);
 			equipo.setId(equipoId);
+			equipo.setCompeticion(e);
 			this.equipoService.saveEquipo(equipo);
+			
 			return "redirect:/equipos/{equipoId}";
 		}
 	}
@@ -154,11 +166,14 @@ public class EquipoController {
 		return "equipos/equiposList";
 	}
 
-	@GetMapping(value = "/equipos/{equipoId}/delete")
-	public String processDeleteEquipo(@PathVariable("equipoId") final int equipoId) {
+	@GetMapping(value = "/competiciones/{competicionId}/equipos/{equipoId}/delete")
+	public String processDeleteEquipo(@PathVariable("equipoId") final int equipoId, @PathVariable("competicionId") final int competicionId) {
+		
 		Equipo equipo = this.equipoService.findEquipoById(equipoId);
+		Competicion competicion= this.competicionService.findCompeticionById(competicionId);
+		competicion.removeEquipo(equipo);
 		this.equipoService.deleteEquipo(equipo);
-		return "redirect:/equipos/find";
+		return "redirect:/competiciones/{competicionId}";
 	}
 
 }
