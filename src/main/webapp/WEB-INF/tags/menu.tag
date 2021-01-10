@@ -34,12 +34,7 @@
 					<span>Buscar equipos</span>
 				</petclinic:menuItem> --%>
 				
-				<petclinic:menuItem active="${name eq 'competiciones'}" url="/competiciones/new"
-					title="equipos">
-					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Crear Competiicion</span>
-				</petclinic:menuItem>
-				
+							
 				<petclinic:menuItem active="${name eq 'equipos'}" url="/equipos/find"
 					title="equipos">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>

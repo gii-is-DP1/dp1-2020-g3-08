@@ -72,23 +72,23 @@ public class ArbitroController {
 
 	@GetMapping(value = { "/arbitros" })
 	public String showArbitroList(Arbitro arbitro, final BindingResult result, final Map<String, Object> model) {
-		// allow parameterless GET request for /Equipos to return all records
+		// allow parameterless GET request for /Arbitro to return all records
 				if (arbitro.getNombre() == null) {
 					arbitro.setNombre(""); // empty string signifies broadest possible search
 				}
 
-				// find Equipos by nombre
+				// find Arbitro by nombre
 				Collection<Arbitro> results = this.arbitroService.findArbitroByNombre(arbitro.getNombre());
 				if (results.isEmpty()) {
-					// no Equipos found
+					// no Arbitrod found
 					result.rejectValue("nombre", "notFound", "not found");
 					return "arbitros/findArbitros";
 				} else if (results.size() == 1) {
-					// 1 Equipo found
+					// 1 Arbitro found
 					arbitro = results.iterator().next();
 					return "redirect:/arbitros/" + arbitro.getId();
 				} else {
-					// multiple Equipos found
+					// multiple Arbitro found
 					model.put("selections", results);
 					return "arbitros/arbitrosList";
 				}

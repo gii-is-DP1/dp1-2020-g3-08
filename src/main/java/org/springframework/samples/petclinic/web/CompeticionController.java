@@ -58,7 +58,12 @@ public class CompeticionController {
 		return "competiciones/competicionesList";
 	}
 
-
+	@GetMapping(value = "/competiciones/new")
+	public String initCreationForm(Map<String, Object> model) {
+		Competicion competicion = new Competicion();
+		model.put("competicion", competicion);
+		return VIEWS_COMPETICION_CREATE_OR_UPDATE_FORM;
+	}
 	@PostMapping(value = "/competiciones/new")
 	public String processCreationForm(@Valid Competicion competicion, BindingResult result) {
 		if (result.hasErrors()) {

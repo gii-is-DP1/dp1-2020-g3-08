@@ -17,7 +17,7 @@
         
         <tr>
             <th>Fecha de nacimiento</th>
-            <td><c:out value="${arbitro.fecha_nacimiento}"/></td>
+            <td><c:out value="${arbitro.fechaNacimiento}"/></td>
         </tr>
         <tr>
             <th>Nacionalidad</th>

@@ -15,7 +15,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${arbitros.arbitroList}" var="arbitro">
+        <c:forEach items="${selections}" var="arbitro">
             <tr>
                 <td>
                  <spring:url value="/arbitros/{arbitroId}" var="arbitroUrl">
