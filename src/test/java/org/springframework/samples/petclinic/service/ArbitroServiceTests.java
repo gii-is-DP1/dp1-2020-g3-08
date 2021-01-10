@@ -44,7 +44,7 @@ public class ArbitroServiceTests {
 		arbitro.setNombre("Alex");
 		arbitro.setApellidos("Barroso");
 		arbitro.setDni("28846292Q");
-		arbitro.setFecha_nacimiento(LocalDate.now().minusWeeks(12));
+		arbitro.setFechaNacimiento(LocalDate.now().minusWeeks(12));
 		arbitro.setNacionalidad("Brasil");
 
 		this.arbitroService.saveArbitro(arbitro);
@@ -61,7 +61,7 @@ public class ArbitroServiceTests {
 		arbitro.setNombre("Alex");
 		arbitro.setApellidos("Barroso");
 		arbitro.setDni("28846292Q");
-		arbitro.setFecha_nacimiento(LocalDate.now().minusWeeks(12));
+		arbitro.setFechaNacimiento(LocalDate.now().minusWeeks(12));
 		arbitro.setNacionalidad("Brasil");
 
 		this.arbitroService.saveArbitro(arbitro);
