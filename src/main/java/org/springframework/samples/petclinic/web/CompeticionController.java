@@ -41,13 +41,8 @@ public class CompeticionController {
 	public void setAllowedFields(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
 	}
-
-
-
-
 	
 	@GetMapping(value = { "/competiciones/list" })
-
 	public String showCompeticionList(Map<String, Object> model) {
 		// Here we are returning an object of type 'Vets' rather than a collection of Vet
 		// objects
@@ -70,7 +65,6 @@ public class CompeticionController {
 			return VIEWS_COMPETICION_CREATE_OR_UPDATE_FORM;
 		} else {
 			competicionService.saveCompeticion(competicion);
-
 
 			return "redirect:/competiciones/" + competicion.getId();
 

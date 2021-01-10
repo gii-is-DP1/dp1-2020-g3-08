@@ -16,6 +16,7 @@
         </tr>
         
     </table>
+
     
     <spring:url value="{competicionId}/edit" var="editUrl">
 		<spring:param name="competicionId" value="${competicion.id}" />
@@ -67,6 +68,5 @@
 		</c:forEach>
 	</table>
 	
-
 
 </petclinic:layout>

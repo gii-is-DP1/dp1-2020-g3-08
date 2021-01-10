@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.model;
 
 
 
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -17,12 +18,14 @@ import javax.persistence.Table;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
 
+
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+
 @Table(name = "arbitro")
 public class Arbitro extends Person {
 
@@ -47,6 +50,7 @@ public class Arbitro extends Person {
 
 
 	
+
 
 
 

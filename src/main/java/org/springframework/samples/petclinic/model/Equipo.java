@@ -71,6 +71,7 @@ public class Equipo extends BaseEntity {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "equipo")
 	private Set<Jugador>	jugadores;
 	
+
 	@OneToOne
 	@JoinColumn(name = "entrenador_id")
 	private Entrenador entrenador;
@@ -148,9 +149,6 @@ public class Equipo extends BaseEntity {
 		}
 		return null;
 	}
-	
-
-	
 	
 
 }

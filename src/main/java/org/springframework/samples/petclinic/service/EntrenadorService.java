@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.service;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+
 import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.EntrenadorRepository;
@@ -22,6 +23,7 @@ public class EntrenadorService {
 	}
 
 
+
 	@Transactional(readOnly = true)
 	public Entrenador findById(int id) throws DataAccessException {
 		return entrenadorRepository.findById(id);
@@ -34,7 +36,6 @@ public class EntrenadorService {
 
 	@Transactional
 	public void saveEntrenador(Entrenador entrenador) throws DataAccessException {
-	
 		entrenadorRepository.save(entrenador);
 
 	}

@@ -17,6 +17,7 @@ public interface CompeticionRepository extends Repository<Competicion, Integer>{
 	@Query("SELECT competicion FROM Competicion competicion WHERE competicion.id =:id")
 	Competicion findById(@Param("id") int id) throws DataAccessException;
 
+
 	void delete(Competicion competicion);
 
 }

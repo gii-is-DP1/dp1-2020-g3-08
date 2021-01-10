@@ -1,3 +1,4 @@
+
 <%@ page session="false" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -30,7 +31,7 @@
                 <div class="col-sm-offset-2 col-sm-10">
                     <c:choose>
                         <c:when test="${arbitro['new']}">
-                            <button class="btn btn-default" type="submit">Añadir Arbitro</button>
+                            <button class="btn btn-default" type="submit">Aï¿½adir Arbitro</button>
                         </c:when>
                         <c:otherwise>
                             <button class="btn btn-default" type="submit">Actualizar Arbitro</button>

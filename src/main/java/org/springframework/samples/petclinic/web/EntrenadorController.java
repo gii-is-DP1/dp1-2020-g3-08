@@ -57,7 +57,7 @@ public class EntrenadorController {
 	public Collection<Genre> populateGenres() {
 		return userService.findGenres();
 	}
-
+  
 	@ModelAttribute("equipo")
 	public Equipo findEquipo(@PathVariable("equipoId") final int equipoId) {
 		return this.equipoService.findEquipoById(equipoId);
@@ -91,6 +91,7 @@ public class EntrenadorController {
 	}
 
 	@PostMapping(value = "/entrenadores/new")
+
 	public String processCreationForm(@Valid Entrenador entrenador, BindingResult result,
 			@PathVariable("equipoId") final int equipoId, final ModelMap model) {
 		if (result.hasErrors()) {
@@ -101,7 +102,6 @@ public class EntrenadorController {
 			e.setEntrenador(entrenador);
 			this.entrenadorService.saveEntrenador(entrenador);
 			this.equipoService.saveEquipo(e);
-
 			entrenadorService.saveEntrenador(entrenador);
 			authoritiesService.saveAuthorities(entrenador.getUser().getUsername(), "entrenador");
 
@@ -128,6 +128,7 @@ public class EntrenadorController {
 	 * @return
 	 */
 	@PostMapping(value = "/entrenadores/{entrenadorId}/edit")
+
 	public String processUpdateForm(@Valid final Entrenador entrenador, final BindingResult result,
 			@PathVariable("entrenadorId") final int entrenadorId, @PathVariable("equipoId") final int equipoId,
 			final ModelMap model) {

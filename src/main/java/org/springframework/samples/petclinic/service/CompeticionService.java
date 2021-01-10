@@ -25,10 +25,12 @@ public class CompeticionService {
 
 
 
+
 	public Competicion findCompeticionById(int id) throws DataAccessException {
 
 		return competicionRepository.findById(id);
 	}
+
 
 	@Transactional
 	public void saveCompeticion(Competicion competicion) throws DataAccessException {
@@ -41,6 +43,5 @@ public class CompeticionService {
 		this.competicionRepository.delete(competicion);
 		
 	}
-
 
 }
