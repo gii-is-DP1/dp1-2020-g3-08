@@ -22,19 +22,26 @@ public class CompeticionService {
 		return competicionRepository.findAll();
 	}
 	@Transactional(readOnly = true)
-	public Competicion findById(int id) throws DataAccessException {
+
+
+
+
+	public Competicion findCompeticionById(int id) throws DataAccessException {
+
 		return competicionRepository.findById(id);
 	}
-	@Transactional(readOnly = true)	
-	public Collection<Competicion> findCompeticiones() throws DataAccessException {
-		return competicionRepository.findAll();
-	}
+
 
 	@Transactional
 	public void saveCompeticion(Competicion competicion) throws DataAccessException {
 
 		competicionRepository.save(competicion);
 
+	}
+
+	public void deleteCompeticion(final Competicion competicion) {
+		this.competicionRepository.delete(competicion);
+		
 	}
 
 }

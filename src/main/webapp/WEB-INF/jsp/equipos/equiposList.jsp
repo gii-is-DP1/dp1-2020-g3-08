@@ -11,7 +11,7 @@
 	<table id="ownersTable" class="table table-striped">
         <thead>
         <tr>
-            <th style="width: 150px;">Name</th>
+            <th style="width: 150px;">Nombre</th>
             <th style="width: 200px;">Lugar</th>
         </tr>
         </thead>

@@ -27,7 +27,7 @@
 			<td><c:out value="${equipo.t_roja}" /></td>
 		</tr>
 		<tr>
-			<th>Lesión</th>
+			<th>LesiÃ³n</th>
 			<td><c:out value="${equipo.lesion}" /></td>
 		</tr> --%>
 	</table>
@@ -45,11 +45,11 @@
 	<spring:url value="{equipoId}/jugadores/new" var="addUrl">
 		<spring:param name="equipoId" value="${equipo.id}" />
 	</spring:url>
-	<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">Añadir nuevo jugador</a>
+	<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">AÃ±adir nuevo jugador</a>
 	<spring:url value="{equipoId}/entrenadores/new" var="addUrl">
 		<spring:param name="equipoId" value="${equipo.id}" />
 	</spring:url>
-	<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">Añadir nuevo entrenador</a>
+	<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">AÃ±adir nuevo entrenador</a>
 
 	<br />
 	<br />
@@ -57,32 +57,30 @@
 	<h2>Entrenador</h2>
 
 	<table class="table table-striped">
-		<c:forEach var="entrenador" items="${equipo.entrenadores}">
 			<tr>
 				<td valign="top">
 					<dl class="dl-horizontal">
 						<dt>Nombre</dt>
 						<dd>
-							<c:out value="${entrenador.user.firstName}" />
+							<c:out value="${equipo.entrenador.user.firstName}" />
 						</dd>
 						<dt>Apellidos</dt>
 						<dd>
-							<c:out value="${entrenador.user.lastName}" />
+							<c:out value="${equipo.entrenador.user.lastName}" />
 						</dd>
 						<spring:url value="/equipos/{equipoId}/entrenadores/{entrenadorId}/edit" var="entrenadorUrl">
 							<spring:param name="equipoId" value="${equipo.id}" />
-							<spring:param name="entrenadorId" value="${entrenador.id}" />
+							<spring:param name="entrenadorId" value="${equipo.entrenador.id}" />
 						</spring:url>
 						<a href="${fn:escapeXml(entrenadorUrl)}">Editar entrenador</a>
 						<spring:url value="/equipos/{equipoId}/entrenadores/{entrenadorId}/delete" var="entrenadorUrl">
 							<spring:param name="equipoId" value="${equipo.id}" />
-							<spring:param name="entrenadorId" value="${entrenador.id}" />
+							<spring:param name="entrenadorId" value="${equipo.entrenador.id}" />
 						</spring:url>
 						<a href="${fn:escapeXml(entrenadorUrl)}">Borrar entrenador</a>
 					</dl>
 				</td>
 			</tr>
-		</c:forEach>
 	</table>
 	
 

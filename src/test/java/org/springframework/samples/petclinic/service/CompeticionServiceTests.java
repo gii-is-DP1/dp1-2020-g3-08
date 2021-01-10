@@ -1,7 +1,5 @@
-
 package org.springframework.samples.petclinic.service;
 
-import java.time.LocalDate;
 import java.util.Collection;
 
 import org.assertj.core.api.Assertions;
@@ -9,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.petclinic.model.Noticia;
+import org.springframework.samples.petclinic.model.Competicion;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
  * <li><strong>Dependency Injection</strong> of test fixture instances, meaning that we
  * don't need to perform application context lookups. See the use of
  * {@link Autowired @Autowired} on the <code>{@link
- * NoticiaServiceTests#clinicService clinicService}</code> instance variable, which uses
+ * equipoServiceTests#clinicService clinicService}</code> instance variable, which uses
  * autowiring <em>by type</em>.
  * <li><strong>Transaction management</strong>, meaning each test method is executed in
  * its own transaction, which is automatically rolled back by default. Thus, even if tests
@@ -44,69 +42,58 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-class NoticiaServiceTests {
+class CompeticionServiceTests {
 
 	@Autowired
-	protected NoticiaService noticiaService;
+	protected CompeticionService competicionService;
 
 
 	@Test
-	void shouldFindAllNoticias() {
-		Collection<Noticia> noticias = this.noticiaService.findAll();
-		Assertions.assertThat(noticias.isEmpty()).isFalse();
-		Assertions.assertThat(noticias.size()).isEqualTo(1);
+	@Transactional
+	public void shouldInsertEquipo() {
+		Collection<Competicion> Competiciones = this.competicionService.findAll();
+		int found = Competiciones.size();
 
+		Competicion Competicion = new Competicion();
+		Competicion.setNombreComp("Premier");
+		
+		this.competicionService.saveCompeticion(Competicion);
+		Assertions.assertThat(Competicion.getId().longValue()).isNotEqualTo(0);
+
+		Competiciones = this.competicionService.findAll();
+		Assertions.assertThat(Competiciones.size()).isEqualTo(found + 1);
 	}
-
+		
 	@Test
-	void shouldFindNoticiaById() {
-		Noticia noticia = this.noticiaService.findById(1);
-		Assertions.assertThat(noticia != null);
-
+	void shouldFindCompeticionById() {
+		Competicion competicion = this.competicionService.findCompeticionById(1);
+		Assertions.assertThat(competicion!=null);
 	}
 
 	@Test
 	@Transactional
-	public void shouldInsertNoticias() {
-		Collection<Noticia> noticias = this.noticiaService.findAll();
-		int found = noticias.size();
+	void shouldUpdateEquipo() {
+		Competicion competicion = this.competicionService.findCompeticionById(1);
+		String oldNombre = competicion.getNombreComp();
+		String newNombre = oldNombre + "X";
 
-		Noticia not = new Noticia();
-		not.setFecha(LocalDate.now());
-		not.setTexto("Hola soy un ejemplo");
-		not.setTitulo("Primicia: el ejemplo");
-
-		this.noticiaService.saveNoticia(not);
-		;
-		Collection<Noticia> noticias2 = this.noticiaService.findAll();
-		int found2 = noticias2.size();
-
-		Assertions.assertThat(found2).isEqualTo(found + 1);
-	}
-
-	@Test
-	@Transactional
-	void shouldUpdateNoticias() {
-		Noticia not = new Noticia();
-		not.setFecha(LocalDate.now());
-		not.setTexto("Hola soy un ejemplo");
-		not.setTitulo("Primicia: el ejemplo");
-
-		this.noticiaService.saveNoticia(not);
-		Collection<Noticia> usuarios = this.noticiaService.findAll();
-		int found = usuarios.size();
-
-		Noticia not2 = this.noticiaService.findById(2);
-		not2.setTitulo("Ya no es primicia");
-
-		this.noticiaService.saveNoticia(not2);
+		competicion.setNombreComp(newNombre);
+		this.competicionService.saveCompeticion(competicion);
 
 		// retrieving new name from database
-		Collection<Noticia> noticias2 = this.noticiaService.findAll();
-		int found2 = noticias2.size();
-		Assertions.assertThat(found2).isEqualTo(found);
-		Noticia not3 = this.noticiaService.findById(2);
-		Assertions.assertThat(not3.getTitulo()).isEqualTo("Ya no es primicia");
+		competicion = this.competicionService.findCompeticionById(1);
+		Assertions.assertThat(competicion.getNombreComp()).isEqualTo(newNombre);
 	}
+	
+	@Test
+	public void shouldDeleteCompeticion() throws Exception {
+		Competicion competicion = this.competicionService.findCompeticionById(1);
+		this.competicionService.deleteCompeticion(competicion);
+		Competicion competicionNueva = this.competicionService.findCompeticionById(1);
+		Assertions.assertThat(competicionNueva).isEqualTo(null);
+	}
+
+	
+	
 
 }

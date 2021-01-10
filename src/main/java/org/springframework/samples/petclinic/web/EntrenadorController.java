@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.web;
 
-
 import java.util.Collection;
 import java.util.Map;
 
@@ -18,7 +17,6 @@ import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.EntrenadorService;
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.UserService;
-import org.springframework.samples.petclinic.service.exceptions.DuplicatedJugadorNameException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -43,20 +41,23 @@ public class EntrenadorController {
 	private final UserService userService;
 	@Autowired
 	private final AuthoritiesService authoritiesService;
-	
-	private final EquipoService	equipoService;
+
+	private final EquipoService equipoService;
 
 	@Autowired
-	public EntrenadorController(EntrenadorService entrenadorService, UserService userService,AuthoritiesService authoritiesService,EquipoService equipoService) {
+	public EntrenadorController(EntrenadorService entrenadorService, UserService userService,
+			AuthoritiesService authoritiesService, EquipoService equipoService) {
 		this.entrenadorService = entrenadorService;
-		this.userService=userService;
-		this.authoritiesService=authoritiesService;
-		this.equipoService=equipoService;
+		this.userService = userService;
+		this.authoritiesService = authoritiesService;
+		this.equipoService = equipoService;
 	}
+
 	@ModelAttribute("genres")
 	public Collection<Genre> populateGenres() {
 		return userService.findGenres();
 	}
+  
 	@ModelAttribute("equipo")
 	public Equipo findEquipo(@PathVariable("equipoId") final int equipoId) {
 		return this.equipoService.findEquipoById(equipoId);
@@ -69,47 +70,53 @@ public class EntrenadorController {
 
 	@GetMapping(value = "/entrenadores/new")
 	public String initCreationForm(Map<String, Object> model, @PathVariable("equipoId") final int equipoId) {
-		Entrenador entrenador= new Entrenador();
-		entrenador.setEquipo(this.findEquipo(equipoId));
+		Entrenador entrenador = new Entrenador();
+		
+		Equipo e= this.findEquipo(equipoId);
+		e.setEntrenador(entrenador);
 		model.put("entrenador", entrenador);
 		return VIEWS_ENTRENADOR_CREATE_OR_UPDATE_FORM;
 	}
+
 	@GetMapping(value = { "/entrenadores" })
 	public String showEntrenadorList(Map<String, Object> model) {
-		// Here we are returning an object of type 'Vets' rather than a collection of Vet
+		// Here we are returning an object of type 'Vets' rather than a collection of
+		// Vet
 		// objects
 		// so it is simpler for Object-Xml mapping
 		Entrenadores entrenadores = new Entrenadores();
-		entrenadores.getEntrenadorList().addAll(this.entrenadorService.findEntrenadores());
+		entrenadores.getEntrenadorList().addAll(this.entrenadorService.findAll());
 		model.put("entrenadores", entrenadores);
 		return "entrenadores/entrenadoresList";
 	}
 
 	@PostMapping(value = "/entrenadores/new")
-	public String processCreationForm(@Valid Entrenador entrenador, BindingResult result,@PathVariable("equipoId") final int equipoId,final ModelMap model) {
+
+	public String processCreationForm(@Valid Entrenador entrenador, BindingResult result,
+			@PathVariable("equipoId") final int equipoId, final ModelMap model) {
 		if (result.hasErrors()) {
 			model.put("entrenador", entrenador);
 			return EntrenadorController.VIEWS_ENTRENADOR_CREATE_OR_UPDATE_FORM;
 		} else {
 			Equipo e = this.findEquipo(equipoId);
-			e.addEntrenador(entrenador);
+			e.setEntrenador(entrenador);
 			this.entrenadorService.saveEntrenador(entrenador);
 			this.equipoService.saveEquipo(e);
-			
 			entrenadorService.saveEntrenador(entrenador);
 			authoritiesService.saveAuthorities(entrenador.getUser().getUsername(), "entrenador");
 
 			return "redirect:/equipos/{equipoId}";
-			//return "redirect:/entrenadores/" + entrenador.getId();
+			// return "redirect:/entrenadores/" + entrenador.getId();
 		}
 	}
-	
+
 	@GetMapping(value = "/entrenadores/{entrenadorId}/edit")
 	public String initUpdateForm(@PathVariable("entrenadorId") final int entrenadorId, final ModelMap model) {
 		Entrenador entrenador = this.entrenadorService.findById(entrenadorId);
 		model.put("entrenador", entrenador);
 		return EntrenadorController.VIEWS_ENTRENADOR_CREATE_OR_UPDATE_FORM;
 	}
+
 	/**
 	 *
 	 * @param entrenador
@@ -121,7 +128,10 @@ public class EntrenadorController {
 	 * @return
 	 */
 	@PostMapping(value = "/entrenadores/{entrenadorId}/edit")
-	public String processUpdateForm(@Valid final Entrenador entrenador, final BindingResult result, @PathVariable("entrenadorId") final int entrenadorId, @PathVariable("equipoId") final int equipoId, final ModelMap model) {
+
+	public String processUpdateForm(@Valid final Entrenador entrenador, final BindingResult result,
+			@PathVariable("entrenadorId") final int entrenadorId, @PathVariable("equipoId") final int equipoId,
+			final ModelMap model) {
 
 		if (result.hasErrors()) {
 			model.put("entrenador", entrenador);
@@ -129,24 +139,22 @@ public class EntrenadorController {
 		} else {
 			Equipo e = this.equipoService.findEquipoById(equipoId);
 			entrenador.setId(entrenadorId);
-			entrenador.setEquipo(e);
+			e.setEntrenador(entrenador);;
 			this.entrenadorService.saveEntrenador(entrenador);
 			return "redirect:/equipos/{equipoId}";
 		}
 	}
-	
+
 	@GetMapping(value = "/entrenadores/{entrenadorId}/delete")
-	public String processDeleteForm(@PathVariable("entrenadorId") final int entrenadorId, @PathVariable("equipoId") final int equipoId) {
+	public String processDeleteForm(@PathVariable("entrenadorId") final int entrenadorId,
+			@PathVariable("equipoId") final int equipoId) {
 
 		Entrenador entrenador = this.entrenadorService.findById(entrenadorId);
-		Equipo equipo = this.equipoService.findEquipoById(equipoId);
-		equipo.removeEntrenador(entrenador);
+
 		this.entrenadorService.deleteEntrenador(entrenador);
 		return "redirect:/equipos/{equipoId}";
 	}
 
-
-	
 	@GetMapping("/entrenadores/{id}")
 	public ModelAndView showEntrenador(@PathVariable("id") int id) {
 		ModelAndView mav = new ModelAndView(VIEWS_ENTRENADOR_SHOW);

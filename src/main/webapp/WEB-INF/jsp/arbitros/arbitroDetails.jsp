@@ -10,11 +10,32 @@
 
 
     <table class="table table-striped">
-    	<tr>
+    	 <tr>
             <th>Nombre</th>
-            <td><c:out value="${arbitro.nombreArbitro}"/></td>
+            <td><b><c:out value="${arbitro.nombre} ${arbitro.apellidos}"/></b></td>
         </tr>
-       
+        
+        <tr>
+            <th>Fecha de nacimiento</th>
+            <td><c:out value="${arbitro.fechaNacimiento}"/></td>
+        </tr>
+        <tr>
+            <th>Nacionalidad</th>
+            <td><c:out value="${arbitro.nacionalidad}"/></td>
+        </tr>
+        <tr>
+            <th>Dni</th>
+            <td><c:out value="${arbitro.dni}"/></td>
+        </tr>
     </table>
+    <spring:url value="{arbitroId}/delete" var="deleteUrl">
+		<spring:param name="arbitroId" value="${arbitro.id}" />
+	</spring:url>
+	<a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Borrar Arbitro</a>
+	
+	<spring:url value="{arbitroId}/edit" var="editUrl">
+		<spring:param name="arbitroId" value="${arbitro.id}" />
+	</spring:url>
+	<a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Arbitro</a>
 
 </petclinic:layout>
