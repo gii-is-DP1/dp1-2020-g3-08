@@ -148,5 +148,12 @@ public class EquipoControllerTests {
 		mockMvc.perform(get("/equipos/list")).andExpect(status().isOk())
 		.andExpect(model().attributeExists("equipos")).andExpect(view().name("equipos/equiposList"));
 	}
+	
+	@WithMockUser(value = "admin1")
+	@Test
+	void testDeleteEquipo() throws Exception{
+		mockMvc.perform(get("/competiciones/{competicionId}/equipos/{equipoId}/delete",TEST_COMPETICION_ID,TEST_EQUIPO_ID))
+		.andExpect(model().attributeDoesNotExist("equipo")).andExpect(view().name("redirect:/competiciones/{competicionId}"));
+	}
 
 }
