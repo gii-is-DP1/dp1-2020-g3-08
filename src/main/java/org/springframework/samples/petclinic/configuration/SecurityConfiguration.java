@@ -35,11 +35,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(final HttpSecurity http) throws Exception {
 
 
-		http.authorizeRequests().antMatchers("/resources/**", "/webjars/**", "/h2-console/**").permitAll().antMatchers(HttpMethod.GET, "/", "/oups").permitAll().antMatchers("/noticias/**").permitAll().antMatchers("/users/new").permitAll()
-			.antMatchers("/users/**").hasAnyAuthority("user", "admin").antMatchers("/admin/**").hasAnyAuthority("admin").antMatchers("/equipos/**").permitAll().antMatchers("/jugadores/**").permitAll().antMatchers("/arbitros/**").permitAll()
+
+
+		http.authorizeRequests().antMatchers("/resources/**", "/webjars/**", "/h2-console/**").permitAll()
+		.antMatchers(HttpMethod.GET, "/", "/oups").permitAll()
+		.antMatchers("/noticias/**").permitAll()
+		.antMatchers("/users/new").permitAll()
+		.antMatchers("/users/**").hasAnyAuthority("user", "admin")
+		.antMatchers("/admin/**").hasAnyAuthority("admin")
+		.antMatchers("/equipos/**").permitAll()
+		.antMatchers("/jugadores/**").permitAll()
+		.antMatchers("/arbitros/**").permitAll()
 		.antMatchers("/competiciones/**").permitAll()
-		.antMatchers("/entrenadores/**").permitAll().anyRequest().denyAll().and().formLogin()
-			.failureUrl("/login-error").and().logout().logoutSuccessUrl("/");
+		.antMatchers("/entrenadores/**").permitAll()
+		.antMatchers("/partidos/**").permitAll()
+		.anyRequest().denyAll().and().formLogin()
+		.failureUrl("/login-error").and().logout().logoutSuccessUrl("/");
+
 
 
 		// Configuración para que funcione la consola de administración
@@ -52,8 +64,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(final AuthenticationManagerBuilder auth) throws Exception {
-		auth.jdbcAuthentication().dataSource(this.dataSource).usersByUsernameQuery("select username,password,enabled " + "from users " + "where username = ?")
-			.authoritiesByUsernameQuery("select username, authority " + "from authorities " + "where username = ?").passwordEncoder(this.passwordEncoder());
+		auth.jdbcAuthentication().dataSource(dataSource).usersByUsernameQuery("select username,password,enabled " + "from users " + "where username = ?")
+		.authoritiesByUsernameQuery("select username, authority " + "from authorities " + "where username = ?").passwordEncoder(passwordEncoder());
 	}
 
 	@Bean

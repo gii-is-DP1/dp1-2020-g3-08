@@ -62,6 +62,11 @@ public class JugadorService {
 	}
 
 	@Transactional(readOnly = true)
+	public Collection<Jugador> findJugadorByNombre(final String nombre) throws DataAccessException {
+		return this.jugadorRepository.findJugadorByNombre(nombre);
+	}
+
+	@Transactional(readOnly = true)
 	public Collection<Jugador> findJugadores() throws DataAccessException {
 		return this.jugadorRepository.findAll();
 	}

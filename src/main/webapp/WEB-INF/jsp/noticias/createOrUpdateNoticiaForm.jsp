@@ -14,12 +14,18 @@
     <form:form modelAttribute="noticia" class="form-horizontal" id="add-noticia-form">
     	<input type="hidden" name="date" value=""/>
         <div class="form-group has-feedback">
-            <petclinic:inputField label="Titulo" name="title"/>
-            <petclinic:inputField label="Texto" name="text"/>
+
+            <petclinic:inputField label="Titulo" name="titulo"/>
+            <petclinic:inputField label="Texto" name="texto"/>
+
+             <div class="control-group">	
+	            	<petclinic:selectField label="Partido" name="partidos" size="5" names="${partidos}"/>
+	         </div>
+
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-            	<button class="btn btn-default" type="submit">Add Noticia</button>
+            	<button class="btn btn-default" type="submit">Nueva Noticia</button>
             </div>
         </div>
     </form:form>

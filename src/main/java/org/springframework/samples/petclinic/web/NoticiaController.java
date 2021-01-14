@@ -17,22 +17,22 @@
 package org.springframework.samples.petclinic.web;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Equipos;
 import org.springframework.samples.petclinic.model.Noticia;
+import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.service.NoticiaService;
+import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -40,54 +40,61 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class NoticiaController {
 
-	private static final String				VIEWS_NOTICIA_CREATE_OR_UPDATE_FORM= "noticias/createOrUpdateNoticiaForm";
-	private static final String				VIEWS_NOTICIA_SHOW					= "noticias/noticiaDetails";
+	private static final String		VIEWS_NOTICIA_CREATE_OR_UPDATE_FORM	= "noticias/createOrUpdateNoticiaForm";
+	private static final String		VIEWS_NOTICIA_SHOW					= "noticias/noticiaDetails";
 
 	private final NoticiaService	noticiaService;
 
+	private final PartidoService	partidoService;
+
 
 	@Autowired
-	public NoticiaController(NoticiaService noticiaService) {
+	public NoticiaController(NoticiaService noticiaService,PartidoService partidoService) {
 		this.noticiaService = noticiaService;
+		this.partidoService = partidoService;
 	}
 
 	@InitBinder
-	public void setAllowedFields(WebDataBinder dataBinder) {
+	public void setAllowedFields(final WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
 	}
 
+	@ModelAttribute("partidos")
+	public Collection<Partido> populatePartidos() {
+		return partidoService.findAll();
+	}
+
 	@GetMapping(value = "/noticias/new")
-	public String initCreationForm(Map<String, Object> model) {
+	public String initCreationForm(final Map<String, Object> model) {
 		Noticia noticia = new Noticia();
 		model.put("noticia", noticia);
-		return VIEWS_NOTICIA_CREATE_OR_UPDATE_FORM;
+		return NoticiaController.VIEWS_NOTICIA_CREATE_OR_UPDATE_FORM;
 	}
 
 	@PostMapping(value = "/noticias/new")
-	public String processCreationForm(@Valid Noticia noticia, BindingResult result) {
+	public String processCreationForm(@Valid final Noticia noticia, final BindingResult result) {
 		if (result.hasErrors()) {
-			return VIEWS_NOTICIA_CREATE_OR_UPDATE_FORM;
-		}
-		else {
+			return NoticiaController.VIEWS_NOTICIA_CREATE_OR_UPDATE_FORM;
+		} else {
 			LocalDate fechaActual = LocalDate.now();
-			noticia.setDate(fechaActual);
-			noticiaService.saveNoticia(noticia);
+			noticia.setFecha(fechaActual);
+			this.noticiaService.saveNoticia(noticia);
 
 			return "redirect:/noticias/" + noticia.getId();
 		}
 	}
 
 	@GetMapping("/noticias/{id}")
-	public ModelAndView showNoticia(@PathVariable("id") int id) {
-		ModelAndView mav = new ModelAndView(VIEWS_NOTICIA_SHOW);
-		mav.addObject(noticiaService.findById(id));
+	public ModelAndView showNoticia(@PathVariable("id") final int id) {
+		ModelAndView mav = new ModelAndView(NoticiaController.VIEWS_NOTICIA_SHOW);
+		mav.addObject(this.noticiaService.findById(id));
 		return mav;
 	}
-	
+
 	//Lista de noticias
 	@GetMapping("/noticias/list")
 	public String showEquipoList(final Map<String, Object> model) {
-		Collection<Noticia> noticias = noticiaService.findAll();
+		Collection<Noticia> noticias = this.noticiaService.findAll();
 		model.put("noticias", noticias);
 		return "noticias/noticiasList";
 	}
