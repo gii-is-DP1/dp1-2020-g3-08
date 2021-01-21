@@ -113,7 +113,7 @@
 							<spring:param name="competicionId" value="${competicion.id}" />
 							<spring:param name="partidoId" value="${partido.id}" />
 						</spring:url>
-						<a href="${fn:escapeXml(equipoUrl)}">Borrar partido</a>
+						<a href="${fn:escapeXml(equipoUrl)}">Borrar equipo</a>
 					</dl>
 				</td>
 			</tr>
