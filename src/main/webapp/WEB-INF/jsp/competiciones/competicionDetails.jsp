@@ -32,7 +32,12 @@
 	<spring:url value="{competicionId}/equipos/new" var="addUrl">
 		<spring:param name="competicionId" value="${competicion.id}" />
 	</spring:url>
-	<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">Añadir nuevo equipo</a>
+	<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">Anadir nuevo equipo</a>
+	
+	<spring:url value="{competicionId}/partidos/new" var="addUrl">
+		<spring:param name="competicionId" value="${competicion.id}" />
+	</spring:url>
+	<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">Anadir nuevo partido</a>
 	
 	<h2>Equipos</h2>
 
@@ -67,6 +72,55 @@
 			</tr>
 		</c:forEach>
 	</table>
+	<h2>Partidos</h2>
+
+	<table class="table table-striped">
+		<c:forEach var="partido" items="${competicion.partidos}">
+			<tr>
+				<td valign="top">
+					<dl class="dl-horizontal">
+						<dt>Fecha</dt>
+						<dd>
+						 <spring:url value="/partidos/{partidoId}" var="partidoUrl">
+                        <spring:param name="partidoId" value="${partido.id}"/>
+                    </spring:url>
+						   <a href="${fn:escapeXml(partidoUrl)}"><c:out value="${partido.fecha}"/></a>
+						</dd>
+						<dt>Lugar</dt>
+						<dd>
+							<c:out value="${partido.lugar}" />
+						</dd>
+						<dt>Equipo visitante</dt>
+						<dd>
+							<c:out value="${partido.equipo1.nombre}" />
+						</dd>
+						<dt>Equipo casa</dt>
+						<dd>
+							<c:out value="${partido.equipo2.nombre}" />
+						</dd>
+						
+						<dt>Arbitro</dt>
+						<dd>
+							<c:out value="${partido.arbitro.nombre}" />
+						</dd>
+						
+						<spring:url value="/competiciones/{competicionId}/partidos/{partidoId}/edit" var="partidoUrl">
+							<spring:param name="competicionId" value="${competicion.id}" />
+							<spring:param name="partidoId" value="${partido.id}" />
+						</spring:url>
+						<a href="${fn:escapeXml(partidoUrl)}">Editar partido</a>
+						<spring:url value="/competiciones/{competicionId}/partidos/{partidoId}/delete" var="partidoUrl">
+							<spring:param name="competicionId" value="${competicion.id}" />
+							<spring:param name="partidoId" value="${partido.id}" />
+						</spring:url>
+						<a href="${fn:escapeXml(equipoUrl)}">Borrar partido</a>
+					</dl>
+				</td>
+			</tr>
+		</c:forEach>
+	</table>
+	
+	
 	
 
 </petclinic:layout>

@@ -56,5 +56,9 @@
         <spring:param name="id" value="${partido.id}"/>
     </spring:url>
     <a href="${fn:escapeXml(adminUrl)}" class="btn btn-default">Admin Jugadores</a>
+    
+    
+    
+    
 
 </petclinic:layout>

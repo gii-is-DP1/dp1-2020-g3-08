@@ -24,8 +24,8 @@ INSERT INTO jugador VALUES (2, 'López', '13625381K', '1993-09-07', 'España', '
 
 INSERT INTO arbitro VALUES(1,'Ilaoz', '93316451K', '1976-09-07', 'España', 'Matheu');
 
-INSERT INTO partidos VALUES (1,'2012-12-12', 'lugar',1,1,2);
-INSERT INTO partidos VALUES (2,'2012-12-14', 'lugar2',1,1,2);
+INSERT INTO partidos VALUES (1,'2012-12-12', 'lugar',1,1,2,1);
+INSERT INTO partidos VALUES (2,'2012-12-14', 'lugar2',1,2,2,1);
 
 
 
