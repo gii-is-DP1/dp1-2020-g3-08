@@ -33,5 +33,7 @@ public interface NoticiaRepository extends Repository<Noticia, String> {
 
 	@Query("SELECT noticia FROM Noticia noticia WHERE noticia.id =:id")
 	Noticia findById(@Param("id") int id) throws DataAccessException;
+	
+	void delete(Noticia noticia) throws DataAccessException;
 
 }
