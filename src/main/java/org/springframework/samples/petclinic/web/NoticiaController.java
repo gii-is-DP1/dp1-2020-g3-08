@@ -93,7 +93,7 @@ public class NoticiaController {
 
 	//Lista de noticias
 	@GetMapping("/noticias/list")
-	public String showEquipoList(final Map<String, Object> model) {
+	public String showNoticiaList(final Map<String, Object> model) {
 		Collection<Noticia> noticias = this.noticiaService.findAll();
 		model.put("noticias", noticias);
 		return "noticias/noticiasList";

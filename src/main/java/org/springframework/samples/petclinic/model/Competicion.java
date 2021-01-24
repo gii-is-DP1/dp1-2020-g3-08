@@ -1,5 +1,10 @@
 package org.springframework.samples.petclinic.model;
 
+
+
+
+
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -15,6 +20,8 @@ import javax.validation.constraints.NotEmpty;
 
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
+
+
 
 import lombok.Getter;
 import lombok.Setter;
@@ -32,6 +39,8 @@ public class Competicion extends BaseEntity {
 		return "Competicion [NombreComp=" + nombreComp + "]";
 	}
 	
+
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "competicion")
 	private Set<Equipo>	equipos;
 
@@ -78,6 +87,7 @@ public class Competicion extends BaseEntity {
 		}
 		return null;
 	}
+
 
 
 }

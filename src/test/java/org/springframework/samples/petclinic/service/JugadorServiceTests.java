@@ -2,6 +2,7 @@
 package org.springframework.samples.petclinic.service;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -197,6 +198,26 @@ class JugadorServiceTests {
 			anotherJugador.setDni("29517543X");
 			this.jugadorService.saveJugador(anotherJugador);
 		});
+
+	}
+
+	@Test
+	@Transactional
+	void shouldFindJugadoresByNombre() {
+		Collection<Jugador> jugadores = this.jugadorService.findJugadorByNombre("Daniel");
+		assertThat(jugadores.size()).isEqualTo(1);
+
+		jugadores = this.jugadorService.findJugadorByNombre("Pepe");
+		assertThat(jugadores.isEmpty()).isTrue();
+	}
+
+	@Test
+	@Transactional
+	public void shouldDeleteJugador() throws Exception {
+		Jugador jugador = this.jugadorService.findJugadorById(1);
+		this.jugadorService.deleteJugador(jugador);
+		Jugador jugadorNew = this.jugadorService.findJugadorById(1);
+		assertThat(jugadorNew).isEqualTo(null);
 	}
 
 }

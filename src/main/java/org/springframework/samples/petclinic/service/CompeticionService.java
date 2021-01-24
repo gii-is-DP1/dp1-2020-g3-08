@@ -22,9 +22,15 @@ public class CompeticionService {
 		return competicionRepository.findAll();
 	}
 	@Transactional(readOnly = true)
+
+
+
+
 	public Competicion findCompeticionById(int id) throws DataAccessException {
+
 		return competicionRepository.findById(id);
 	}
+
 
 	@Transactional
 	public void saveCompeticion(Competicion competicion) throws DataAccessException {
@@ -38,5 +44,4 @@ public class CompeticionService {
 		
 	}
 
-	
 }

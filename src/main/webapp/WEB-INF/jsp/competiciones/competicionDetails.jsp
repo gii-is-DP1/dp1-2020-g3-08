@@ -16,6 +16,7 @@
         </tr>
         
     </table>
+
     
     <spring:url value="{competicionId}/edit" var="editUrl">
 		<spring:param name="competicionId" value="${competicion.id}" />
@@ -26,11 +27,12 @@
 		<spring:param name="competicionId" value="${competicion.id}" />
 	</spring:url>
 	<a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Borrar Competicion</a>
+
 	
 	<spring:url value="{competicionId}/equipos/new" var="addUrl">
 		<spring:param name="competicionId" value="${competicion.id}" />
 	</spring:url>
-	<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">Añadir nuevo equipo</a>
+	<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">AÃ±adir nuevo equipo</a>
 	
 	<h2>Equipos</h2>
 
