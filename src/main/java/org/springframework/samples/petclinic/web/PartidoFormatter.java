@@ -1,3 +1,4 @@
+
 /*
  * Copyright 2002-2013 the original author or authors.
  *
@@ -13,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.springframework.samples.petclinic.web;
 
 import java.text.ParseException;
@@ -23,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.service.PartidoService;
+
 import org.springframework.stereotype.Component;
 
 /**
@@ -43,6 +46,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PartidoFormatter implements Formatter<Partido> {
 
+
 	private final PartidoService partidoService;
 
 	@Autowired
@@ -53,6 +57,7 @@ public class PartidoFormatter implements Formatter<Partido> {
 	@Override
 	public String print(final Partido partido, final Locale locale) {
 		return partido.getLugar()+" "+partido.getFecha().toString();
+
 	}
 
 	@Override

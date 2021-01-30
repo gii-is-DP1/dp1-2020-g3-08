@@ -1,3 +1,4 @@
+
 package org.springframework.samples.petclinic.service;
 
 import java.time.LocalDate;
@@ -8,8 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.petclinic.model.Genre;
-import org.springframework.samples.petclinic.model.Noticia;
 import org.springframework.samples.petclinic.model.Noticia;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,20 +50,19 @@ class NoticiaServiceTests {
 	protected NoticiaService noticiaService;
 
 
-	
 	@Test
 	void shouldFindAllNoticias() {
 		Collection<Noticia> noticias = this.noticiaService.findAll();
 		Assertions.assertThat(noticias.isEmpty()).isFalse();
 		Assertions.assertThat(noticias.size()).isEqualTo(1);
-		
+
 	}
-	
+
 	@Test
 	void shouldFindNoticiaById() {
 		Noticia noticia = this.noticiaService.findById(1);
-		Assertions.assertThat(noticia!=null);
-		
+		Assertions.assertThat(noticia != null);
+
 	}
 
 	@Test
@@ -73,16 +71,16 @@ class NoticiaServiceTests {
 		Collection<Noticia> noticias = this.noticiaService.findAll();
 		int found = noticias.size();
 
-		
 		Noticia not = new Noticia();
-		not.setDate(LocalDate.now());
-		not.setText("Hola soy un ejemplo");
-		not.setTitle("Primicia: el ejemplo");
+		not.setFecha(LocalDate.now());
+		not.setTexto("Hola soy un ejemplo");
+		not.setTitulo("Primicia: el ejemplo");
 
-		this.noticiaService.saveNoticia(not);;
+		this.noticiaService.saveNoticia(not);
+		;
 		Collection<Noticia> noticias2 = this.noticiaService.findAll();
 		int found2 = noticias2.size();
-		
+
 		Assertions.assertThat(found2).isEqualTo(found + 1);
 	}
 
@@ -90,16 +88,16 @@ class NoticiaServiceTests {
 	@Transactional
 	void shouldUpdateNoticias() {
 		Noticia not = new Noticia();
-		not.setDate(LocalDate.now());
-		not.setText("Hola soy un ejemplo");
-		not.setTitle("Primicia: el ejemplo");
+		not.setFecha(LocalDate.now());
+		not.setTexto("Hola soy un ejemplo");
+		not.setTitulo("Primicia: el ejemplo");
 
 		this.noticiaService.saveNoticia(not);
 		Collection<Noticia> usuarios = this.noticiaService.findAll();
 		int found = usuarios.size();
-		
-		Noticia not2=noticiaService.findById(2);
-		not2.setTitle("Ya no es primicia");
+
+		Noticia not2 = this.noticiaService.findById(2);
+		not2.setTitulo("Ya no es primicia");
 
 		this.noticiaService.saveNoticia(not2);
 
@@ -107,8 +105,8 @@ class NoticiaServiceTests {
 		Collection<Noticia> noticias2 = this.noticiaService.findAll();
 		int found2 = noticias2.size();
 		Assertions.assertThat(found2).isEqualTo(found);
-		Noticia not3=noticiaService.findById(2);
-		Assertions.assertThat(not3.getTitle()).isEqualTo("Ya no es primicia");
+		Noticia not3 = this.noticiaService.findById(2);
+		Assertions.assertThat(not3.getTitulo()).isEqualTo("Ya no es primicia");
 	}
 
 }

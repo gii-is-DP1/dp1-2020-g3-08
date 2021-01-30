@@ -26,6 +26,11 @@
             <th>Equipo Casa</th>
             <td><c:out value="${partido.equipo2.nombre}"/></td>
         </tr>
+        <tr>
+            <th>Arbitro</th>
+            <td><c:out value="${partido.arbitro.nombre}"/></td>
+        </tr>
+
     </table>
     <h2>Jugadores</h2>
 

@@ -25,7 +25,7 @@
 				<petclinic:menuItem active="${name eq 'home'}" url="/"
 					title="home page">
 					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-					<span>Home</span>
+					<span>Inicio</span>
 				</petclinic:menuItem>
 
 <%-- 				<petclinic:menuItem active="${name eq 'equipos'}" url="/equipos/find"
@@ -34,16 +34,17 @@
 					<span>Buscar equipos</span>
 				</petclinic:menuItem> --%>
 				
-				<petclinic:menuItem active="${name eq 'equipos'}" url="/equipos/new"
-					title="equipos">
-					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Crear Equipo</span>
-				</petclinic:menuItem>
-				
+							
 				<petclinic:menuItem active="${name eq 'equipos'}" url="/equipos/find"
 					title="equipos">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Buscar Equipo</span>
+				</petclinic:menuItem>
+				
+				<petclinic:menuItem active="${name eq 'jugadores'}" url="/jugadores/find"
+					title="jugadores">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Buscar Jugadores</span>
 				</petclinic:menuItem>
 
 				<petclinic:menuItem active="${name eq 'noticias'}" url="/noticias/list"
@@ -51,19 +52,35 @@
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Noticias</span>
 				</petclinic:menuItem>
+				
+				<petclinic:menuItem active="${name eq 'competiciones'}" url="/competiciones/new"
+					title="equipos">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Crear Competicion</span>
+				</petclinic:menuItem>
+				<petclinic:menuItem active="${name eq 'arbitros'}" url="/arbitros/new"
+					title="arbitros">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Crear Arbitros</span>
+				</petclinic:menuItem>
+				<petclinic:menuItem active="${name eq 'arbitros'}" url="/arbitros/find"
+					title="arbitros">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Buscar Arbitros</span>
+				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
+				<%-- <petclinic:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
 					<span>Error</span>
-				</petclinic:menuItem>
+				</petclinic:menuItem> --%>
 
 			</ul>
 
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="!isAuthenticated()">
-					<li><a href="<c:url value="/login" />">Login</a></li>
-					<li><a href="<c:url value="/users/new" />">Register</a></li>
+					<li><a href="<c:url value="/login" />">Iniciar sesión</a></li>
+					<li><a href="<c:url value="/users/new" />">Registro</a></li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"

@@ -22,10 +22,10 @@
                     <spring:url value="/noticias/{noticiasId}" var="noticiaUrl">
                         <spring:param name="noticiasId" value="${noticia.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(noticiaUrl)}"><c:out value="${noticia.title}"/></a>
+                    <a href="${fn:escapeXml(noticiaUrl)}"><c:out value="${noticia.titulo}"/></a>
                 </td>
                 <td>
-                    <c:out value="${noticia.date}"/>
+                    <c:out value="${noticia.fecha}"/>
                 </td>           
             </tr>
         </c:forEach>            

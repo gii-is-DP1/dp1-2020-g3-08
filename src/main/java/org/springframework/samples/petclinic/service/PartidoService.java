@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Arbitro;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.repository.PartidoRepository;
 import org.springframework.stereotype.Service;
@@ -26,25 +28,34 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PartidoService {
+
 	private PartidoRepository partidoRepository;
 
+
 	@Autowired
-	public PartidoService(PartidoRepository partidoRepository) {
+	public PartidoService(final PartidoRepository partidoRepository) {
 		this.partidoRepository = partidoRepository;
 	}
 
 	@Transactional(readOnly = true)
 	public Collection<Partido> findAll() throws DataAccessException {
-		return partidoRepository.findAll();
+		return this.partidoRepository.findAll();
 	}
 
 	@Transactional(readOnly = true)
-	public Partido findById(int id) throws DataAccessException {
-		return partidoRepository.findById(id);
+	public Partido findById(final int id) throws DataAccessException {
+		return this.partidoRepository.findById(id);
 	}
 
 	@Transactional
-	public void savePartido(Partido partido) throws DataAccessException {
-		partidoRepository.save(partido);
+	public void savePartido(final Partido partido) throws DataAccessException {
+		this.partidoRepository.save(partido);
 	}
+
+	@Transactional
+	public void deletePartido(final Partido partido) {
+		this.partidoRepository.delete(partido);
+
+	}
+
 }
