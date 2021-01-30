@@ -11,7 +11,7 @@
 	<jsp:attribute name="customScript">
         <script>
             $(function () {
-                $("&user.birthDate").datepicker({dateFormat: 'yy/mm/dd'});
+                $("#user.birthDate").datepicker({dateFormat: 'yy/mm/dd'});
             });
         </script>
     </jsp:attribute>

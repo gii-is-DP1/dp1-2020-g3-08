@@ -49,6 +49,10 @@ public class NoticiaService {
 	public void saveNoticia(Noticia noticia) throws DataAccessException {
 		noticiaRepository.save(noticia);
 	}
+	@Transactional
+	public void deleteNoticia(Noticia noticia) throws DataAccessException {
+		noticiaRepository.delete(noticia);
+	}
 
 
 }
