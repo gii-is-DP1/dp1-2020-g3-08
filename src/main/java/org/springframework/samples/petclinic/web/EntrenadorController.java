@@ -99,10 +99,10 @@ public class EntrenadorController {
 			return EntrenadorController.VIEWS_ENTRENADOR_CREATE_OR_UPDATE_FORM;
 		} else {
 			Equipo e = this.findEquipo(equipoId);
+			entrenador.getUser().setEnabled(true);
 			e.setEntrenador(entrenador);
 			this.entrenadorService.saveEntrenador(entrenador);
 			this.equipoService.saveEquipo(e);
-			entrenadorService.saveEntrenador(entrenador);
 			authoritiesService.saveAuthorities(entrenador.getUser().getUsername(), "entrenador");
 
 			return "redirect:/equipos/{equipoId}";
