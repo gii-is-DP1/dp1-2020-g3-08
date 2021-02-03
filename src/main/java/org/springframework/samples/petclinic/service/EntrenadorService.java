@@ -13,32 +13,31 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class EntrenadorService {
 	private EntrenadorRepository entrenadorRepository;
-	
+
 	private UserService userService;
 
 	@Autowired
-	public EntrenadorService(EntrenadorRepository entrenadorRepository,UserService userService) {
+	public EntrenadorService(EntrenadorRepository entrenadorRepository, UserService userService) {
 		this.entrenadorRepository = entrenadorRepository;
-		this.userService=userService;
+		this.userService = userService;
 	}
-
-
 
 	@Transactional(readOnly = true)
 	public Entrenador findById(int id) throws DataAccessException {
 		return entrenadorRepository.findById(id);
 	}
-	@Transactional(readOnly = true)	
+
+	@Transactional(readOnly = true)
 	public Collection<Entrenador> findAll() throws DataAccessException {
 		return entrenadorRepository.findAll();
 	}
-
 
 	@Transactional
 	public void saveEntrenador(Entrenador entrenador) throws DataAccessException {
 		entrenadorRepository.save(entrenador);
 
 	}
+
 	@Transactional
 	public void deleteEntrenador(final Entrenador entrenador) {
 		this.entrenadorRepository.delete(entrenador);
