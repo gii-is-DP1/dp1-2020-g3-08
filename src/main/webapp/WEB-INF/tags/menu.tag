@@ -58,6 +58,11 @@
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Crear Competicion</span>
 				</petclinic:menuItem>
+				<petclinic:menuItem active="${name eq 'competiciones'}" url="/competiciones/list"
+					title="equipos">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Buscar Competicion</span>
+				</petclinic:menuItem>
 				<petclinic:menuItem active="${name eq 'arbitros'}" url="/arbitros/new"
 					title="arbitros">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
