@@ -15,7 +15,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Jugador;
-import org.springframework.samples.petclinic.service.exceptions.DuplicatedJugadorDNIException;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -87,7 +87,7 @@ class JugadorServiceTests {
 
 		try {
 			this.jugadorService.saveJugador(jugador);
-		} catch (DuplicatedJugadorDNIException ex) {
+		} catch (DuplicatedException ex) {
 			Logger.getLogger(JugadorServiceTests.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		this.equipoService.saveEquipo(equipo1);
@@ -115,7 +115,7 @@ class JugadorServiceTests {
 		equipo1.addJugador(jugador);
 		try {
 			this.jugadorService.saveJugador(jugador);
-		} catch (DuplicatedJugadorDNIException e) {
+		} catch (DuplicatedException e) {
 			// Jugador already exists!
 			e.printStackTrace();
 		}
@@ -130,7 +130,7 @@ class JugadorServiceTests {
 		anotherJugadorWithTheSameDNI.setTarjetaAmarilla(0);
 		anotherJugadorWithTheSameDNI.setTarjetaRoja(0);
 
-		Assertions.assertThrows(DuplicatedJugadorDNIException.class, () -> {
+		Assertions.assertThrows(DuplicatedException.class, () -> {
 			equipo1.addJugador(anotherJugadorWithTheSameDNI);
 			this.jugadorService.saveJugador(anotherJugadorWithTheSameDNI);
 		});
@@ -189,12 +189,12 @@ class JugadorServiceTests {
 		try {
 			this.jugadorService.saveJugador(jugador);
 			this.jugadorService.saveJugador(anotherJugador);
-		} catch (DuplicatedJugadorDNIException e) {
+		} catch (DuplicatedException e) {
 			// The pets already exists!
 			e.printStackTrace();
 		}
 
-		Assertions.assertThrows(DuplicatedJugadorDNIException.class, () -> {
+		Assertions.assertThrows(DuplicatedException.class, () -> {
 			anotherJugador.setDni("29517543X");
 			this.jugadorService.saveJugador(anotherJugador);
 		});
