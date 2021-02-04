@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Competiciones;
 import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.Entrenadores;
@@ -17,6 +18,7 @@ import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.EntrenadorService;
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.UserService;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -93,7 +95,7 @@ public class EntrenadorController {
 	@PostMapping(value = "/entrenadores/new")
 
 	public String processCreationForm(@Valid Entrenador entrenador, BindingResult result,
-			@PathVariable("equipoId") final int equipoId, final ModelMap model) {
+			@PathVariable("equipoId") final int equipoId, final ModelMap model) throws DataAccessException, DuplicatedException {
 		if (result.hasErrors()) {
 			model.put("entrenador", entrenador);
 			return EntrenadorController.VIEWS_ENTRENADOR_CREATE_OR_UPDATE_FORM;
@@ -126,12 +128,14 @@ public class EntrenadorController {
 	 * @param equipo
 	 * @param model
 	 * @return
+	 * @throws DuplicatedException 
+	 * @throws DataAccessException 
 	 */
 	@PostMapping(value = "/entrenadores/{entrenadorId}/edit")
 
 	public String processUpdateForm(@Valid final Entrenador entrenador, final BindingResult result,
 			@PathVariable("entrenadorId") final int entrenadorId, @PathVariable("equipoId") final int equipoId,
-			final ModelMap model) {
+			final ModelMap model) throws DataAccessException, DuplicatedException {
 
 		if (result.hasErrors()) {
 			model.put("entrenador", entrenador);
