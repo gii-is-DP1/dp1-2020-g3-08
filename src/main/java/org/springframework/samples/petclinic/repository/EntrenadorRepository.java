@@ -19,4 +19,6 @@ public interface EntrenadorRepository extends Repository<Entrenador, Integer> {
 	Entrenador findById(@Param("id") int id) throws DataAccessException;
 	
 	void delete(Entrenador entrenador);
+
+
 }
