@@ -87,8 +87,11 @@ public class JugadorController {
 			model.put("jugador", jugador);
 			return JugadorController.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
 		} else {
+			jugador.setTarjetaAmarilla(0);
+			jugador.setTarjetaRoja(0);
 			Equipo e = this.equipoService.findEquipoById(equipoId);
 			try {
+				
 				e.addJugador(jugador);
 				this.jugadorService.saveJugador(jugador);
 				this.equipoService.saveEquipo(e);

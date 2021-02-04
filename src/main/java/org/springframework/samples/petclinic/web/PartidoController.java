@@ -38,6 +38,7 @@ import org.springframework.samples.petclinic.model.Partido;
 
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.PartidoService;
+import org.springframework.samples.petclinic.web.validators.PartidoValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -75,6 +76,10 @@ public class PartidoController {
 	@InitBinder
 	public void setAllowedFields(final WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
+	}
+	@InitBinder("partido")
+	public void initPartidoBinder(final WebDataBinder dataBinder) {
+		dataBinder.setValidator(new PartidoValidator(partidoService));;
 	}
 
 	@ModelAttribute("equipos")
