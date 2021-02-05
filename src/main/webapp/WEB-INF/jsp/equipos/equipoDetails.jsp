@@ -28,7 +28,7 @@
 			<td><c:out value="${equipo.t_roja}" /></td>
 		</tr>
 		<tr>
-			<th>Lesion</th>
+			<th>Lesión</th>
 			<td><c:out value="${equipo.lesion}" /></td>
 		</tr> --%>
 	</table>
@@ -46,11 +46,11 @@
 	<spring:url value="{equipoId}/jugadores/new" var="addUrl">
 		<spring:param name="equipoId" value="${equipo.id}" />
 	</spring:url>
-	<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">A&ntildeadir nuevo jugador</a>
+	<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">A&ntilde;adir nuevo jugador</a>
 	<spring:url value="{equipoId}/entrenadores/new" var="addUrl">
 		<spring:param name="equipoId" value="${equipo.id}" />
 	</spring:url>
-	<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">A&ntildeadir nuevo entrenador</a>
+	<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">A&ntilde;adir nuevo entrenador</a>
 
 	<br />
 	<br />
