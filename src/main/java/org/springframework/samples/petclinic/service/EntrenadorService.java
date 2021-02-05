@@ -16,14 +16,15 @@ import org.springframework.util.StringUtils;
 @Service
 public class EntrenadorService {
 	private EntrenadorRepository entrenadorRepository;
-	
+
 	private UserService userService;
 
 	@Autowired
-	public EntrenadorService(EntrenadorRepository entrenadorRepository,UserService userService) {
+	public EntrenadorService(EntrenadorRepository entrenadorRepository, UserService userService) {
 		this.entrenadorRepository = entrenadorRepository;
-		this.userService=userService;
+		this.userService = userService;
 	}
+
 
 		
 	@Transactional(rollbackFor = DuplicatedException.class)
@@ -42,11 +43,13 @@ public class EntrenadorService {
 //		entrenadorRepository.save(entrenador);      
 //		}
 	
+
 	@Transactional(readOnly = true)
 	public Entrenador findById(int id) throws DataAccessException {
 		return entrenadorRepository.findById(id);
 	}
-	@Transactional(readOnly = true)	
+
+	@Transactional(readOnly = true)
 	public Collection<Entrenador> findAll() throws DataAccessException {
 		return entrenadorRepository.findAll();
 	}
