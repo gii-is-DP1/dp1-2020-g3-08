@@ -32,7 +32,7 @@
 
 	<br />
 	<!--   <sec:authorize access="hasAuthority('admin')">-->
-	<a class="btn btn-default" href='<spring:url value="/equipos/new" htmlEscape="true"/>'>Añadir Equipo</a>
+	<a class="btn btn-default" href='<spring:url value="/equipos/new" htmlEscape="true"/>'>A&ntilde;adir Equipo</a>
 	<!--	</sec:authorize>-->
 
 </petclinic:layout>
