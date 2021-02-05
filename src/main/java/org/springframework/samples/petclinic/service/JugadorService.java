@@ -24,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.repository.JugadorRepository;
-import org.springframework.samples.petclinic.service.exceptions.DuplicatedJugadorDNIException;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -46,11 +46,11 @@ public class JugadorService {
 		this.jugadorRepository = jugadorRepository;
 	}
 
-	@Transactional(rollbackFor = DuplicatedJugadorDNIException.class)
-	public void saveJugador(final Jugador jugador) throws DataAccessException, DuplicatedJugadorDNIException {
+	@Transactional(rollbackFor = DuplicatedException.class)
+	public void saveJugador(final Jugador jugador) throws DataAccessException, DuplicatedException {
 		Jugador otherJugador = jugador.getEquipo().getJugadorwithIdDifferent(jugador.getDni(), jugador.getId());
 		if (StringUtils.hasLength(jugador.getDni()) && otherJugador != null && otherJugador.getId() != jugador.getId()) {
-			throw new DuplicatedJugadorDNIException();
+			throw new DuplicatedException();
 		} else {
 			this.jugadorRepository.save(jugador);
 		}
@@ -76,9 +76,6 @@ public class JugadorService {
 		this.jugadorRepository.delete(jugador);
 	}
 
-	//	public Collection<Posicion> findPosiciones() {
-	//		// TODO Auto-generated method stub
-	//		return null;
-	//	}
+
 
 }
