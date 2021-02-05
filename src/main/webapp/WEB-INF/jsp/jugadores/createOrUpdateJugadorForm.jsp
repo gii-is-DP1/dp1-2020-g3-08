@@ -7,12 +7,12 @@
 <petclinic:layout pageName="equipo">
 	<jsp:attribute name="customScript">
         <script>
-									$(function() {
-										$("#fecha_nacimiento").datepicker({
-											dateFormat : 'yy/mm/dd'
-										});
-									});
-								</script>
+			$(function() {
+			$("#fecha_nacimiento").datepicker({
+				dateFormat : 'yy/mm/dd'
+				});
+			});
+		</script>
     </jsp:attribute>
 	<jsp:body>
         <h2>

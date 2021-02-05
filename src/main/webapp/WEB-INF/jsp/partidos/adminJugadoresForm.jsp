@@ -9,13 +9,12 @@
 <petclinic:layout pageName="partidos">
 	<jsp:attribute name="customScript">
         <script>
-
-									$(function() {
-										$("#fecha").datepicker({
-											dateFormat : 'yy/mm/dd'
-										});
-									});
-								</script>
+		    $(function() {
+				$("#fecha").datepicker({
+					dateFormat : 'yy/mm/dd'
+				});
+			});
+		</script>
     </jsp:attribute>
 	<jsp:body>
     <h2>
@@ -52,4 +51,3 @@
     </form:form>
     </jsp:body>
 </petclinic:layout>
-
