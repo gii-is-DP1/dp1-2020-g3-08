@@ -19,10 +19,10 @@
             <div class="col-sm-offset-2 col-sm-10">
                 <c:choose>
                     <c:when test="${equipo['new']}">
-                        <button class="btn btn-default" type="submit">Añadir Equipo</button>
+                        <button class="btn btn-default" type="submit">A&ntilde;adir Equipo</button>
                     </c:when>
                     <c:otherwise>
-                        <button class="btn btn-default" type="submit">Actualizar equipo</button>
+                        <button class="btn btn-default" type="submit">Actualizar Equipo</button>
                     </c:otherwise>
                 </c:choose>
             </div>

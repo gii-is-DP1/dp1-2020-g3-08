@@ -16,7 +16,7 @@
 				<th style="width: 200px;">Equipo</th>
 				<th style="width: 200px;">Amarillas</th>
 				<th style="width: 200px;">Rojas</th>
-				<th style="width: 200px;">Lesión</th>
+				<th style="width: 200px;">Lesi&oacute;n</th>
 			</tr>
 		</thead>
 		<tbody>
