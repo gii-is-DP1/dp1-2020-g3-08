@@ -10,7 +10,7 @@
     <table id="entrenadoresTable" class="table table-striped">
         <thead>
         <tr>
-            <th>Name</th>
+            <th>Nombre</th>
         </tr>
         </thead>
         <tbody>
