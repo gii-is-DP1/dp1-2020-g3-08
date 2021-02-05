@@ -82,7 +82,7 @@ public class ArbitroController {
 				// find Arbitro by nombre
 				Collection<Arbitro> results = this.arbitroService.findArbitroByNombre(arbitro.getNombre());
 				if (results.isEmpty()) {
-					// no Arbitrod found
+					// no Arbitro found
 					result.rejectValue("nombre", "notFound", "not found");
 					return "arbitros/findArbitros";
 				} else if (results.size() == 1) {
@@ -90,7 +90,7 @@ public class ArbitroController {
 					arbitro = results.iterator().next();
 					return "redirect:/arbitros/" + arbitro.getId();
 				} else {
-					// multiple Arbitro found
+					// multiple Arbitros found
 					model.put("selections", results);
 					return "arbitros/arbitrosList";
 				}

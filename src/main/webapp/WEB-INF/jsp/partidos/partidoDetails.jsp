@@ -6,7 +6,7 @@
 
 <petclinic:layout pageName="partidos">
 
-    <h2>Partido Information</h2>
+    <h2>Informaci&oacute;n Partido</h2>
 
 
     <table class="table table-striped">
@@ -27,7 +27,7 @@
             <td><c:out value="${partido.equipo2.nombre}"/></td>
         </tr>
         <tr>
-            <th>Arbitro</th>
+            <th>&Aacute;rbitro</th>
             <td><c:out value="${partido.arbitro.nombre}"/></td>
         </tr>
 
@@ -55,6 +55,6 @@
     <spring:url value="{id}/administrarJugadores" var="adminUrl">
         <spring:param name="id" value="${partido.id}"/>
     </spring:url>
-    <a href="${fn:escapeXml(adminUrl)}" class="btn btn-default">Admin Jugadores</a>
+    <a href="${fn:escapeXml(adminUrl)}" class="btn btn-default">Administrar Jugadores</a>
 
 </petclinic:layout>

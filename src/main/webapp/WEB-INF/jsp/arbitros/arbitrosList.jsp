@@ -6,12 +6,12 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="vets">
-    <h2>Arbitros</h2>
+    <h2>&Aacute;rbitros</h2>
 
     <table id="arbitrosTable" class="table table-striped">
         <thead>
         <tr>
-            <th>Name</th>
+            <th>Nombre</th>
         </tr>
         </thead>
         <tbody>

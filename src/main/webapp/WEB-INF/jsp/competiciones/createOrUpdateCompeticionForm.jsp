@@ -9,7 +9,7 @@
 <petclinic:layout pageName="competiciones">
 
     <h2>
-        <c:if test="${competicion['new']}">New </c:if> Competicion
+        <c:if test="${competicion['new']}">Nueva </c:if> Competici&oacute;n
     </h2>
     <form:form modelAttribute="competicion" class="form-horizontal" id="add-competicion-form">
 
@@ -18,7 +18,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-            	<button class="btn btn-default" type="submit">Add Competicion</button>
+            	<button class="btn btn-default" type="submit">A&ntilde;adir Competici&oacute;n</button>
             </div>
         </div>
     </form:form>
