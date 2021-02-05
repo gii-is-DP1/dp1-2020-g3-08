@@ -6,12 +6,12 @@
 
 <petclinic:layout pageName="users">
 
-    <h2>Entrenador Information</h2>
+    <h2>Informaci&oacute;n Entrenador</h2>
 
 
     <table class="table table-striped">
         <tr>
-            <th>Name</th>
+            <th>Nombre</th>
             <td><b><c:out value="${entrenador.user.firstName} ${entrenador.user.lastName}"/></b></td>
         </tr>
         <tr>
@@ -19,15 +19,15 @@
             <td><c:out value="${entrenador.user.email}"/></td>
         </tr>
         <tr>
-            <th>Birth Date</th>
+            <th>Fecha Nacimiento</th>
             <td><c:out value="${entrenador.user.birthDate}"/></td>
         </tr>
         <tr>
-            <th>Telephone</th>
+            <th>Tel&eacute;fono</th>
             <td><c:out value="${entrenador.user.telephone}"/></td>
         </tr>
         <tr>
-            <th>Genre</th>
+            <th>Sexo</th>
             <td><c:out value="${entrenador.user.genre}"/></td>
         </tr>
     </table>
