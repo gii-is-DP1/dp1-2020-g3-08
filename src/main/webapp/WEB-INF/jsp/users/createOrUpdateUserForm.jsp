@@ -30,7 +30,12 @@
 	            	<petclinic:selectField label="Genre" name="genre" size="2" names="${genres}"/>
 	            </div>
 	            <petclinic:inputField label="Telephone" name="telephone"/>
+	            <c:if test="${user['new']}"> 
 	            <petclinic:inputField label="Username" name="username"/>
+	            </c:if>
+	             <c:if test="${!user['new']}"> 
+	            <input type="hidden" name="username" value="${user.username}"/>
+	            </c:if>
 	            <petclinic:inputField label="Password" name="password"/>
 	        </div>
 	        <div class="form-group">

@@ -4,11 +4,13 @@
 
 <petclinic:layout pageName="error">
 
-    <spring:url value="/resources/images/pets.png" var="petsImage"/>
-    <img src="${petsImage}"/>
+    <spring:url value="/resources/images/jugador_imagen.png" var="jugadorImage"/>
+    <img src="${jugadorImage}"/>
 
-    <h2>Something happened...</h2>
+    <h2>No se puede registrar</h2>
 
     <p>${exception.message}</p>
-
+    
+	
+	
 </petclinic:layout>

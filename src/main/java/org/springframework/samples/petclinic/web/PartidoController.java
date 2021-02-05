@@ -18,6 +18,7 @@ package org.springframework.samples.petclinic.web;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +38,7 @@ import org.springframework.samples.petclinic.model.Partido;
 
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.PartidoService;
+import org.springframework.samples.petclinic.web.validators.PartidoValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -70,6 +72,10 @@ public class PartidoController {
 	@InitBinder
 	public void setAllowedFields(final WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
+	}
+	@InitBinder("partido")
+	public void initPartidoBinder(final WebDataBinder dataBinder) {
+		dataBinder.setValidator(new PartidoValidator(partidoService));;
 	}
 
 	@ModelAttribute("equipos")
@@ -123,6 +129,7 @@ public class PartidoController {
 	@PostMapping(value = "/partidos/{id}/administrarJugadores")
 	public String processAdministrarJugadores(@PathVariable("id") final int id, @Valid final Partido partido, final BindingResult result) {
 		if (result.hasErrors()) {
+			
 			return PartidoController.VIEWS_PARTIDO_ADMIN_JUGADORES_FORM;
 		} else {
 			partido.setId(id);
