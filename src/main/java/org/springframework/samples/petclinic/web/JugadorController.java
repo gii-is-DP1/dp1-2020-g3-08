@@ -27,7 +27,7 @@ import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Jugadores;
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.JugadorService;
-import org.springframework.samples.petclinic.service.exceptions.DuplicatedJugadorDNIException;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -95,7 +95,7 @@ public class JugadorController {
 				e.addJugador(jugador);
 				this.jugadorService.saveJugador(jugador);
 				this.equipoService.saveEquipo(e);
-			} catch (DuplicatedJugadorDNIException ex) {
+			} catch (DuplicatedException ex) {
 				result.rejectValue("name", "duplicate", "already exists");
 				return JugadorController.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
 			}
@@ -159,7 +159,7 @@ public class JugadorController {
 				jugador.setId(jugadorId);
 				jugador.setEquipo(e);
 				this.jugadorService.saveJugador(jugador);
-			} catch (DuplicatedJugadorDNIException ex) {
+			} catch (DuplicatedException ex) {
 				result.rejectValue("name", "duplicate", "already exists");
 				return JugadorController.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
 			}

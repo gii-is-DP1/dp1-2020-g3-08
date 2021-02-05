@@ -11,8 +11,10 @@
 	<table id="ownersTable" class="table table-striped">
         <thead>
         <tr>
+
             <th style="width: 150px;">Nombre</th>
             <th style="width: 200px;">Apellidos</th>
+
         </tr>
         </thead>
         <tbody>

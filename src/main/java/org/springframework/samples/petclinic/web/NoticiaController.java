@@ -23,6 +23,8 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Noticia;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.service.NoticiaService;
@@ -97,6 +99,15 @@ public class NoticiaController {
 		Collection<Noticia> noticias = this.noticiaService.findAll();
 		model.put("noticias", noticias);
 		return "noticias/noticiasList";
+	}
+	
+	//Eliminacion de noticias
+	@GetMapping(value = "/noticias/{id}/delete")
+	public String processDeleteForm(@PathVariable("id") final int Id) {
+
+		Noticia noticia = this.noticiaService.findById(Id);
+		this.noticiaService.deleteNoticia(noticia);;
+		return "redirect:/noticias/list";
 	}
 
 }

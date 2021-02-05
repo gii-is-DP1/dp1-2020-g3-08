@@ -16,11 +16,13 @@ INSERT INTO competiciones VALUES(2,'Premier');
 INSERT INTO entrenador VALUES(1,'Pelegrini');
 INSERT INTO entrenador VALUES(2,'Lopetegui');
 
-INSERT INTO equipos VALUES (1, 'Benito Villamarín', 'Betis',1,1);
+INSERT INTO equipos VALUES (1, 'Benito Villamarin', 'Betis',1,1);
 INSERT INTO equipos VALUES (2, 'Sanchez Pizjuan', 'Sevilla',1,2);
 
 INSERT INTO jugador VALUES (1, 'Rodriguez', '93725381K', '1996-09-07', 'España', 'Daniel', FALSE, 0, 0, 1);
+
 INSERT INTO jugador VALUES (2, 'Lopez', '13625381K', '1993-09-07', 'España', 'Jose', TRUE, 0, 1, 2);
+
 
 INSERT INTO arbitro VALUES(1,'Ilaoz', '93316451K', '1976-09-07', 'España', 'Matheu');
 

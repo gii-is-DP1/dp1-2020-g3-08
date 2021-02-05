@@ -18,6 +18,7 @@ package org.springframework.samples.petclinic.web;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -188,6 +189,7 @@ public class PartidoController {
 	@PostMapping(value = "/partidos/{id}/administrarJugadores")
 	public String processAdministrarJugadores(@PathVariable("id") final int id, @Valid final Partido partido, final BindingResult result) {
 		if (result.hasErrors()) {
+			
 			return PartidoController.VIEWS_PARTIDO_ADMIN_JUGADORES_FORM;
 		} else {
 			partido.setId(id);

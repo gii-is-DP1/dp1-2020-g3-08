@@ -14,14 +14,16 @@ import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-public class PartidoValidator implements Validator {
 
+public class PartidoValidator implements Validator{
+	
+	
 	private PartidoService partidoService;
-
+	
 	public PartidoValidator(PartidoService partidoService) {
-		this.partidoService = partidoService;
+		this.partidoService=partidoService;
 	}
-
+	
 	@Override
 	public boolean supports(Class<?> clazz) {
 		return Partido.class.isAssignableFrom(clazz);
@@ -79,4 +81,5 @@ public class PartidoValidator implements Validator {
 
 		}
 	}
+
 }

@@ -6,7 +6,7 @@
 
 <petclinic:layout pageName="arbitros">
 
-    <h2>Arbitro Information</h2>
+    <h2>Informaci&oacute;n &Aacute;rbitro</h2>
 
 
     <table class="table table-striped">
@@ -31,11 +31,11 @@
     <spring:url value="{arbitroId}/delete" var="deleteUrl">
 		<spring:param name="arbitroId" value="${arbitro.id}" />
 	</spring:url>
-	<a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Borrar Arbitro</a>
+	<a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Borrar &Aacute;rbitro</a>
 	
 	<spring:url value="{arbitroId}/edit" var="editUrl">
 		<spring:param name="arbitroId" value="${arbitro.id}" />
 	</spring:url>
-	<a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Arbitro</a>
+	<a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar &Aacute;rbitro</a>
 
 </petclinic:layout>

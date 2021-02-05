@@ -16,7 +16,7 @@
     </jsp:attribute>
     <jsp:body>
     <h2>
-        <c:if test="${partido['new']}">New </c:if> Partido
+        <c:if test="${partido['new']}">Nuevo </c:if> Partido
     </h2>
     <form:form modelAttribute="partido" class="form-horizontal" id="add-partido-form">
         <div class="form-group has-feedback">
@@ -28,10 +28,13 @@
 	        <div class="control-group">	
 	            	<petclinic:selectField label="Equipo2" name="equipo2" size="5" names="${equipos}"/>
 	        </div>
+	        <div class="control-group">	
+	            	<petclinic:selectField label="Arbitro" name="arbitro" size="5" names="${arbitros}"/>
+	        </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-            	<button class="btn btn-default" type="submit">Add Partido</button>
+            	<button class="btn btn-default" type="submit">A&ntilde;adir Partido</button>
             </div>
         </div>
     </form:form>

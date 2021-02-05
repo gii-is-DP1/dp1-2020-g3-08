@@ -61,7 +61,7 @@ public class JugadorFormatter implements Formatter<Jugador> {
 		for (Jugador jugador : findJugadores)
 			if ((jugador.getNombre()+" "+jugador.getApellidos()).equals(text))
 				return jugador;
-		throw new ParseException("jugador not found: " + text, 0);
+		throw new ParseException("jugador no encontrado: " + text, 0);
 	}
 
 }

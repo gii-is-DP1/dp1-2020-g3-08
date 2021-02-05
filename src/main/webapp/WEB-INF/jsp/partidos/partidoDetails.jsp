@@ -6,7 +6,7 @@
 
 <petclinic:layout pageName="partidos">
 
-    <h2>Partido Information</h2>
+    <h2>Informaci&oacute;n Partido</h2>
 
 
     <table class="table table-striped">
@@ -27,7 +27,7 @@
             <td><c:out value="${partido.equipo2.nombre}"/></td>
         </tr>
         <tr>
-            <th>Arbitro</th>
+            <th>&Aacute;rbitro</th>
             <td><c:out value="${partido.arbitro.nombre}"/></td>
         </tr>
 
@@ -58,6 +58,7 @@
 			</tr>
 		</c:forEach>
 	</table>
+
 	<h2>Jugadores del equipo local</h2>
     <table class="table table-striped">
 		<c:forEach var="jugador" items="${partido.equipo2.jugadores}">
@@ -82,5 +83,6 @@
     
     
     
+
 
 </petclinic:layout>

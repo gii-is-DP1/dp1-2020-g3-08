@@ -11,7 +11,9 @@
 	<table id="ownersTable" class="table table-striped">
         <thead>
         <tr>
+
             <th style="width: 150px;">Nombre de la competicion</th>
+
         </tr>
         </thead>
         <tbody>
