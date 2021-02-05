@@ -9,7 +9,7 @@
 
 <petclinic:layout pageName="arbitros">
 
-	<h2>Buscar Arbitros</h2>
+	<h2>Buscar &Aacute;rbitros</h2>
 
 
 	<form:form modelAttribute="arbitro" action="/arbitros" method="get" class="form-horizontal" id="search-arbitro-form">
@@ -24,7 +24,7 @@
 		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-				<button type="submit" class="btn btn-default">Buscar Arbitro</button>
+				<button type="submit" class="btn btn-default">Buscar &Aacute;rbitro</button>
 			</div>
 		</div>
 
@@ -32,7 +32,7 @@
 
 	<br />
 	<!--   <sec:authorize access="hasAuthority('admin')">-->
-	<a class="btn btn-default" href='<spring:url value="/arbitros/new" htmlEscape="true"/>'>Añadir Arbitro</a>
+	<a class="btn btn-default" href='<spring:url value="/arbitros/new" htmlEscape="true"/>'>A&ntilde;adir &Aacute;rbitro</a>
 	<!--	</sec:authorize>-->
 
 </petclinic:layout>
