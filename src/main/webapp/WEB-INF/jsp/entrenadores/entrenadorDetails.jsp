@@ -32,7 +32,5 @@
         </tr>
     </table>
 
-    
-    
 
 </petclinic:layout>

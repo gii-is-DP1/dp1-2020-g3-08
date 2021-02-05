@@ -46,6 +46,7 @@
 	<spring:url value="{equipoId}/jugadores/new" var="addUrl">
 		<spring:param name="equipoId" value="${equipo.id}" />
 	</spring:url>
+
 	<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">A&ntilde;adir nuevo jugador</a>
 	<spring:url value="{equipoId}/entrenadores/new" var="addUrl">
 		<spring:param name="equipoId" value="${equipo.id}" />
