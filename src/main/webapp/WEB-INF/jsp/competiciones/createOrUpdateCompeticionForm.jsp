@@ -14,7 +14,7 @@
     <form:form modelAttribute="competicion" class="form-horizontal" id="add-competicion-form">
 
         <div class="form-group has-feedback">
-            <petclinic:inputField label="Nombre de la competicion" name="nombreComp"/>
+            <petclinic:inputField label="Nombre de la competición" name="nombreComp"/>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">

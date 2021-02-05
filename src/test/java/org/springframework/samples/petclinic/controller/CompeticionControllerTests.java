@@ -26,87 +26,117 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 public class CompeticionControllerTests {
 
-	private static final int	TEST_COMPETICION_ID	= 1;
+	private static final int TEST_COMPETICION_ID = 1;
 
 	@Autowired
-	private MockMvc				mockMvc;
+	private MockMvc mockMvc;
 
 	@MockBean
-	private CompeticionService	competicionService;
+	private CompeticionService competicionService;
 
 	@MockBean
-	private UserService			userService;
+	private UserService userService;
 
 	@MockBean
-	private AuthoritiesService	authoritiesService;
-
+	private AuthoritiesService authoritiesService;
 
 	@BeforeEach
 	void setup() {
-		BDDMockito.given(this.competicionService.findCompeticionById(CompeticionControllerTests.TEST_COMPETICION_ID)).willReturn(new Competicion());
+		BDDMockito.given(this.competicionService.findCompeticionById(CompeticionControllerTests.TEST_COMPETICION_ID))
+				.willReturn(new Competicion());
 	}
 
 	@WithMockUser(value = "admin1")
 	@Test
 	void testInitNewCompeticionForm() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/competiciones/new")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("competiciones/createOrUpdateCompeticionForm"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/competiciones/new"))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.view().name("competiciones/createOrUpdateCompeticionForm"));
 	}
 
 	@WithMockUser(value = "admin1")
 	@Test
 	void testProcessNewCompeticionFormSuccess() throws Exception {
 		Competicion competicion = new Competicion();
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/competiciones/new").param("nombreComp", "Nombre").with(SecurityMockMvcRequestPostProcessors.csrf())).andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-			.andExpect(MockMvcResultMatchers.view().name("redirect:/competiciones/" + competicion.getId()));
+		this.mockMvc
+				.perform(MockMvcRequestBuilders.post("/competiciones/new").param("nombreComp", "Nombre")
+						.with(SecurityMockMvcRequestPostProcessors.csrf()))
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+				.andExpect(MockMvcResultMatchers.view().name("redirect:/competiciones/" + competicion.getId()));
 	}
 
 	@WithMockUser(value = "admin1")
 	@Test
 	void testProcessNewCompeticionFormHasErrors() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/competiciones/new").param("nombreComp", "").with(SecurityMockMvcRequestPostProcessors.csrf())).andExpect(MockMvcResultMatchers.model().attributeHasErrors("competicion"))
-			.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("competiciones/createOrUpdateCompeticionForm"));
+		this.mockMvc
+				.perform(MockMvcRequestBuilders.post("/competiciones/new").param("nombreComp", "")
+						.with(SecurityMockMvcRequestPostProcessors.csrf()))
+				.andExpect(MockMvcResultMatchers.model().attributeHasErrors("competicion"))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.view().name("competiciones/createOrUpdateCompeticionForm"));
 	}
 
 	@WithMockUser(value = "admin1")
 	@Test
 	void testCompeticionUpdateForm() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/competiciones/{competicionId}/edit", CompeticionControllerTests.TEST_COMPETICION_ID)).andExpect(MockMvcResultMatchers.status().isOk())
-			.andExpect(MockMvcResultMatchers.view().name("competiciones/createOrUpdateCompeticionForm"));
+		this.mockMvc
+				.perform(MockMvcRequestBuilders.get("/competiciones/{competicionId}/edit",
+						CompeticionControllerTests.TEST_COMPETICION_ID))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.view().name("competiciones/createOrUpdateCompeticionForm"));
 	}
 
 	@WithMockUser(value = "admin1")
 	@Test
 	void testProcessUpdateCompeticionFormSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/competiciones/{competicionId}/edit", CompeticionControllerTests.TEST_COMPETICION_ID).param("nombreComp", "Nombre").with(SecurityMockMvcRequestPostProcessors.csrf()))
-			.andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/competiciones/{competicionId}"));
+		this.mockMvc
+				.perform(MockMvcRequestBuilders
+						.post("/competiciones/{competicionId}/edit", CompeticionControllerTests.TEST_COMPETICION_ID)
+						.param("nombreComp", "Nombre").with(SecurityMockMvcRequestPostProcessors.csrf()))
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+				.andExpect(MockMvcResultMatchers.view().name("redirect:/competiciones/{competicionId}"));
 	}
 
 	@WithMockUser(value = "admin1")
 	@Test
 	void testProcessUpdateCompeticionFormHasErrors() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/competiciones/{competicionId}/edit", CompeticionControllerTests.TEST_COMPETICION_ID).param("nombreComp", "").with(SecurityMockMvcRequestPostProcessors.csrf()))
-			.andExpect(MockMvcResultMatchers.model().attributeHasErrors("competicion")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("competiciones/createOrUpdateCompeticionForm"));
+		this.mockMvc
+				.perform(MockMvcRequestBuilders
+						.post("/competiciones/{competicionId}/edit", CompeticionControllerTests.TEST_COMPETICION_ID)
+						.param("nombreComp", "").with(SecurityMockMvcRequestPostProcessors.csrf()))
+				.andExpect(MockMvcResultMatchers.model().attributeHasErrors("competicion"))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.view().name("competiciones/createOrUpdateCompeticionForm"));
 	}
 
 	@WithMockUser(value = "admin1")
 	@Test
 	void testShowCompeticion() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/competiciones/{competicionId}", CompeticionControllerTests.TEST_COMPETICION_ID)).andExpect(MockMvcResultMatchers.status().isOk())
-			.andExpect(MockMvcResultMatchers.model().attributeExists("competicion")).andExpect(MockMvcResultMatchers.view().name("competiciones/competicionDetails"));
+		this.mockMvc
+				.perform(MockMvcRequestBuilders.get("/competiciones/{competicionId}",
+						CompeticionControllerTests.TEST_COMPETICION_ID))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.model().attributeExists("competicion"))
+				.andExpect(MockMvcResultMatchers.view().name("competiciones/competicionDetails"));
 	}
 
 	@WithMockUser(value = "admin1")
 	@Test
 	void testShowListCompeticiones() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/competiciones/list")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("competiciones"))
-			.andExpect(MockMvcResultMatchers.view().name("competiciones/competicionesList"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/competiciones/list"))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.model().attributeExists("competiciones"))
+				.andExpect(MockMvcResultMatchers.view().name("competiciones/competicionesList"));
 	}
 
 	@WithMockUser(value = "admin1")
 	@Test
 	void testDeleteCompeticion() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/competiciones/{competicionId}/delete", CompeticionControllerTests.TEST_COMPETICION_ID)).andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("competicion"))
-			.andExpect(MockMvcResultMatchers.view().name("redirect:/competiciones/list"));
+		this.mockMvc
+				.perform(MockMvcRequestBuilders.get("/competiciones/{competicionId}/delete",
+						CompeticionControllerTests.TEST_COMPETICION_ID))
+				.andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("competicion"))
+				.andExpect(MockMvcResultMatchers.view().name("redirect:/competiciones/list"));
 	}
 
 }

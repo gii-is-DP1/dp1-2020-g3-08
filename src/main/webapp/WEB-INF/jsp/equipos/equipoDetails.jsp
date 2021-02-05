@@ -28,7 +28,7 @@
 			<td><c:out value="${equipo.t_roja}" /></td>
 		</tr>
 		<tr>
-			<th>Lesion</th>
+			<th>Lesión</th>
 			<td><c:out value="${equipo.lesion}" /></td>
 		</tr> --%>
 	</table>
