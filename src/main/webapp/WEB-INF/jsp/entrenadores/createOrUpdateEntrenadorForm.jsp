@@ -17,8 +17,8 @@
     </jsp:attribute>
     <jsp:body>
 	    <h2>
-	        <c:if test="${entrenador['new']}">New </c:if>
-	        <c:if test="${!entrenador['new']}">Edit </c:if> entrenador
+	        <c:if test="${entrenador['new']}">Nuevo </c:if>
+	        <c:if test="${!entrenador['new']}">Editar </c:if> entrenador
 	    </h2>
 	    <form:form modelAttribute="entrenador" class="form-horizontal" id="add-entrenador-form">
 	        <div class="form-group has-feedback">
@@ -37,10 +37,10 @@
 	            <div class="col-sm-offset-2 col-sm-10">
 	                <c:choose>
 	                    <c:when test="${entrenador['new']}">
-	                        <button class="btn btn-default" type="submit">Register</button>
+	                        <button class="btn btn-default" type="submit">Registrar</button>
 	                    </c:when>
 	                    <c:otherwise>
-	                        <button class="btn btn-default" type="submit">Edit</button>
+	                        <button class="btn btn-default" type="submit">Editar</button>
 	                    </c:otherwise>
 	                </c:choose>
 	            </div>
