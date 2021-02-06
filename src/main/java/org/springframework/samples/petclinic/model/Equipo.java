@@ -62,7 +62,7 @@ public class Equipo extends BaseEntity {
 	@Column(name = "nombre")
 	@Size(min = 4, max = 50)
 	@NotEmpty
-	private String			nombre;
+	private String	nombre;
 
 	@NotEmpty
 	@Column(name = "lugar")
@@ -71,7 +71,7 @@ public class Equipo extends BaseEntity {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "equipo")
 	private Set<Jugador>	jugadores;
 	
-	@OneToOne
+	@OneToOne(cascade= CascadeType.ALL)
 	@JoinColumn(name = "entrenador_id")
 	private Entrenador entrenador;
 	
