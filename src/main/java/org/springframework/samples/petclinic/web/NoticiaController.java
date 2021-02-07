@@ -23,8 +23,6 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Equipo;
-import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Noticia;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.service.NoticiaService;
@@ -39,6 +37,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 public class NoticiaController {
 
@@ -68,6 +69,7 @@ public class NoticiaController {
 
 	@GetMapping(value = "/noticias/new")
 	public String initCreationForm(final Map<String, Object> model) {
+		log.info("Se ha iniciado la creación de una noticia");
 		Noticia noticia = new Noticia();
 		model.put("noticia", noticia);
 		return NoticiaController.VIEWS_NOTICIA_CREATE_OR_UPDATE_FORM;
@@ -76,11 +78,13 @@ public class NoticiaController {
 	@PostMapping(value = "/noticias/new")
 	public String processCreationForm(@Valid final Noticia noticia, final BindingResult result) {
 		if (result.hasErrors()) {
+			log.warn("Se ha abortado la creación de una noticia");
 			return NoticiaController.VIEWS_NOTICIA_CREATE_OR_UPDATE_FORM;
 		} else {
+			log.info("Se ha finalizado la creación de una noticia");
 			LocalDate fechaActual = LocalDate.now();
 			noticia.setFecha(fechaActual);
-			this.noticiaService.saveNoticia(noticia);
+			noticiaService.saveNoticia(noticia);
 
 			return "redirect:/noticias/" + noticia.getId();
 		}
@@ -88,25 +92,25 @@ public class NoticiaController {
 
 	@GetMapping("/noticias/{id}")
 	public ModelAndView showNoticia(@PathVariable("id") final int id) {
+		log.info("Se ha iniciado la muestra de detalles de una noticia");
 		ModelAndView mav = new ModelAndView(NoticiaController.VIEWS_NOTICIA_SHOW);
-		mav.addObject(this.noticiaService.findById(id));
+		mav.addObject(noticiaService.findById(id));
 		return mav;
 	}
 
-	//Lista de noticias
 	@GetMapping("/noticias/list")
 	public String showNoticiaList(final Map<String, Object> model) {
-		Collection<Noticia> noticias = this.noticiaService.findAll();
+		log.info("Se ha iniciado la vista de mostrar la lista de noticias");
+		Collection<Noticia> noticias = noticiaService.findAll();
 		model.put("noticias", noticias);
 		return "noticias/noticiasList";
 	}
-	
-	//Eliminacion de noticias
+
 	@GetMapping(value = "/noticias/{id}/delete")
 	public String processDeleteForm(@PathVariable("id") final int Id) {
-
-		Noticia noticia = this.noticiaService.findById(Id);
-		this.noticiaService.deleteNoticia(noticia);;
+		log.info("Se ha iniciado la eliminación de una noticia");
+		Noticia noticia = noticiaService.findById(Id);
+		noticiaService.deleteNoticia(noticia);;
 		return "redirect:/noticias/list";
 	}
 
