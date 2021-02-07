@@ -7,10 +7,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Entrenador;
 
 import org.springframework.samples.petclinic.model.User;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +41,7 @@ public class EntrenadorServiceTests {
 
 	@Test
 	@Transactional
-	public void shouldInsertEntrenador() {
+	public void shouldInsertEntrenador() throws DataAccessException, DuplicatedException {
 		User user1 = userService.findUserByUsername("admin1");
 		Entrenador entrenador = new Entrenador();
 		entrenador.setUser(user1);
@@ -56,7 +57,7 @@ public class EntrenadorServiceTests {
 
 	@Test
 	@Transactional
-	void shouldUpdateEntrenador() {
+	void shouldUpdateEntrenador() throws DataAccessException, DuplicatedException {
 		Entrenador entrenador = new Entrenador();
 		User user1 = userService.findUserByUsername("admin1");
 		entrenador.setUser(user1);

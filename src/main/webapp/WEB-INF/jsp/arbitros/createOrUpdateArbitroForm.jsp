@@ -17,7 +17,7 @@
     </jsp:attribute>
 	<jsp:body>
         <h2>
-            <c:if test="${arbitro['new']}">New </c:if> Arbitro
+            <c:if test="${arbitro['new']}">Nuevo </c:if> &Aacute;rbitro
         </h2>
         <form:form modelAttribute="arbitro" class="form-horizontal">
                 <div class="form-group has-feedback">
@@ -31,10 +31,10 @@
                 <div class="col-sm-offset-2 col-sm-10">
                     <c:choose>
                         <c:when test="${arbitro['new']}">
-                            <button class="btn btn-default" type="submit">A�adir Arbitro</button>
+                            <button class="btn btn-default" type="submit">A&ntilde;adir &Aacute;rbitro</button>
                         </c:when>
                         <c:otherwise>
-                            <button class="btn btn-default" type="submit">Actualizar Arbitro</button>
+                            <button class="btn btn-default" type="submit">Actualizar &Aacute;rbitro</button>
                         </c:otherwise>
                     </c:choose>
                 </div>

@@ -18,6 +18,7 @@ package org.springframework.samples.petclinic.web;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -26,18 +27,22 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.samples.petclinic.model.Arbitro;
+import org.springframework.samples.petclinic.model.Competicion;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.service.ArbitroService;
-
+import org.springframework.samples.petclinic.service.CompeticionService;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
 
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.PartidoService;
+import org.springframework.samples.petclinic.web.validators.PartidoValidator;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,18 +63,24 @@ public class PartidoController {
 	private final PartidoService partidoService;
 	private final EquipoService equipoService;
 	private final ArbitroService arbitroService;
+	private final CompeticionService competicionService;
 
 	@Autowired
-	public PartidoController(PartidoService partidoService, EquipoService equipoService,ArbitroService arbitroService) {
+	public PartidoController(PartidoService partidoService, EquipoService equipoService,ArbitroService arbitroService,CompeticionService competicionService) {
 		this.partidoService = partidoService;
 		this.equipoService = equipoService;
 		this.arbitroService=arbitroService;
+		this.competicionService=competicionService;
 
 	}
 
 	@InitBinder
 	public void setAllowedFields(final WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
+	}
+	@InitBinder("partido")
+	public void initPartidoBinder(final WebDataBinder dataBinder) {
+		dataBinder.setValidator(new PartidoValidator(partidoService));
 	}
 
 	@ModelAttribute("equipos")
@@ -82,6 +93,12 @@ public class PartidoController {
 		return arbitroService.findAll();
 
 	}
+	@ModelAttribute("competiciones")
+	public Collection<Competicion> populateCompeticiones() {
+		return competicionService.findAll();
+
+	}
+
 
 	@GetMapping(value = "/partidos/new")
 	public String initCreationForm(final Map<String, Object> model) {
@@ -119,10 +136,63 @@ public class PartidoController {
 		model.put("partido", partido);
 		return PartidoController.VIEWS_PARTIDO_ADMIN_JUGADORES_FORM;
 	}
+	
+	
+	//creacion de un partido en una competicion
+	
+	@GetMapping(value = "/competiciones/{competicionId}/partidos/new")
+	public String initCreationForm(final Map<String, Object> model, @PathVariable("competicionId") final int competicionId) {
+		Partido partido= new Partido();
+		partido.setCompeticion(this.competicionService.findCompeticionById(competicionId));
+		model.put("partido", partido);
+		return PartidoController.VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM;
+	}
+	@PostMapping(value = "/competiciones/{competicionId}/partidos/new")
+	public String processCreationForm(@Valid final Partido partido, final BindingResult result,final ModelMap model ,@PathVariable("competicionId") final int competicionId) {
+		if (result.hasErrors()) {
+			model.put("partido", partido);
+			return PartidoController.VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM;
+		} else {
+			Competicion e = this.competicionService.findCompeticionById(competicionId);
+				e.addPartido(partido);
+				this.partidoService.savePartido(partido);
+				this.competicionService.saveCompeticion(e);
+			
+			return "redirect:/competiciones/{competicionId}";
+		}
+	}
+	
+	//editar un partido de una competicion
+	
+	@GetMapping(value = "/competiciones/{competicionId}/partidos/{partidoId}/edit")
+	public String initUpdateEquipoForm(@PathVariable("partidoId") final int partidoId,@PathVariable("competicionId") final int competicionId, final Model model) {
+		Partido partido= this.partidoService.findById(partidoId);
+		partido.setCompeticion(this.competicionService.findCompeticionById(competicionId));
+		model.addAttribute(partido);
+		return PartidoController.VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM;
+	}
+
+	@PostMapping(value = "/competiciones/{competicionId}/partidos/{partidoId}/edit")
+	public String processUpdateEquipoForm(@Valid final Partido partido,final BindingResult result, final ModelMap model, @PathVariable("partidoId") final int partidoId, @PathVariable("competicionId") final int competicionId) {
+		if (result.hasErrors()) {
+			model.put("partido", partido);
+			return PartidoController.VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM;
+		} else {
+			Competicion e = this.competicionService.findCompeticionById(competicionId);
+			partido.setId(partidoId);
+			partido.setCompeticion(e);
+			this.partidoService.savePartido(partido);
+			this.competicionService.saveCompeticion(e);
+			
+			return "redirect:/competiciones/{competicionId}";
+		}
+	}
+
 
 	@PostMapping(value = "/partidos/{id}/administrarJugadores")
 	public String processAdministrarJugadores(@PathVariable("id") final int id, @Valid final Partido partido, final BindingResult result) {
 		if (result.hasErrors()) {
+			
 			return PartidoController.VIEWS_PARTIDO_ADMIN_JUGADORES_FORM;
 		} else {
 			partido.setId(id);

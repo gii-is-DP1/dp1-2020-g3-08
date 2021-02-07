@@ -27,6 +27,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -64,7 +65,7 @@ public class User {
 	private String	email;
 
 	@Column(name = "birth_date")
-	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private LocalDate	birthDate;
 
 	@NotEmpty

@@ -9,17 +9,16 @@
 <petclinic:layout pageName="partidos">
 	<jsp:attribute name="customScript">
         <script>
-
-									$(function() {
-										$("#fecha").datepicker({
-											dateFormat : 'yy/mm/dd'
-										});
-									});
-								</script>
+            $(function() {
+		$("#fecha").datepicker({
+		    dateFormat : 'yy/mm/dd'
+		});
+	    });
+	</script>
     </jsp:attribute>
 	<jsp:body>
     <h2>
-        Update Jugadores en Partido
+        Actualizar Jugadores en Partido
     </h2>
     <form:form modelAttribute="partido" class="form-horizontal"
 			id="add-partido-form">
@@ -46,10 +45,9 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-            	<button class="btn btn-default" type="submit">Update Jugadores</button>
+            	<button class="btn btn-default" type="submit">Actualizar Jugadores</button>
             </div>
         </div>
     </form:form>
     </jsp:body>
 </petclinic:layout>
-

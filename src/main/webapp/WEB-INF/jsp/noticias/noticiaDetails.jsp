@@ -6,7 +6,7 @@
 
 <petclinic:layout pageName="noticias">
 
-    <h2>Noticia Information</h2>
+    <h2>Informaci&oacute;n Noticia</h2>
 
 
     <table class="table table-striped">
@@ -23,6 +23,11 @@
             <td><c:out value="${noticia.texto}"/></td>
         </tr>
     </table>
+    <spring:url value="{noticiaId}/delete" var="deleteUrl">
+		<spring:param name="noticiaId" value="${noticia.id}" />
+	</spring:url>
+	<a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Borrar Noticia</a>
+	
     <h3>Partidos Relacionados</h3>
     <table class="table table-striped">
 		<c:forEach var="partido" items="${noticia.partidos}">

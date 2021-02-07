@@ -31,9 +31,7 @@ import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(controllers = EquipoController.class,
-excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
-classes = WebSecurityConfigurer.class),excludeAutoConfiguration = SecurityConfiguration.class)
+@WebMvcTest(controllers = EquipoController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 
 public class EquipoControllerTests {
 
@@ -51,12 +49,12 @@ public class EquipoControllerTests {
 
 	@MockBean
 	private CompeticionService competicionService;
-	
+
 	@MockBean
 	private UserService userService;
-        
-    @MockBean
-    private AuthoritiesService authoritiesService; 
+
+	@MockBean
+	private AuthoritiesService authoritiesService;
 
 	@BeforeEach
 	void setup() {
@@ -64,96 +62,84 @@ public class EquipoControllerTests {
 		given(competicionService.findCompeticionById(TEST_COMPETICION_ID)).willReturn(new Competicion());
 	}
 
-	@WithMockUser(value="admin1")
+	@WithMockUser(value = "admin1")
 	@Test
 	void testInitNewEquipoForm() throws Exception {
-		mockMvc.perform(get("/competiciones/{competicionId}/equipos/new", TEST_COMPETICION_ID)).andExpect(status().isOk())
-		.andExpect(view().name("equipos/createOrUpdateEquiposForm"));
+		mockMvc.perform(get("/competiciones/{competicionId}/equipos/new", TEST_COMPETICION_ID))
+				.andExpect(status().isOk()).andExpect(view().name("equipos/createOrUpdateEquiposForm"));
 	}
 
-	@WithMockUser(value="admin1")
+	@WithMockUser(value = "admin1")
 	@Test
 	void testProcessNewEquipoFormSuccess() throws Exception {
 		mockMvc.perform(post("/competiciones/{competicionId}/equipos/new", TEST_COMPETICION_ID)
-			.param("nombre", "Nombre")
-			.with(csrf())
-			.param("lugar", "Lugar"))
-		.andExpect(status().is3xxRedirection())
-		.andExpect(view().name("redirect:/competiciones/{competicionId}"));
+				.param("nombre", "Nombre").with(csrf()).param("lugar", "Lugar")).andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/competiciones/{competicionId}"));
 	}
 
-
-	@WithMockUser(value="admin1")
+	@WithMockUser(value = "admin1")
 	@Test
 	void testProcessNewEquipoFormHasErrors() throws Exception {
-		mockMvc.perform(post("/competiciones/{competicionId}/equipos/new", TEST_COMPETICION_ID)
-			.param("nombre", "")
-			.with(csrf())
-			.param("lugar", "Lugar"))
-		.andExpect(model().attributeHasErrors("equipo"))
-		.andExpect(status().isOk())
-		.andExpect(view().name("equipos/createOrUpdateEquiposForm"));
+		mockMvc.perform(post("/competiciones/{competicionId}/equipos/new", TEST_COMPETICION_ID).param("nombre", "")
+				.with(csrf()).param("lugar", "Lugar")).andExpect(model().attributeHasErrors("equipo"))
+				.andExpect(status().isOk()).andExpect(view().name("equipos/createOrUpdateEquiposForm"));
 	}
 
-	@WithMockUser(value="admin1")
+	@WithMockUser(value = "admin1")
 	@Test
 	void testEquiposFindForm() throws Exception {
-		mockMvc.perform(get("/equipos/find")).andExpect(status().isOk())
-		.andExpect(view().name("equipos/findEquipos"));
-	}
-	
-	@WithMockUser(value="admin1")
-	@Test
-	void testEquipoUpdateForm() throws Exception {
-		mockMvc.perform(get("/competiciones/{competicionId}/equipos/{equipoId}/edit", TEST_COMPETICION_ID,TEST_EQUIPO_ID)).andExpect(status().isOk())
-		.andExpect(view().name("equipos/createOrUpdateEquiposForm"));
-		
-		
-	}
-	@WithMockUser(value="admin1")
-	@Test
-	void testProcessUpdateEquipoFormSuccess() throws Exception {
-		mockMvc.perform(post("/competiciones/{competicionId}/equipos/{equipoId}/edit", TEST_COMPETICION_ID,TEST_EQUIPO_ID)
-				.param("nombre", "Nombre")
-				.with(csrf())
-				.param("lugar", "Lugar"))
-			.andExpect(status().is3xxRedirection())
-			.andExpect(view().name("redirect:/equipos/{equipoId}"));
-	}
-	
-	
-	@WithMockUser(value="admin1")
-	@Test
-	void testProcessUpdateEquipoFormHasErrors() throws Exception {
-		mockMvc.perform(post("/competiciones/{competicionId}/equipos/{equipoId}/edit", TEST_COMPETICION_ID,TEST_EQUIPO_ID)
-			.param("nombre", "")
-			.with(csrf())
-			.param("lugar", "Lugar"))
-		.andExpect(model().attributeHasErrors("equipo"))
-		.andExpect(status().isOk())
-		.andExpect(view().name("equipos/createOrUpdateEquiposForm"));
+		mockMvc.perform(get("/equipos/find")).andExpect(status().isOk()).andExpect(view().name("equipos/findEquipos"));
 	}
 
-	
+	@WithMockUser(value = "admin1")
+	@Test
+	void testEquipoUpdateForm() throws Exception {
+		mockMvc.perform(
+				get("/competiciones/{competicionId}/equipos/{equipoId}/edit", TEST_COMPETICION_ID, TEST_EQUIPO_ID))
+				.andExpect(status().isOk()).andExpect(view().name("equipos/createOrUpdateEquiposForm"));
+
+	}
+
+	@WithMockUser(value = "admin1")
+	@Test
+	void testProcessUpdateEquipoFormSuccess() throws Exception {
+		mockMvc.perform(
+				post("/competiciones/{competicionId}/equipos/{equipoId}/edit", TEST_COMPETICION_ID, TEST_EQUIPO_ID)
+						.param("nombre", "Nombre").with(csrf()).param("lugar", "Lugar"))
+				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/equipos/{equipoId}"));
+	}
+
+	@WithMockUser(value = "admin1")
+	@Test
+	void testProcessUpdateEquipoFormHasErrors() throws Exception {
+		mockMvc.perform(
+				post("/competiciones/{competicionId}/equipos/{equipoId}/edit", TEST_COMPETICION_ID, TEST_EQUIPO_ID)
+						.param("nombre", "").with(csrf()).param("lugar", "Lugar"))
+				.andExpect(model().attributeHasErrors("equipo")).andExpect(status().isOk())
+				.andExpect(view().name("equipos/createOrUpdateEquiposForm"));
+	}
+
 	@WithMockUser(value = "admin1")
 	@Test
 	void testShowEquipo() throws Exception {
 		mockMvc.perform(get("/equipos/{equipoId}", TEST_EQUIPO_ID)).andExpect(status().isOk())
-		.andExpect(model().attributeExists("equipo")).andExpect(view().name("equipos/equipoDetails"));
+				.andExpect(model().attributeExists("equipo")).andExpect(view().name("equipos/equipoDetails"));
 	}
 
 	@WithMockUser(value = "admin1")
 	@Test
 	void testShowListEquipos() throws Exception {
-		mockMvc.perform(get("/equipos/list")).andExpect(status().isOk())
-		.andExpect(model().attributeExists("equipos")).andExpect(view().name("equipos/equiposList"));
+		mockMvc.perform(get("/equipos/list")).andExpect(status().isOk()).andExpect(model().attributeExists("equipos"))
+				.andExpect(view().name("equipos/equiposList"));
 	}
-	
+
 	@WithMockUser(value = "admin1")
 	@Test
-	void testDeleteEquipo() throws Exception{
-		mockMvc.perform(get("/competiciones/{competicionId}/equipos/{equipoId}/delete",TEST_COMPETICION_ID,TEST_EQUIPO_ID))
-		.andExpect(model().attributeDoesNotExist("equipo")).andExpect(view().name("redirect:/competiciones/{competicionId}"));
+	void testDeleteEquipo() throws Exception {
+		mockMvc.perform(
+				get("/competiciones/{competicionId}/equipos/{equipoId}/delete", TEST_COMPETICION_ID, TEST_EQUIPO_ID))
+				.andExpect(model().attributeDoesNotExist("equipo"))
+				.andExpect(view().name("redirect:/competiciones/{competicionId}"));
 	}
 
 }
