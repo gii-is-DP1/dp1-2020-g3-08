@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/equipos/{equipoId}")
+
 public class EntrenadorController {
 
 	private static final String VIEWS_ENTRENADOR_CREATE_OR_UPDATE_FORM = "entrenadores/createOrUpdateEntrenadorForm";
@@ -59,45 +59,31 @@ public class EntrenadorController {
 	public Collection<Genre> populateGenres() {
 		return userService.findGenres();
 	}
-  
-	@ModelAttribute("equipo")
-	public Equipo findEquipo(@PathVariable("equipoId") final int equipoId) {
-		return this.equipoService.findEquipoById(equipoId);
-	}
 
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("username");
 	}
 
-	@GetMapping(value = "/entrenadores/new")
+	@GetMapping(value = "/equipos/{equipoId}/entrenadores/new")
 	public String initCreationForm(Map<String, Object> model, @PathVariable("equipoId") final int equipoId) {
+		model.put("equipo", equipoService.findEquipoById(equipoId));
 		Entrenador entrenador = new Entrenador();
-		
-		Equipo e= this.findEquipo(equipoId);
-		e.setEntrenador(entrenador);
 		model.put("entrenador", entrenador);
 		return VIEWS_ENTRENADOR_CREATE_OR_UPDATE_FORM;
 	}
 
-	@GetMapping(value = { "/entrenadores" })
-	public String showEntrenadorList(Map<String, Object> model) {
-		// Here we are returning an object of type 'Vets' rather than a collection of
-		// Vet
-		// objects
-		// so it is simpler for Object-Xml mapping
-		Entrenadores entrenadores = new Entrenadores();
-		entrenadores.getEntrenadorList().addAll(this.entrenadorService.findAll());
-		model.put("entrenadores", entrenadores);
+	@GetMapping(value = { "/entrenadores/list" })
+	public String showEntrenadorList(final Map<String, Object> model) {
+
+		model.put("entrenadores", entrenadorService.findAll());
 		return "entrenadores/entrenadoresList";
 	}
 
-	@PostMapping(value = "/entrenadores/new")
+	@PostMapping(value = "/equipos/{equipoId}/entrenadores/new")
 
-	public String processCreationForm(@Valid Entrenador entrenador, BindingResult result,
-			@PathVariable("equipoId") final int equipoId, final ModelMap model) throws DataAccessException, DuplicatedException {
+	public String processCreationForm(@Valid Entrenador entrenador, BindingResult result,@PathVariable("equipoId") final int equipoId, final ModelMap model) throws DataAccessException, DuplicatedException {
 		if (result.hasErrors()) {
-			model.put("entrenador", entrenador);
 			return EntrenadorController.VIEWS_ENTRENADOR_CREATE_OR_UPDATE_FORM;
 		} else {
 			Equipo e = this.findEquipo(equipoId);
@@ -112,26 +98,17 @@ public class EntrenadorController {
 		}
 	}
 
-	@GetMapping(value = "/entrenadores/{entrenadorId}/edit")
-	public String initUpdateForm(@PathVariable("entrenadorId") final int entrenadorId, final ModelMap model) {
+	@GetMapping(value = "/equipos/{equipoId}/entrenadores/{entrenadorId}/edit")
+	public String initUpdateForm(@PathVariable("entrenadorId") final int entrenadorId, final ModelMap model,
+			@PathVariable("equipoId") int equipoId) {
+		model.put("equipo", equipoService.findEquipoById(equipoId));
 		Entrenador entrenador = this.entrenadorService.findById(entrenadorId);
 		model.put("entrenador", entrenador);
 		return EntrenadorController.VIEWS_ENTRENADOR_CREATE_OR_UPDATE_FORM;
 	}
 
-	/**
-	 *
-	 * @param entrenador
-	 * @param result
-	 * @param entrenadorId
-	 * @param model
-	 * @param equipo
-	 * @param model
-	 * @return
-	 * @throws DuplicatedException 
-	 * @throws DataAccessException 
-	 */
-	@PostMapping(value = "/entrenadores/{entrenadorId}/edit")
+
+	@PostMapping(value = "/equipos/{equipoId}/entrenadores/{entrenadorId}/edit")
 
 	public String processUpdateForm(@Valid final Entrenador entrenador, final BindingResult result,
 			@PathVariable("entrenadorId") final int entrenadorId, @PathVariable("equipoId") final int equipoId,
@@ -143,21 +120,22 @@ public class EntrenadorController {
 		} else {
 			Equipo e = this.equipoService.findEquipoById(equipoId);
 			entrenador.setId(entrenadorId);
-			e.setEntrenador(entrenador);;
+			e.setEntrenador(entrenador);
+			;
 			this.entrenadorService.saveEntrenador(entrenador);
 			return "redirect:/equipos/{equipoId}";
 		}
 	}
 
-	@GetMapping(value = "/entrenadores/{entrenadorId}/delete")
-	public String processDeleteForm(@PathVariable("entrenadorId") final int entrenadorId,
-			@PathVariable("equipoId") final int equipoId) {
-
-		Entrenador entrenador = this.entrenadorService.findById(entrenadorId);
-
-		this.entrenadorService.deleteEntrenador(entrenador);
-		return "redirect:/equipos/{equipoId}";
-	}
+//	@GetMapping(value = "/equipos/{equipoId}/entrenadores/{entrenadorId}/delete")
+//	public String processDeleteForm(@PathVariable("entrenadorId") final int entrenadorId,
+//			@PathVariable("equipoId") final int equipoId) {
+//
+//		Entrenador entrenador = this.entrenadorService.findById(entrenadorId);
+//
+//		this.entrenadorService.deleteEntrenador(entrenador);
+//		return "redirect:/equipos/{equipoId}";
+//	}
 
 	@GetMapping("/entrenadores/{id}")
 	public ModelAndView showEntrenador(@PathVariable("id") int id) {

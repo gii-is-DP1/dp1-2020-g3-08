@@ -43,6 +43,9 @@ public class Competicion extends BaseEntity {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "competicion")
 	private Set<Equipo>	equipos;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "competicion")
+	private Set<Partido> partidos;
 
 	protected Set<Equipo> getEquiposInternal() {
 		if (this.equipos == null) {
@@ -87,7 +90,33 @@ public class Competicion extends BaseEntity {
 		}
 		return null;
 	}
+	
+	//metodos partido
+	
+	protected Set<Partido> getPartidosInternal() {
+		if (this.partidos == null) {
+			this.partidos = new HashSet<>();
+		}
+		return this.partidos;
+	}
+
+	protected void setPartidosInternal(final Set<Partido> partidos) {
+		this.partidos = partidos;
+	}
+
+	public void addPartido(@Valid Partido partido) {
+		this.getPartidosInternal().add(partido);
+		partido.setCompeticion(this);
+		
+	}
+
+	
 
 
 
 }
+
+
+
+
+

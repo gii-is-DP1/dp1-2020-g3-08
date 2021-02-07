@@ -6,7 +6,7 @@
 
 <petclinic:layout pageName="noticias">
 
-    <h2>Noticia Information</h2>
+    <h2>Informaci&oacute;n Noticia</h2>
 
 
     <table class="table table-striped">
