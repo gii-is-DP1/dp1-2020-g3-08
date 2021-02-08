@@ -80,7 +80,7 @@ public class PartidoController {
 	}
 	@InitBinder("partido")
 	public void initPartidoBinder(final WebDataBinder dataBinder) {
-		dataBinder.setValidator(new PartidoValidator(partidoService));;
+		dataBinder.setValidator(new PartidoValidator(partidoService));
 	}
 
 	@ModelAttribute("equipos")
@@ -167,21 +167,24 @@ public class PartidoController {
 	@GetMapping(value = "/competiciones/{competicionId}/partidos/{partidoId}/edit")
 	public String initUpdateEquipoForm(@PathVariable("partidoId") final int partidoId,@PathVariable("competicionId") final int competicionId, final Model model) {
 		Partido partido= this.partidoService.findById(partidoId);
+		partido.setCompeticion(this.competicionService.findCompeticionById(competicionId));
 		model.addAttribute(partido);
 		return PartidoController.VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM;
 	}
 
 	@PostMapping(value = "/competiciones/{competicionId}/partidos/{partidoId}/edit")
-	public String processUpdateEquipoForm(@Valid final Partido partido, final BindingResult result, @PathVariable("partidoId") final int partidoId, @PathVariable("competicionId") final int competicionId) {
+	public String processUpdateEquipoForm(@Valid final Partido partido,final BindingResult result, final ModelMap model, @PathVariable("partidoId") final int partidoId, @PathVariable("competicionId") final int competicionId) {
 		if (result.hasErrors()) {
+			model.put("partido", partido);
 			return PartidoController.VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM;
 		} else {
 			Competicion e = this.competicionService.findCompeticionById(competicionId);
 			partido.setId(partidoId);
 			partido.setCompeticion(e);
 			this.partidoService.savePartido(partido);
+			this.competicionService.saveCompeticion(e);
 			
-			return "redirect:/partidos/{partidoId}";
+			return "redirect:/competiciones/{competicionId}";
 		}
 	}
 

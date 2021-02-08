@@ -27,21 +27,21 @@ public class EntrenadorService {
 
 
 		
-	@Transactional(rollbackFor = DuplicatedException.class)
-	public void saveEntrenador(Entrenador entrenador) throws DataAccessException,  DuplicatedException {
-		Set<Entrenador> entrenadores= (Set<Entrenador>) entrenadorRepository.findAll();
-		Entrenador otherEntrenador = entrenador.getEntrenadorwithIdDifferent(entrenadores,entrenador.getUser().getTelephone(),entrenador.getId());
-		if (StringUtils.hasLength(entrenador.getUser().getTelephone()) && otherEntrenador != null && otherEntrenador.getId() != entrenador.getId()) {
-			throw new DuplicatedException();	
-		} else {
-			this.entrenadorRepository.save(entrenador);
-		}
-	}
-	
-//	@Transactional     
-//	public void saveEntrenador(Entrenador entrenador) throws DataAccessException {        
-//		entrenadorRepository.save(entrenador);      
+//	@Transactional(rollbackFor = DuplicatedException.class)
+//	public void saveEntrenador(Entrenador entrenador) throws DataAccessException,  DuplicatedException {
+//		Set<Entrenador> entrenadores= (Set<Entrenador>) entrenadorRepository.findAll();
+//		Entrenador otherEntrenador = entrenador.getEntrenadorwithIdDifferent(entrenadores,entrenador.getUser().getTelephone(),entrenador.getId());
+//		if (StringUtils.hasLength(entrenador.getUser().getTelephone()) && otherEntrenador != null && otherEntrenador.getId() != entrenador.getId()) {
+//			throw new DuplicatedException();	
+//		} else {
+//			this.entrenadorRepository.save(entrenador);
 //		}
+//	}
+//	
+	@Transactional     
+	public void saveEntrenador(Entrenador entrenador) throws DataAccessException {        
+		entrenadorRepository.save(entrenador);      
+		}
 	
 
 	@Transactional(readOnly = true)
