@@ -2,34 +2,38 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="vets">
-    <h2>Entrenadores</h2>
+<petclinic:layout pageName="entrenadores">
+<h2>Entrenadores</h2>
 
-    <table id="entrenadoresTable" class="table table-striped">
+	<table id="ownersTable" class="table table-striped">
         <thead>
         <tr>
-            <th>Nombre</th>
+
+            <th style="width: 150px;">Nombre</th>
+            <th style="width: 200px;">Apellidos</th>
+
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${entrenadores.entrenadorList}" var="entrenador">
+        <c:forEach items="${entrenadores}" var="entrenador">
             <tr>
                 <td>
-                    <c:out value="${entrenador.user.firstName} ${entrenador.user.lastName} "/>
+                    <spring:url value="/entrenadores/{entrenadorId}" var="entrenadorUrl">
+                        <spring:param name="entrenadorId" value="${entrenador.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(entrenadorUrl)}"><c:out value="${entrenador.user.firstName}"/></a>
                 </td>
+                <td>
+                    <c:out value="${entrenador.user.lastName}"/>
+                </td>
+                
                 
             </tr>
         </c:forEach>
         </tbody>
     </table>
-
-    <table class="table-buttons">
-        <tr>
-            <td>
-                <a href="<spring:url value="/entrenadores.xml" htmlEscape="true" />">View as XML</a>
-            </td>            
-        </tr>
-    </table>
+    
 </petclinic:layout>
