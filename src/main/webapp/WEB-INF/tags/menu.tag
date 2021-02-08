@@ -38,13 +38,13 @@
 				<petclinic:menuItem active="${name eq 'equipos'}" url="/equipos/find"
 					title="equipos">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Buscar Equipo</span>
+					<span>Equipos</span> <%-- <span>Buscar Equipo</span> --%>
 				</petclinic:menuItem>
 				
 				<petclinic:menuItem active="${name eq 'jugadores'}" url="/jugadores/find"
 					title="jugadores">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Buscar Jugadores</span>
+					<span>Jugadores</span> <%-- <span>Buscar Jugadores</span> --%>
 				</petclinic:menuItem>
 
 				<petclinic:menuItem active="${name eq 'noticias'}" url="/noticias/list"
@@ -56,7 +56,7 @@
 				<petclinic:menuItem active="${name eq 'competiciones'}" url="/competiciones/new"
 					title="equipos">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Crear Competicion</span>
+					<span>Competiciones</span> <%-- <span>Crear Competicion</span> --%>
 				</petclinic:menuItem>
 				<petclinic:menuItem active="${name eq 'competiciones'}" url="/competiciones/list"
 					title="equipos">
@@ -66,12 +66,12 @@
 				<petclinic:menuItem active="${name eq 'arbitros'}" url="/arbitros/new"
 					title="arbitros">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Crear Arbitros</span>
+					<span>Crear Árbitros</span>
 				</petclinic:menuItem>
 				<petclinic:menuItem active="${name eq 'arbitros'}" url="/arbitros/find"
 					title="arbitros">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Buscar Arbitros</span>
+					<span>Buscar Árbitros</span>
 				</petclinic:menuItem>
 		
 
@@ -85,12 +85,12 @@
 
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="!isAuthenticated()">
-					<li><a href="<c:url value="/login" />">Iniciar sesi�n</a></li>
+					<li><a href="<c:url value="/login" />">Iniciar sesión</a></li>
 					<li><a href="<c:url value="/users/new" />">Registro</a></li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>�
+						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span> 
 							<strong><sec:authentication property="name" /></strong> <span
 							class="glyphicon glyphicon-chevron-down"></span>
 					</a>
