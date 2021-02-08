@@ -7,12 +7,12 @@
 <petclinic:layout pageName="equipo">
 	<jsp:attribute name="customScript">
         <script>
-									$(function() {
-										$("#fecha_nacimiento").datepicker({
-											dateFormat : 'yy/mm/dd'
-										});
-									});
-								</script>
+	$(function() {
+	     $("#fecha_nacimiento").datepicker({
+		dateFormat : 'yy/mm/dd'
+	     });
+	});
+	</script>
     </jsp:attribute>
 	<jsp:body>
         <h2>
@@ -25,12 +25,14 @@
                 <petclinic:inputField label="Fecha Nacimiento" name="fechaNacimiento" />
                 <petclinic:inputField label="Nacionalidad" name="nacionalidad" />
                 <petclinic:inputField label="DNI" name="dni" />
+                <petclinic:inputField label="Lesion" name="lesion" />
+
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <c:choose>
                         <c:when test="${jugador['new']}">
-                            <button class="btn btn-default" type="submit">Añadir Jugador</button>
+                            <button class="btn btn-default" type="submit">A&ntilde;adir Jugador</button>
                         </c:when>
                         <c:otherwise>
                             <button class="btn btn-default" type="submit">Actualizar Jugador</button>

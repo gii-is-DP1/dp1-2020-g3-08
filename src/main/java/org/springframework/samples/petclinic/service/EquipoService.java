@@ -70,4 +70,6 @@ public class EquipoService {
 		this.equipoRepository.delete(equipo);
 	}
 
+
+
 }

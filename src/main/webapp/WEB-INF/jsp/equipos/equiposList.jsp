@@ -27,8 +27,7 @@
                 <td>
                     <c:out value="${equipo.lugar}"/>
                 </td>
-                
-      
+                     
 <!--
                 <td> 
                     <c:out value="${owner.user.username}"/> 

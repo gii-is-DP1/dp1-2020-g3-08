@@ -20,5 +20,4 @@ public interface EntrenadorRepository extends Repository<Entrenador, Integer> {
 	
 	void delete(Entrenador entrenador);
 
-
 }
