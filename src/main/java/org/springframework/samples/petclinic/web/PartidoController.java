@@ -73,8 +73,9 @@ public class PartidoController {
 
 	@InitBinder
 	public void setAllowedFields(final WebDataBinder dataBinder) {
-		dataBinder.setDisallowedFields("id");
+		//dataBinder.setDisallowedFields("id");
 	}
+
 	@InitBinder("partido")
 	public void initPartidoBinder(final WebDataBinder dataBinder) {
 		dataBinder.setValidator(new PartidoValidator(partidoService));
@@ -127,20 +128,6 @@ public class PartidoController {
 		return mav;
 	}
 
-
-	@GetMapping(value = "/partidos/{id}/administrarJugadores")
-	public String initAdministrarJugadores(@PathVariable("id") final int id, final Map<String, Object> model) {
-		log.info("Se ha iniciado la edición de un partido");
-		Partido partido = partidoService.findById(id);
-		List<Jugador> jugadores = new ArrayList<>();
-		jugadores.addAll(partido.getEquipo1().getJugadores());
-		jugadores.addAll(partido.getEquipo2().getJugadores());
-		model.put("jugadores", jugadores);
-		model.put("partido", partido);
-		return PartidoController.VIEWS_PARTIDO_ADMIN_JUGADORES_FORM;
-	}
-
-
 	//creacion de un partido en una competicion
 
 	@GetMapping(value = "/competiciones/{competicionId}/partidos/new")
@@ -151,6 +138,7 @@ public class PartidoController {
 		model.put("partido", partido);
 		return PartidoController.VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM;
 	}
+
 	@PostMapping(value = "/competiciones/{competicionId}/partidos/new")
 	public String processCreationForm(@Valid final Partido partido, final BindingResult result,final ModelMap model ,@PathVariable("competicionId") final int competicionId) {
 		if (result.hasErrors()) {
@@ -197,15 +185,36 @@ public class PartidoController {
 		}
 	}
 
+	@GetMapping(value = "/partidos/{id}/administrarJugadores")
+	public String initAdministrarJugadores(@PathVariable("id") final int id, final ModelMap model) {
+		log.info("Se ha iniciado la edición de un partido");
+		Partido partido = partidoService.findById(id);
+		List<Jugador> jugadores = new ArrayList<>();
+		jugadores.addAll(partido.getEquipo1().getJugadores());
+		jugadores.addAll(partido.getEquipo2().getJugadores());
+		model.put("jugadores", jugadores);
+		model.put("partido", partido);
+		return PartidoController.VIEWS_PARTIDO_ADMIN_JUGADORES_FORM;
+	}
 
 	@PostMapping(value = "/partidos/{id}/administrarJugadores")
-	public String processAdministrarJugadores(@PathVariable("id") final int id, @Valid final Partido partido, final BindingResult result) {
+	public String processAdministrarJugadores(@Valid final Partido partido, final BindingResult result,ModelMap model,@PathVariable("id") final int id) {
 		if (result.hasErrors()) {
+			List<Jugador> jugadores = new ArrayList<>();
+			jugadores.addAll(partido.getEquipo1().getJugadores());
+			jugadores.addAll(partido.getEquipo2().getJugadores());
+			model.put("jugadores", jugadores);
 			log.warn("Se ha abortado la edición de jugadores de un partido");
 			return PartidoController.VIEWS_PARTIDO_ADMIN_JUGADORES_FORM;
 		} else {
 			log.info("Se ha finalizado la edición de jugadores de un partido");
-			partido.setId(id);
+			for(Competicion c: competicionService.findAll()) {
+				for(Partido p: c.getPartidos()) {
+					if(p.getId().equals(partido.getId())){
+						partido.setCompeticion(c);
+					}
+				}
+			}
 			partidoService.savePartido(partido);
 			return "redirect:/partidos/" + partido.getId();
 		}

@@ -35,12 +35,19 @@ public class PartidoValidator implements Validator{
 		// Este codigo realiza la regla de negocio 3, donde se comprueba que en un
 		// partido no pueda entrar jugadores sancionados
 		Partido p = (Partido) target;
-		restoDePartidos.remove(p);
+
+		if(p.getLugar().isEmpty()) {
+			errors.rejectValue("lugar",
+				"no puede estar vacío",
+				"no puede estar vacío");
+		}
+
 		Set<Jugador> jugadores = new HashSet<Jugador>();
 		try {
 			jugadores = p.getJugadoresParticipantes();
-			if (jugadores == null)
+			if (jugadores == null) {
 				jugadores = new HashSet<Jugador>();
+			}
 		} catch (NullPointerException e) {
 
 		} finally {
@@ -61,19 +68,23 @@ public class PartidoValidator implements Validator{
 			// partido, hasta que no le hayan dado el alta de su lesión.
 			log.info("Se van a validar las lesiones de los jugadores");
 			for (Jugador jug : jugadores)
-				if (jug.getLesion())
+				if (jug.getLesion()) {
 					errors.rejectValue("jugadoresParticipantes",
 						"Un jugador que esté lesionado no podrá ser inscrito en un partido",
 						"Un jugador que esté lesionado no podrá ser inscrito en un partido");
+				}
 
 			// Regla de negocio 4
 			log.info("Se van a validar que hay un mismo arbitro arbitrando dos partidos al mismo tiempo");
 			for (Partido partido : restoDePartidos)
-				if (partido.getArbitro().equals(p.getArbitro()) && partido.getFecha().equals(p.getFecha()))
+				if (!p.getId().equals(partido.getId()) && p.getArbitro().equals(p.getArbitro()) && partido.getFecha().equals(p.getFecha())) {
 					errors.rejectValue("arbitro", "Un arbitro no puede arbitrar dos partidos en una misma fecha",
 						"Un arbitro no puede arbitrar dos partidos en una misma fecha");
+				}
 
 		}
+
+
 	}
 
 }
