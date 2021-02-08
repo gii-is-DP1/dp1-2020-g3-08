@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
 
+
 <petclinic:layout pageName="equipos">
 
 	<h2>Equipo</h2>
@@ -27,7 +28,7 @@
 			<td><c:out value="${equipo.t_roja}" /></td>
 		</tr>
 		<tr>
-			<th>Lesión</th>
+			<th>Lesion</th>
 			<td><c:out value="${equipo.lesion}" /></td>
 		</tr> --%>
 	</table>
@@ -45,6 +46,7 @@
 	<spring:url value="{equipoId}/jugadores/new" var="addUrl">
 		<spring:param name="equipoId" value="${equipo.id}" />
 	</spring:url>
+
 	<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">A&ntilde;adir nuevo jugador</a>
 	<spring:url value="{equipoId}/entrenadores/new" var="addUrl">
 		<spring:param name="equipoId" value="${equipo.id}" />
