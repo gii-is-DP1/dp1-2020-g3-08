@@ -16,37 +16,40 @@ import org.springframework.util.StringUtils;
 @Service
 public class EntrenadorService {
 	private EntrenadorRepository entrenadorRepository;
-	
+
 	private UserService userService;
 
 	@Autowired
-	public EntrenadorService(EntrenadorRepository entrenadorRepository,UserService userService) {
+	public EntrenadorService(EntrenadorRepository entrenadorRepository, UserService userService) {
 		this.entrenadorRepository = entrenadorRepository;
-		this.userService=userService;
+		this.userService = userService;
 	}
 
+
 		
-	@Transactional(rollbackFor = DuplicatedException.class)
-	public void saveEntrenador(Entrenador entrenador) throws DataAccessException,  DuplicatedException {
-		Set<Entrenador> entrenadores= (Set<Entrenador>) entrenadorRepository.findAll();
-		Entrenador otherEntrenador = entrenador.getEntrenadorwithIdDifferent(entrenadores,entrenador.getUser().getTelephone(),entrenador.getId());
-		if (StringUtils.hasLength(entrenador.getUser().getTelephone()) && otherEntrenador != null && otherEntrenador.getId() != entrenador.getId()) {
-			throw new DuplicatedException();	
-		} else {
-			this.entrenadorRepository.save(entrenador);
-		}
-	}
-	
-//	@Transactional     
-//	public void saveEntrenador(Entrenador entrenador) throws DataAccessException {        
-//		entrenadorRepository.save(entrenador);      
+//	@Transactional(rollbackFor = DuplicatedException.class)
+//	public void saveEntrenador(Entrenador entrenador) throws DataAccessException,  DuplicatedException {
+//		Set<Entrenador> entrenadores= (Set<Entrenador>) entrenadorRepository.findAll();
+//		Entrenador otherEntrenador = entrenador.getEntrenadorwithIdDifferent(entrenadores,entrenador.getUser().getTelephone(),entrenador.getId());
+//		if (StringUtils.hasLength(entrenador.getUser().getTelephone()) && otherEntrenador != null && otherEntrenador.getId() != entrenador.getId()) {
+//			throw new DuplicatedException();	
+//		} else {
+//			this.entrenadorRepository.save(entrenador);
 //		}
+//	}
+//	
+	@Transactional     
+	public void saveEntrenador(Entrenador entrenador) throws DataAccessException {        
+		entrenadorRepository.save(entrenador);      
+		}
 	
+
 	@Transactional(readOnly = true)
 	public Entrenador findById(int id) throws DataAccessException {
 		return entrenadorRepository.findById(id);
 	}
-	@Transactional(readOnly = true)	
+
+	@Transactional(readOnly = true)
 	public Collection<Entrenador> findAll() throws DataAccessException {
 		return entrenadorRepository.findAll();
 	}

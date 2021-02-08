@@ -2,34 +2,33 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="vets">
-    <h2>Competiciones</h2>
+<h2>Competiciones</h2>
 
-    <table id="competicionesTable" class="table table-striped">
+	<table id="ownersTable" class="table table-striped">
         <thead>
         <tr>
-            <th>Nombre</th>
+
+            <th style="width: 150px;">Nombre de la competici&oacute;n</th>
+
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${competiciones.competicionList}" var="competicion">
             <tr>
                 <td>
-                    <c:out value="${competicion.nombreComp} "/>
+                    <spring:url value="/competiciones/{competicionId}" var="competicionUrl">
+                        <spring:param name="competicionId" value="${competicion.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(competicionUrl)}"><c:out value="${competicion.nombreComp}"/></a>
                 </td>
-                
+      
             </tr>
         </c:forEach>
         </tbody>
     </table>
-
-    <table class="table-buttons">
-        <tr>
-            <td>
-                <a href="<spring:url value="/competiciones.xml" htmlEscape="true" />">View as XML</a>
-            </td>            
-        </tr>
-    </table>
+    
 </petclinic:layout>

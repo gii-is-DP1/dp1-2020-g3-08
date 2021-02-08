@@ -10,11 +10,12 @@
 	<jsp:attribute name="customScript">
         <script>
 		    $(function() {
-				$("#fecha").datepicker({
+				  $("#fecha").datepicker({
 					dateFormat : 'yy/mm/dd'
-				});
-			});
-		</script>
+			  	});
+		  	});
+		    </script>
+
     </jsp:attribute>
 	<jsp:body>
     <h2>
@@ -50,4 +51,5 @@
         </div>
     </form:form>
     </jsp:body>
+
 </petclinic:layout>

@@ -19,18 +19,6 @@
 			<th>Lugar</th>
 			<td><c:out value="${equipo.lugar}" /></td>
 		</tr>
-		<%-- 		<tr>
-			<th>Tarjetas amarillas</th>
-			<td><c:out value="${equipo.t_amarilla}" /></td>
-		</tr>
-		<tr>
-			<th>Tarjetas rojas</th>
-			<td><c:out value="${equipo.t_roja}" /></td>
-		</tr>
-		<tr>
-			<th>Lesion</th>
-			<td><c:out value="${equipo.lesion}" /></td>
-		</tr> --%>
 	</table>
 
 	<spring:url value="{equipoId}/edit" var="editUrl">
