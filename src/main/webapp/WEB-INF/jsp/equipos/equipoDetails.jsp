@@ -19,6 +19,10 @@
 			<th>Lugar</th>
 			<td><c:out value="${equipo.lugar}" /></td>
 		</tr>
+		<tr>
+			<th>Entrenador</th>
+			<td><c:out value="${equipo.entrenador.user.username}" /></td>
+		</tr>
 	</table>
 
 	<spring:url value="{equipoId}/edit" var="editUrl">

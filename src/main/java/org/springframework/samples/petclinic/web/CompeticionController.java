@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 public class CompeticionController {
 
@@ -38,21 +41,18 @@ public class CompeticionController {
 		dataBinder.setDisallowedFields("id");
 	}
 
-	@GetMapping(value = {
-		"/competiciones/list"
-	})
+	@GetMapping(value = "/competiciones/list")
 	public String showCompeticionList(final Map<String, Object> model) {
-		// Here we are returning an object of type 'Vets' rather than a collection of Vet
-		// objects
-		// so it is simpler for Object-Xml mapping
+		log.info("Se ha iniciado la visualización de competiciones");
 		Competiciones competiciones = new Competiciones();
-		competiciones.getCompeticionList().addAll(this.competicionService.findAll());
+		competiciones.getCompeticionList().addAll(competicionService.findAll());
 		model.put("competiciones", competiciones);
 		return "competiciones/competicionesList";
 	}
 
 	@GetMapping(value = "/competiciones/new")
 	public String initCreationForm(final Map<String, Object> model) {
+		log.info("Se ha iniciado la creación de una competición");
 		Competicion competicion = new Competicion();
 		model.put("competicion", competicion);
 		return CompeticionController.VIEWS_COMPETICION_CREATE_OR_UPDATE_FORM;
@@ -60,9 +60,11 @@ public class CompeticionController {
 	@PostMapping(value = "/competiciones/new")
 	public String processCreationForm(@Valid final Competicion competicion, final BindingResult result) {
 		if (result.hasErrors()) {
+			log.warn("Se ha abortado la creación de una competición");
 			return CompeticionController.VIEWS_COMPETICION_CREATE_OR_UPDATE_FORM;
 		} else {
-			this.competicionService.saveCompeticion(competicion);
+			log.info("Se ha finalizado la creación de una competición");
+			competicionService.saveCompeticion(competicion);
 
 			return "redirect:/competiciones/" + competicion.getId();
 
@@ -71,8 +73,8 @@ public class CompeticionController {
 
 	@GetMapping(value = "/competiciones/{competicionId}/edit")
 	public String initUpdateCompeticionForm(@PathVariable("competicionId") final int competicionId, final ModelMap model) {
-
-		Competicion competicion = this.competicionService.findCompeticionById(competicionId);
+		log.info("Se ha iniciado la edición de una competición");
+		Competicion competicion = competicionService.findCompeticionById(competicionId);
 
 		model.put("competicion", competicion);
 		return CompeticionController.VIEWS_COMPETICION_CREATE_OR_UPDATE_FORM;
@@ -82,26 +84,30 @@ public class CompeticionController {
 	public String processUpdateCompeticionForm(@Valid final Competicion competicion, final BindingResult result, @PathVariable("competicionId") final int competicionId, final ModelMap model) {
 
 		if (result.hasErrors()) {
+			log.warn("Se ha abortado la edición de una competición");
 			model.put("competicion", competicion);
 			return CompeticionController.VIEWS_COMPETICION_CREATE_OR_UPDATE_FORM;
 		} else {
+			log.info("Se ha finalizado la edición de una competición");
 			competicion.setId(competicionId);
-			this.competicionService.saveCompeticion(competicion);
+			competicionService.saveCompeticion(competicion);
 			return "redirect:/competiciones/{competicionId}";
 		}
 	}
 
 	@GetMapping(value = "/competiciones/{competicionId}/delete")
 	public String processDeleteForm(@PathVariable("competicionId") final int competicionId) {
-		Competicion competicion = this.competicionService.findCompeticionById(competicionId);
-		this.competicionService.deleteCompeticion(competicion);
+		log.info("Se ha iniciado la eliminación de una competición");
+		Competicion competicion = competicionService.findCompeticionById(competicionId);
+		competicionService.deleteCompeticion(competicion);
 		return "redirect:/competiciones/list";
 	}
 
 	@GetMapping("/competiciones/{id}")
 	public ModelAndView showCompeticion(@PathVariable("id") final int id) {
+		log.info("Se ha iniciado la muestra de detalles de una competición");
 		ModelAndView mav = new ModelAndView(CompeticionController.VIEWS_COMPETICION_SHOW);
-		mav.addObject(this.competicionService.findCompeticionById(id));
+		mav.addObject(competicionService.findCompeticionById(id));
 
 		return mav;
 	}

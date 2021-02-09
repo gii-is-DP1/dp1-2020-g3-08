@@ -1,5 +1,7 @@
+
 package org.springframework.samples.petclinic.service;
 
+import java.time.LocalDate;
 import java.util.Collection;
 
 import org.assertj.core.api.Assertions;
@@ -7,7 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.petclinic.model.Competicion;
+import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,58 +45,79 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-class CompeticionServiceTests {
+class PartidoServiceTests {
 
 	@Autowired
-	protected CompeticionService competicionService;
+	protected EquipoService		equipoService;
 
+	@Autowired
+	protected PartidoService	partidoService;
+
+	@Autowired
+	protected CompeticionService	competicionService;
+
+
+
+	@Test
+	void shouldFindAllPartidos() {
+		Collection<Partido> partidos = partidoService.findAll();
+		Assertions.assertThat(partidos.size()).isEqualTo(2);
+	}
+
+	@Test
+	public void shouldFindPartidoById() {
+		Partido partido = partidoService.findById(1);
+
+		Assertions.assertThat(partido).isNotNull();
+	}
+
+	@Test
+	void shouldFindEquipoById() {
+		Equipo equipo = equipoService.findEquipoById(1);
+		Assertions.assertThat(equipo != null);
+	}
 
 	@Test
 	@Transactional
-	public void shouldInsertEquipo() {
-		Collection<Competicion> Competiciones = this.competicionService.findAll();
-		int found = Competiciones.size();
+	void shouldInsertPartido() {
+		Partido partido = new Partido();
+		partido.setEquipo1(equipoService.findEquipoById(1));
+		partido.setEquipo2(equipoService.findEquipoById(2));
+		partido.setFecha(LocalDate.now());
+		partido.setLugar("Aqui");
+		partido.setCompeticion(competicionService.findCompeticionById(1));
 
-		Competicion Competicion = new Competicion();
-		Competicion.setNombreComp("Premier");
-		
-		this.competicionService.saveCompeticion(Competicion);
-		Assertions.assertThat(Competicion.getId().longValue()).isNotEqualTo(0);
+		int cantidadPartidos = partidoService.findAll().size();
 
-		Competiciones = this.competicionService.findAll();
-		Assertions.assertThat(Competiciones.size()).isEqualTo(found + 1);
-	}
-		
-	@Test
-	void shouldFindCompeticionById() {
-		Competicion competicion = this.competicionService.findCompeticionById(1);
-		Assertions.assertThat(competicion!=null);
+		partidoService.savePartido(partido);
+
+		Assertions.assertThat(partidoService.findAll().size()==cantidadPartidos+1);
 	}
 
 	@Test
 	@Transactional
-	void shouldUpdateEquipo() {
-		Competicion competicion = this.competicionService.findCompeticionById(1);
-		String oldNombre = competicion.getNombreComp();
-		String newNombre = oldNombre + "X";
+	void shouldUpdatePartido() {
+		Partido partido = partidoService.findById(1);
 
-		competicion.setNombreComp(newNombre);
-		this.competicionService.saveCompeticion(competicion);
+		partido.setLugar("LUGAR ALEATORIO");
 
-		// retrieving new name from database
-		competicion = this.competicionService.findCompeticionById(1);
-		Assertions.assertThat(competicion.getNombreComp()).isEqualTo(newNombre);
+		int cantidadPartidos = partidoService.findAll().size();
+
+		partidoService.savePartido(partido);
+
+		Assertions.assertThat(partidoService.findAll().size()==cantidadPartidos);
 	}
-	
+
 	@Test
-	public void shouldDeleteCompeticion() throws Exception {
-		Competicion competicion = this.competicionService.findCompeticionById(3);
-		this.competicionService.deleteCompeticion(competicion);
-		Competicion competicionNueva = this.competicionService.findCompeticionById(3);
-		Assertions.assertThat(competicionNueva).isEqualTo(null);
-	}
+	@Transactional
+	public void shouldDeletePartido() throws Exception {
+		Partido partido = partidoService.findById(1);
 
-	
-	
+		int cantidadPartidos = partidoService.findAll().size();
+
+		partidoService.deletePartido(partido);
+
+		Assertions.assertThat(partidoService.findAll().size()==cantidadPartidos-1);
+	}
 
 }
