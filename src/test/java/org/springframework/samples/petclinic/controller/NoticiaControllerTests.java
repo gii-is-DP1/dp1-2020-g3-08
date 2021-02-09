@@ -27,7 +27,6 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(controllers = NoticiaController.class,
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
 classes = WebSecurityConfigurer.class),excludeAutoConfiguration = SecurityConfiguration.class)
-
 public class NoticiaControllerTests {
 
 	private static final int TEST_NOTICIA_ID = 1;

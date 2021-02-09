@@ -80,7 +80,7 @@ public class EntrenadorControllerTests {
 	@Test
 	void testProcessNewEntrenadorFormHasErrors() throws Exception {
 		mockMvc.perform(post("/equipos/{equipoId}/entrenadores/new", TEST_EQUIPO_ID).with(csrf())
-				.param("first name", "hola").param("last name", "Romano").param("email", "manuel@gmail.com")
+				.param("firstName", "hola").param("lastName", "Romano").param("email", "manuel@gmail.com")
 				.param("birthDate", "2020/01/01").param("genre", "genre").param("telephone", "666666666")
 				.param("username", "")).andExpect(model().attributeHasErrors("entrenador"))
 				.andExpect(status().isOk()).andExpect(view().name("entrenadores/createOrUpdateEntrenadorForm"));
@@ -98,7 +98,7 @@ public class EntrenadorControllerTests {
 	@Test
 	void testProcessUpdateEntrenadorFormSuccess() throws Exception {
 		mockMvc.perform(post("/equipos/{equipoId}/entrenadores/{entrenadorId}/edit", TEST_EQUIPO_ID, TEST_ENTRENADOR_ID)
-				.with(csrf()).param("first name", "Manuel").param("last name", "Sanchez")
+				.with(csrf()).param("firstName", "Manuel").param("lastName", "Sanchez")
 				.param("email", "manuel@gmail.com").param("birthDate", "2020/01/01").param("genre", "genre")
 				.param("telephone", "666666666").param("username", "romano")).andExpect(status().is3xxRedirection())
 				.andExpect(view().name("redirect:/equipos/{equipoId}"));
@@ -109,7 +109,7 @@ public class EntrenadorControllerTests {
 	void testProcessUpdateEntrenadorFormHasErrors() throws Exception {
 		mockMvc.perform(
 				post("/equipos/{equipoId}/entrenadores/{entrenadorId}/edit", TEST_ENTRENADOR_ID, TEST_ENTRENADOR_ID)
-						.with(csrf()).param("first name", "").param("last name", "Romano")
+						.with(csrf()).param("firstName", "").param("lastName", "Romano")
 						.param("email", "manuel@gmail.com").param("birthDate", "2020/01/01").param("genre", "genre")
 						.param("telephone", "666666666").param("username", "romano"))
 				.andExpect(model().attributeHasErrors("entrenador")).andExpect(status().isOk())

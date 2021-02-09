@@ -61,7 +61,7 @@ class PartidoServiceTests {
 	@Test
 	void shouldFindAllPartidos() {
 		Collection<Partido> partidos = partidoService.findAll();
-		Assertions.assertThat(partidos.size()).isEqualTo(2);
+		Assertions.assertThat(partidos.size()).isEqualTo(7);
 	}
 
 	@Test

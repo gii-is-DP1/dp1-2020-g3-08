@@ -75,12 +75,21 @@ public class PartidoValidator implements Validator{
 				}
 
 			// Regla de negocio 4
-			log.info("Se van a validar que hay un mismo arbitro arbitrando dos partidos al mismo tiempo");
+			try {
+				log.info("Se van a validar que hay un mismo arbitro arbitrando dos partidos al mismo tiempo");
 			for (Partido partido : restoDePartidos)
 				if (!p.getId().equals(partido.getId()) && p.getArbitro().equals(p.getArbitro()) && partido.getFecha().equals(p.getFecha())) {
 					errors.rejectValue("arbitro", "Un arbitro no puede arbitrar dos partidos en una misma fecha",
 						"Un arbitro no puede arbitrar dos partidos en una misma fecha");
 				}
+			} catch (Exception e2) {
+				for (Partido partido : restoDePartidos)
+					if (p.getArbitro().equals(p.getArbitro()) && partido.getFecha().equals(p.getFecha())) {
+						errors.rejectValue("arbitro", "Un arbitro no puede arbitrar dos partidos en una misma fecha",
+							"Un arbitro no puede arbitrar dos partidos en una misma fecha");
+					}
+			}
+			
 
 		}
 
