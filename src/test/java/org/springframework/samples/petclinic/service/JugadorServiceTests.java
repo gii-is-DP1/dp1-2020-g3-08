@@ -85,11 +85,6 @@ class JugadorServiceTests {
 		equipo1.addJugador(jugador);
 		assertThat(equipo1.getJugadores().size()).isEqualTo(found + 1);
 
-		try {
-			this.jugadorService.saveJugador(jugador);
-		} catch (DuplicatedException ex) {
-			Logger.getLogger(JugadorServiceTests.class.getName()).log(Level.SEVERE, null, ex);
-		}
 		this.equipoService.saveEquipo(equipo1);
 
 		equipo1 = this.equipoService.findEquipoById(1);
@@ -113,12 +108,7 @@ class JugadorServiceTests {
 		jugador.setTarjetaAmarilla(0);
 		jugador.setTarjetaRoja(0);
 		equipo1.addJugador(jugador);
-		try {
-			this.jugadorService.saveJugador(jugador);
-		} catch (DuplicatedException e) {
-			// Jugador already exists!
-			e.printStackTrace();
-		}
+		
 
 		Jugador anotherJugadorWithTheSameDNI = new Jugador();
 		anotherJugadorWithTheSameDNI.setNombre("Pepe");
@@ -186,13 +176,7 @@ class JugadorServiceTests {
 		anotherJugador.setTarjetaAmarilla(0);
 		anotherJugador.setTarjetaRoja(0);
 		equipo1.addJugador(anotherJugador);
-		try {
-			this.jugadorService.saveJugador(jugador);
-			this.jugadorService.saveJugador(anotherJugador);
-		} catch (DuplicatedException e) {
-			// The pets already exists!
-			e.printStackTrace();
-		}
+		
 
 		Assertions.assertThrows(DuplicatedException.class, () -> {
 			anotherJugador.setDni("29517543X");

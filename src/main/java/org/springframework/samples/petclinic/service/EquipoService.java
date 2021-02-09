@@ -26,6 +26,9 @@ import org.springframework.samples.petclinic.repository.EquipoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class EquipoService {
 
@@ -41,33 +44,36 @@ public class EquipoService {
 
 	@Transactional(readOnly = true)
 	public Equipo findEquipoById(final int id) throws DataAccessException {
-		return this.equipoRepository.findById(id);
+		log.info("Se han recogido un Equipo por id");
+		return equipoRepository.findById(id);
 	}
 
 	@Transactional(readOnly = true)
 	public Collection<Equipo> findEquipoByNombre(final String nombre) throws DataAccessException {
-		return this.equipoRepository.findByNombre(nombre);
+		log.info("Se han recogido todos los Equipos por nombre");
+		return equipoRepository.findByNombre(nombre);
 	}
 
 	@Transactional(readOnly = true)
 	public Collection<Equipo> findEquipos() throws DataAccessException {
-		return this.equipoRepository.findAll();
+		log.info("Se han recogido todos los Equipos");
+		return equipoRepository.findAll();
 	}
 
 	@Transactional
 	public void saveEquipo(final Equipo equipo) throws DataAccessException {
-		this.equipoRepository.save(equipo);
+		log.info("Se han guardado un Equipo");
+		equipoRepository.save(equipo);
 	}
 
 	@Transactional
 	public void deleteEquipo(final Equipo equipo) {
-		Collection<Partido> partidos = this.partidoService.findAll();
-		for (Partido partido : partidos) {
-			if (partido.getEquipo1().getId() == equipo.getId() || partido.getEquipo2().getId() == equipo.getId()) {
-				this.partidoService.deletePartido(partido);
-			}
-		}
-		this.equipoRepository.delete(equipo);
+		log.info("Se han eliminado un Equipo");
+		Collection<Partido> partidos = partidoService.findAll();
+		for (Partido partido : partidos)
+			if (partido.getEquipo1().getId() == equipo.getId() || partido.getEquipo2().getId() == equipo.getId())
+				partidoService.deletePartido(partido);
+		equipoRepository.delete(equipo);
 	}
 
 

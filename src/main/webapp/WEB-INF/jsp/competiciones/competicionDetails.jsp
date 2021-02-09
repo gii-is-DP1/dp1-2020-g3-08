@@ -59,6 +59,10 @@
 						<dd>
 							<c:out value="${equipo.lugar}" />
 						</dd>
+							<dt>Entrenador</dt>
+						<dd>
+							<c:out value="${equipo.entrenador.user.username}" />
+						</dd>
 						<spring:url value="/competiciones/{competicionId}/equipos/{equipoId}/edit" var="equipoUrl">
 							<spring:param name="competicionId" value="${competicion.id}" />
 							<spring:param name="equipoId" value="${equipo.id}" />

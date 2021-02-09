@@ -25,7 +25,9 @@ import org.springframework.samples.petclinic.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class UserService {
 
@@ -44,22 +46,26 @@ public class UserService {
 
 	@Transactional(readOnly = true)
 	public Collection<User> findAll() throws DataAccessException {
+		log.info("Se han recogido todos los Users");
 		return userRepository.findAll();
 	}
 
 	@Transactional(readOnly = true)
 	public User findUserByUsername(String username) {
+		log.info("Se han recogido un User por username");
 		return userRepository.findByUsername(username);
 	}
 
 	@Transactional
 	public void saveUser(User user) throws DataAccessException {
+		log.info("Se han guardado un User");
 		user.setEnabled(true);
 		userRepository.save(user);
 	}
 
 	@Transactional
 	public void delete(User user) throws DataAccessException {
+		log.info("Se han eliminado un User");
 		userRepository.delete(user);
 	}
 

@@ -40,12 +40,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author Juergen Hoeller
  * @author Ken Krebs
  * @author Arjen Poutsma
  * @author Michael Isvy
  */
+
+@Slf4j
 @Controller
 public class EquipoController {
 
@@ -67,8 +71,9 @@ public class EquipoController {
 
 	@GetMapping(value = "/competiciones/{competicionId}/equipos/new")
 	public String initCreationForm(final Map<String, Object> model, @PathVariable("competicionId") final int competicionId) {
+		log.info("Se ha iniciado la creación de un equipo");
 		Equipo equipo = new Equipo();
-		equipo.setCompeticion(this.competicionService.findCompeticionById(competicionId));
+		equipo.setCompeticion(competicionService.findCompeticionById(competicionId));
 		model.put("equipo", equipo);
 		return EquipoController.VIEWS_EQUIPO_CREATE_OR_UPDATE_FORM;
 	}
@@ -76,14 +81,16 @@ public class EquipoController {
 	@PostMapping(value = "/competiciones/{competicionId}/equipos/new")
 	public String processCreationForm(@Valid final Equipo equipo, final BindingResult result,final ModelMap model ,@PathVariable("competicionId") final int competicionId) {
 		if (result.hasErrors()) {
+			log.warn("Se ha abortado la creación de un equipo");
 			model.put("equipo", equipo);
 			return EquipoController.VIEWS_EQUIPO_CREATE_OR_UPDATE_FORM;
 		} else {
-			Competicion e = this.competicionService.findCompeticionById(competicionId);
-				e.addEquipo(equipo);
-				this.equipoService.saveEquipo(equipo);
-				this.competicionService.saveCompeticion(e);
-			
+			log.info("Se ha finalizado la creación de un equipo");
+			Competicion e = competicionService.findCompeticionById(competicionId);
+			e.addEquipo(equipo);
+			equipoService.saveEquipo(equipo);
+			competicionService.saveCompeticion(e);
+
 			return "redirect:/competiciones/{competicionId}";
 		}
 	}
@@ -91,20 +98,20 @@ public class EquipoController {
 
 	@GetMapping(value = "/equipos/find")
 	public String initFindForm(final Map<String, Object> model) {
+		log.info("Se ha iniciado la visualización de los equipos");
 		model.put("equipo", new Equipo());
 		return "equipos/findEquipos";
 	}
 
 	@GetMapping(value = "/equipos")
 	public String processFindForm(Equipo equipo, final BindingResult result, final Map<String, Object> model) {
-
+		log.info("Se ha iniciado la vista de mostrar los equipos buscados");
 		// allow parameterless GET request for /Equipos to return all records
-		if (equipo.getNombre() == null) {
+		if (equipo.getNombre() == null)
 			equipo.setNombre(""); // empty string signifies broadest possible search
-		}
 
 		// find Equipos by nombre
-		Collection<Equipo> results = this.equipoService.findEquipoByNombre(equipo.getNombre());
+		Collection<Equipo> results = equipoService.findEquipoByNombre(equipo.getNombre());
 		if (results.isEmpty()) {
 			// no Equipos found
 			result.rejectValue("nombre", "notFound", "not found");
@@ -122,7 +129,8 @@ public class EquipoController {
 
 	@GetMapping(value = "/competiciones/{competicionId}/equipos/{equipoId}/edit")
 	public String initUpdateEquipoForm(@PathVariable("equipoId") final int equipoId,@PathVariable("competicionId") final int competicionId, final Model model) {
-		Equipo Equipo = this.equipoService.findEquipoById(equipoId);
+		log.info("Se ha iniciado la edición de un equipo");
+		Equipo Equipo = equipoService.findEquipoById(equipoId);
 		model.addAttribute(Equipo);
 		return EquipoController.VIEWS_EQUIPO_CREATE_OR_UPDATE_FORM;
 	}
@@ -130,42 +138,46 @@ public class EquipoController {
 	@PostMapping(value = "/competiciones/{competicionId}/equipos/{equipoId}/edit")
 	public String processUpdateEquipoForm(@Valid final Equipo equipo, final BindingResult result, @PathVariable("equipoId") final int equipoId, @PathVariable("competicionId") final int competicionId) {
 		if (result.hasErrors()) {
+			log.warn("Se ha abortado la edición de un equipo");
 			return EquipoController.VIEWS_EQUIPO_CREATE_OR_UPDATE_FORM;
 		} else {
-			Competicion e = this.competicionService.findCompeticionById(competicionId);
+			log.info("Se ha finalizado la edición de un equipo");
+			Competicion e = competicionService.findCompeticionById(competicionId);
 			equipo.setId(equipoId);
 			equipo.setCompeticion(e);
-			this.equipoService.saveEquipo(equipo);
-			
+			equipoService.saveEquipo(equipo);
+
 			return "redirect:/equipos/{equipoId}";
 		}
 	}
 
 	@GetMapping("/equipos/{equipoId}")
 	public ModelAndView showEquipo(@PathVariable("equipoId") final int equipoId) {
+		log.info("Se ha iniciado la muestra de detalles de un equipo");
 		ModelAndView mav = new ModelAndView("equipos/equipoDetails");
-		mav.addObject(this.equipoService.findEquipoById(equipoId));
+		mav.addObject(equipoService.findEquipoById(equipoId));
 		return mav;
 	}
 
 	@GetMapping("/equipos/list")
 	public String showEquipoList(final Map<String, Object> model) {
+		log.info("Se ha iniciado la vista de mostrar la lista de equipos");
 		// Here we are returning an object of type 'Vets' rather than a collection of Vet
 		// objects
 		// so it is simpler for Object-Xml mapping
 		Equipos equipos = new Equipos();
-		equipos.getEquipoList().addAll(this.equipoService.findEquipos());
+		equipos.getEquipoList().addAll(equipoService.findEquipos());
 		model.put("equipos", equipos);
 		return "equipos/equiposList";
 	}
 
 	@GetMapping(value = "/competiciones/{competicionId}/equipos/{equipoId}/delete")
 	public String processDeleteEquipo(@PathVariable("equipoId") final int equipoId, @PathVariable("competicionId") final int competicionId) {
-		
-		Equipo equipo = this.equipoService.findEquipoById(equipoId);
-		Competicion competicion= this.competicionService.findCompeticionById(competicionId);
+		log.info("Se ha iniciado la eliminación de un equipo");
+		Equipo equipo = equipoService.findEquipoById(equipoId);
+		Competicion competicion= competicionService.findCompeticionById(competicionId);
 		competicion.removeEquipo(equipo);
-		this.equipoService.deleteEquipo(equipo);
+		equipoService.deleteEquipo(equipo);
 		return "redirect:/competiciones/{competicionId}";
 	}
 
