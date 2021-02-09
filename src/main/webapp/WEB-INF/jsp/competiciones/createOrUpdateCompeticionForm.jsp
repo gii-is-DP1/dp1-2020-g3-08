@@ -15,7 +15,7 @@
 
         <div class="form-group has-feedback">
 
-            <petclinic:inputField label="Nombre de la competición" name="nombreComp"/>
+            <petclinic:inputField label="Nombre de la competici&oacute;n" name="nombreComp"/>
 
         </div>
         <div class="form-group">

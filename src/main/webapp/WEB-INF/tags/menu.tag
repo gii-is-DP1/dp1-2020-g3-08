@@ -62,21 +62,21 @@
 				<petclinic:menuItem active="${name eq 'competiciones'}" url="/competiciones/list"
 					title="equipos">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Buscar Competición</span>
+					<span>Buscar Competici&oacute;n</span>
 
 				</petclinic:menuItem>
 				<petclinic:menuItem active="${name eq 'arbitros'}" url="/arbitros/new"
 					title="arbitros">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 
-					<span>Crear Árbitros</span> <%-- <span>Crear Arbitros</span> --%>
+					<span>Crear &aacute;rbitros</span> <%-- <span>Crear Arbitros</span> --%>
 
 				</petclinic:menuItem>
 				<petclinic:menuItem active="${name eq 'arbitros'}" url="/arbitros/find"
 					title="arbitros">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
           
-					<span>Buscar Árbitros</span>
+					<span>Buscar Arbitros</span>
 
 				</petclinic:menuItem>
 		
@@ -91,7 +91,7 @@
 
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="!isAuthenticated()">
-					<li><a href="<c:url value="/login" />">Iniciar sesión</a></li>
+					<li><a href="<c:url value="/login" />">Iniciar sesi&oacute;n</a></li>
 					<li><a href="<c:url value="/users/new" />">Registro</a></li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
