@@ -26,6 +26,12 @@
                 
             </tr>
         </c:forEach>
+        
+        <spring:url value="/arbitros/new" var="addUrl">
+        <spring:param name="arbitroId" value="${arbitro.id}" />
+        </spring:url>
+        <a href="${fn:escapeXml(addUrl)}" class="btn btn-default">Anadir nuevo arbitro</a>
+        
         </tbody>
     </table>
 

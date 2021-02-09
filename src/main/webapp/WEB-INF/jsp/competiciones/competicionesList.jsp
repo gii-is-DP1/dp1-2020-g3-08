@@ -28,6 +28,12 @@
       
             </tr>
         </c:forEach>
+        
+        <spring:url value="/competiciones/new" var="addUrl">
+        <spring:param name="competicionId" value="${competicion.id}" />
+        </spring:url>
+        <a href="${fn:escapeXml(addUrl)}" class="btn btn-default">Anadir nueva competicion</a>
+        
         </tbody>
     </table>
     
