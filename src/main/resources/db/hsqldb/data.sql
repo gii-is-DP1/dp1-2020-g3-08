@@ -29,7 +29,8 @@ INSERT INTO noticias VALUES (7, '2018-03-05', 'Paliza de los Verdiblancos, un pa
 INSERT INTO noticias VALUES (8, '2019-09-02','Fernando Alonso cambia su carrera al Futbol','El conocido piloto de carreras ha decidido dar un vuelco a su vida y desde a partir de hoy competira como jugador en el Real Betis Balonpie' );
 
 INSERT INTO competiciones VALUES(1,'La Liga');
-INSERT INTO competiciones VALUES(2,'Premier');
+INSERT INTO competiciones VALUES(2,'Premier League');
+INSERT INTO competiciones VALUES(3,'Bundesliga');
 
 INSERT INTO entrenador VALUES(1,'Pelegrini');
 INSERT INTO entrenador VALUES(2,'Lopetegui');
@@ -70,16 +71,16 @@ INSERT INTO jugador VALUES (23, 'Merez', '13625481K', '2000-09-17', 'Brasil', 'J
 INSERT INTO jugador VALUES (24, 'Linista', '13215381K', '1999-09-04', 'Argentina', 'Elvio', FALSE, 0, 0, 2);
 INSERT INTO jugador VALUES (25, 'Lopez', '13625338K', '1987-09-07', 'España', 'Luisma', FALSE, 0, 0, 2);
 INSERT INTO jugador VALUES (26, 'Kameni', '13625781K', '1998-09-06', 'Chad', 'Susano', FALSE, 4, 0, 2);
-INSERT INTO jugador VALUES (27, 'Giorgoni', '13625341K', '1956-09-09', 'Grecia', 'Teocracio', FALSE, 0, 0, 2);
+INSERT INTO jugador VALUES (27, 'Giorgoni', '13625212K', '1956-09-09', 'Grecia', 'Teocracio', FALSE, 0, 0, 2);
 INSERT INTO jugador VALUES (28, 'Hufjgefkoojf', '94525381K', '1993-09-27', 'Alemania', 'Gut', FALSE, 0, 0, 2);
 INSERT INTO jugador VALUES (29, 'Lopez', '13626381K', '1996-09-04', 'España', 'Bambolero', FALSE, 0, 1, 2);
 INSERT INTO jugador VALUES (30, 'Hacha', '13625381J', '1997-09-03', 'España', 'Hector', FALSE, 0, 0, 2);
-INSERT INTO jugador VALUES (55, 'Rojo', '16790381W', '1997-09-03', 'Italia', 'JugadorTarjRoja', FALSE, 3, 1, 4);
-INSERT INTO jugador VALUES (56, 'Amarillo', '13241381Q', '1997-09-03', 'Italia', 'JugadorTarjAm', FALSE, 5, 0, 4);
-INSERT INTO jugador VALUES (57, 'Lesion', '13625388A', '1997-09-03', 'Italia', 'JugadorLesionado', TRUE, 2, 0, 4);
+INSERT INTO jugador VALUES (55, 'Rojo', '16790377W', '1997-09-03', 'Italia', 'JugadorTarjRoja', FALSE, 3, 1, 4);
+INSERT INTO jugador VALUES (56, 'Amarillo', '13241111Q', '1997-09-03', 'Italia', 'JugadorTarjAm', FALSE, 5, 0, 4);
+INSERT INTO jugador VALUES (57, 'Lesion', '13625123A', '1997-09-03', 'Italia', 'JugadorLesionado', TRUE, 2, 0, 4);
 
 INSERT INTO jugador VALUES (43, 'Messi', '13625381M', '1997-09-03', 'Argentina', 'Lionel', FALSE, 2, 0, 3);
-INSERT INTO jugador VALUES (31, 'Martin', '13625381J', '1997-09-03', 'España', 'Julio', TRUE, 0, 0, 3);
+INSERT INTO jugador VALUES (31, 'Martin', '13625465J', '1997-09-03', 'España', 'Julio', TRUE, 0, 0, 3);
 INSERT INTO jugador VALUES (32, 'Soto', '13625383S', '1997-09-03', 'España', 'Marcos', FALSE, 0, 1, 3);
 INSERT INTO jugador VALUES (33, 'Sanchez', '13625385X', '1997-09-03', 'España', 'Javier', FALSE, 0, 0, 3);
 INSERT INTO jugador VALUES (34, 'Marquez', '13625381A', '1997-09-03', 'España', 'Fernando', FALSE, 0, 0, 3);
@@ -89,21 +90,21 @@ INSERT INTO jugador VALUES (37, 'Jimenez', '13625385F', '1997-09-03', 'España',
 INSERT INTO jugador VALUES (38, 'Portillo', '13625385N', '1997-09-03', 'España', 'Rodrigo', FALSE, 0, 0, 3);
 INSERT INTO jugador VALUES (39, 'Birley', '13625311S', '1997-09-03', 'Portugal', 'Justin', FALSE, 2, 0, 3);
 INSERT INTO jugador VALUES (40, 'Burbone', '13625381B', '1997-09-03', 'Polonia', 'Hyldre', FALSE, 0, 0, 3);
-INSERT INTO jugador VALUES (41, 'Sanatori', '13625381M', '1997-09-03', 'Japon', 'Kobayashi', FALSE, 0, 0, 3);
+INSERT INTO jugador VALUES (41, 'Sanatori', '13625789M', '1997-09-03', 'Japon', 'Kobayashi', FALSE, 0, 0, 3);
 INSERT INTO jugador VALUES (42, 'Berlusconi', '13625381C', '1997-09-03', 'Italia', 'Hugo', FALSE, 3, 0, 3);
-INSERT INTO jugador VALUES (52, 'Rojo', '16790381W', '1997-09-03', 'Italia', 'JugadorTarjRoja', FALSE, 3, 1, 4);
-INSERT INTO jugador VALUES (53, 'Amarillo', '13241381Q', '1997-09-03', 'Italia', 'JugadorTarjAm', FALSE, 5, 0, 4);
-INSERT INTO jugador VALUES (54, 'Lesion', '13625388A', '1997-09-03', 'Italia', 'JugadorLesionado', TRUE, 2, 0, 4);
+INSERT INTO jugador VALUES (52, 'Rojo', '16790788W', '1997-09-03', 'Italia', 'JugadorTarjRoja', FALSE, 3, 1, 4);
+INSERT INTO jugador VALUES (53, 'Amarillo', '13241799Q', '1997-09-03', 'Italia', 'JugadorTarjAm', FALSE, 5, 0, 4);
+INSERT INTO jugador VALUES (54, 'Lesion', '13624444A', '1997-09-03', 'Italia', 'JugadorLesionado', TRUE, 2, 0, 4);
 
 
-INSERT INTO jugador VALUES (44, 'Birley', '13625311S', '1997-09-03', 'Portugal', 'Justin', FALSE, 2, 0, 4);
-INSERT INTO jugador VALUES (45, 'Burbone', '13625381B', '1997-09-03', 'Polonia', 'Hyldre', FALSE, 0, 0, 4);
-INSERT INTO jugador VALUES (46, 'Sanatori', '13625381M', '1997-09-03', 'Japon', 'Kobayashi', FALSE, 0, 0, 4);
-INSERT INTO jugador VALUES (47, 'Berlusconi', '13625381C', '1997-09-03', 'Italia', 'Hugo', FALSE, 3, 0, 4);
-INSERT INTO jugador VALUES (48, 'Portillo', '13625385N', '1997-09-03', 'España', 'Rodrigo', FALSE, 0, 0, 4);
-INSERT INTO jugador VALUES (49, 'Rojo', '16790381W', '1997-09-03', 'Italia', 'JugadorTarjRoja', FALSE, 3, 1, 4);
-INSERT INTO jugador VALUES (50, 'Amarillo', '13241381Q', '1997-09-03', 'Italia', 'JugadorTarjAm', FALSE, 5, 0, 4);
-INSERT INTO jugador VALUES (51, 'Lesion', '13625388A', '1997-09-03', 'Italia', 'JugadorLesionado', TRUE, 2, 0, 4);
+INSERT INTO jugador VALUES (44, 'Birley', '13627777S', '1997-09-03', 'Portugal', 'Justin', FALSE, 2, 0, 4);
+INSERT INTO jugador VALUES (45, 'Burbone', '13625888B', '1997-09-03', 'Polonia', 'Hyldre', FALSE, 0, 0, 4);
+INSERT INTO jugador VALUES (46, 'Sanatori', '13625999M', '1997-09-03', 'Japon', 'Kobayashi', FALSE, 0, 0, 4);
+INSERT INTO jugador VALUES (47, 'Berlusconi', '13625145C', '1997-09-03', 'Italia', 'Hugo', FALSE, 3, 0, 4);
+INSERT INTO jugador VALUES (48, 'Portillo', '13625398N', '1997-09-03', 'España', 'Rodrigo', FALSE, 0, 0, 4);
+INSERT INTO jugador VALUES (49, 'Rojo', '26790381W', '1997-09-03', 'Italia', 'JugadorTarjRoja', FALSE, 3, 1, 4);
+INSERT INTO jugador VALUES (50, 'Amarillo', '23241381Q', '1997-09-03', 'Italia', 'JugadorTarjAm', FALSE, 5, 0, 4);
+INSERT INTO jugador VALUES (51, 'Lesion', '23625388A', '1997-09-03', 'Italia', 'JugadorLesionado', TRUE, 2, 0, 4);
 
 
 INSERT INTO arbitro VALUES(1,'Ilaoz', '93316451K', '1976-09-07', 'España', 'Matheu');
@@ -111,8 +112,8 @@ INSERT INTO arbitro VALUES(2,'Builder', '93316789K', '1956-03-17', 'Inglaterra',
 INSERT INTO arbitro VALUES(3,'Rubio', '93316001O', '1945-02-27', 'España', 'Francisco');
 INSERT INTO arbitro VALUES(4,'Garcia', '93316450K', '1966-11-09', 'España', 'Federico');
 INSERT INTO arbitro VALUES(5,'Dante', '94516451K', '1976-09-07', 'Italia', 'Mateo');
-INSERT INTO arbitro VALUES(6,'Ilaoz', '93316451K', '1976-09-07', 'España', 'Fernet');
-INSERT INTO arbitro VALUES(7,'Ybarra', '93316451K', '1989-09-07', 'España', 'Paco');
+INSERT INTO arbitro VALUES(6,'Ilaoz', '43316451K', '1976-09-07', 'España', 'Fernet');
+INSERT INTO arbitro VALUES(7,'Ybarra', '53316451K', '1989-09-07', 'España', 'Paco');
 INSERT INTO arbitro VALUES(8,'Hector', '93316411K', '1976-09-07', 'España', 'Vigor');
 INSERT INTO arbitro VALUES(9,'Sanchez', '93516451K', '1976-09-07', 'España', 'Potele');
 INSERT INTO arbitro VALUES(10,'Pedrosa', '98916451Q', '1976-09-07', 'España', 'Pedro');

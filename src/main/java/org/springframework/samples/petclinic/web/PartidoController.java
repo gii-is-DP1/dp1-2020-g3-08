@@ -18,14 +18,12 @@ package org.springframework.samples.petclinic.web;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.samples.petclinic.model.Arbitro;
 import org.springframework.samples.petclinic.model.Competicion;
 import org.springframework.samples.petclinic.model.Equipo;
@@ -33,10 +31,6 @@ import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.service.ArbitroService;
 import org.springframework.samples.petclinic.service.CompeticionService;
-import org.springframework.samples.petclinic.model.Equipo;
-import org.springframework.samples.petclinic.model.Jugador;
-import org.springframework.samples.petclinic.model.Partido;
-
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.samples.petclinic.web.validators.PartidoValidator;
@@ -52,10 +46,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 public class PartidoController {
 
-	
+
 	private static final String VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM = "partidos/createOrUpdatePartidoForm";
 	private static final String VIEWS_PARTIDO_SHOW = "partidos/partidoDetails";
 	private static final String VIEWS_PARTIDO_ADMIN_JUGADORES_FORM = "partidos/adminJugadoresForm";
@@ -76,8 +73,9 @@ public class PartidoController {
 
 	@InitBinder
 	public void setAllowedFields(final WebDataBinder dataBinder) {
-		dataBinder.setDisallowedFields("id");
+		//dataBinder.setDisallowedFields("id");
 	}
+
 	@InitBinder("partido")
 	public void initPartidoBinder(final WebDataBinder dataBinder) {
 		dataBinder.setValidator(new PartidoValidator(partidoService));
@@ -102,6 +100,7 @@ public class PartidoController {
 
 	@GetMapping(value = "/partidos/new")
 	public String initCreationForm(final Map<String, Object> model) {
+		log.info("Se ha iniciado la creación de un partido");
 		Partido partido = new Partido();
 		model.put("partido", partido);
 		return PartidoController.VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM;
@@ -109,9 +108,12 @@ public class PartidoController {
 
 	@PostMapping(value = "/partidos/new")
 	public String processCreationForm(@Valid Partido partido, BindingResult result) {
-		if (result.hasErrors())
+		if (result.hasErrors()) {
+			log.warn("Se ha abortado la creación de un partido");
 			return VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM;
+		}
 		else {
+			log.info("Se ha finalizado la creación de un partido");
 			partidoService.savePartido(partido);
 			return "redirect:/partidos/" + partido.getId();
 		}
@@ -120,54 +122,47 @@ public class PartidoController {
 
 	@GetMapping("/partidos/{id}")
 	public ModelAndView showPartido(@PathVariable("id") final int id) {
+		log.info("Se ha iniciado la muestra de detalles de un partido");
 		ModelAndView mav = new ModelAndView(PartidoController.VIEWS_PARTIDO_SHOW);
-		mav.addObject(this.partidoService.findById(id));
+		mav.addObject(partidoService.findById(id));
 		return mav;
 	}
 
-
-	@GetMapping(value = "/partidos/{id}/administrarJugadores")
-	public String initAdministrarJugadores(@PathVariable("id") final int id, final Map<String, Object> model) {
-		Partido partido = this.partidoService.findById(id);
-		List<Jugador> jugadores = new ArrayList<>();
-		jugadores.addAll(partido.getEquipo1().getJugadores());
-		jugadores.addAll(partido.getEquipo2().getJugadores());
-		model.put("jugadores", jugadores);
-		model.put("partido", partido);
-		return PartidoController.VIEWS_PARTIDO_ADMIN_JUGADORES_FORM;
-	}
-	
-	
 	//creacion de un partido en una competicion
-	
+
 	@GetMapping(value = "/competiciones/{competicionId}/partidos/new")
 	public String initCreationForm(final Map<String, Object> model, @PathVariable("competicionId") final int competicionId) {
+		log.info("Se ha iniciado la creación de un partido");
 		Partido partido= new Partido();
-		partido.setCompeticion(this.competicionService.findCompeticionById(competicionId));
+		partido.setCompeticion(competicionService.findCompeticionById(competicionId));
 		model.put("partido", partido);
 		return PartidoController.VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM;
 	}
+
 	@PostMapping(value = "/competiciones/{competicionId}/partidos/new")
 	public String processCreationForm(@Valid final Partido partido, final BindingResult result,final ModelMap model ,@PathVariable("competicionId") final int competicionId) {
 		if (result.hasErrors()) {
+			log.warn("Se ha abortado la creación de un partido");
 			model.put("partido", partido);
 			return PartidoController.VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM;
 		} else {
-			Competicion e = this.competicionService.findCompeticionById(competicionId);
-				e.addPartido(partido);
-				this.partidoService.savePartido(partido);
-				this.competicionService.saveCompeticion(e);
-			
+			log.info("Se ha finalizado la creación de un partido");
+			Competicion e = competicionService.findCompeticionById(competicionId);
+			e.addPartido(partido);
+			partidoService.savePartido(partido);
+			competicionService.saveCompeticion(e);
+
 			return "redirect:/competiciones/{competicionId}";
 		}
 	}
-	
+
 	//editar un partido de una competicion
-	
+
 	@GetMapping(value = "/competiciones/{competicionId}/partidos/{partidoId}/edit")
 	public String initUpdateEquipoForm(@PathVariable("partidoId") final int partidoId,@PathVariable("competicionId") final int competicionId, final Model model) {
-		Partido partido= this.partidoService.findById(partidoId);
-		partido.setCompeticion(this.competicionService.findCompeticionById(competicionId));
+		log.info("Se ha iniciado la edición de un partido");
+		Partido partido= partidoService.findById(partidoId);
+		partido.setCompeticion(competicionService.findCompeticionById(competicionId));
 		model.addAttribute(partido);
 		return PartidoController.VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM;
 	}
@@ -175,28 +170,52 @@ public class PartidoController {
 	@PostMapping(value = "/competiciones/{competicionId}/partidos/{partidoId}/edit")
 	public String processUpdateEquipoForm(@Valid final Partido partido,final BindingResult result, final ModelMap model, @PathVariable("partidoId") final int partidoId, @PathVariable("competicionId") final int competicionId) {
 		if (result.hasErrors()) {
+			log.warn("Se ha abortado la edición de un partido");
 			model.put("partido", partido);
 			return PartidoController.VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM;
 		} else {
-			Competicion e = this.competicionService.findCompeticionById(competicionId);
+			log.info("Se ha finalizado la edición de un partido");
+			Competicion e = competicionService.findCompeticionById(competicionId);
 			partido.setId(partidoId);
 			partido.setCompeticion(e);
-			this.partidoService.savePartido(partido);
-			this.competicionService.saveCompeticion(e);
-			
+			partidoService.savePartido(partido);
+			competicionService.saveCompeticion(e);
+
 			return "redirect:/competiciones/{competicionId}";
 		}
 	}
 
+	@GetMapping(value = "/partidos/{id}/administrarJugadores")
+	public String initAdministrarJugadores(@PathVariable("id") final int id, final ModelMap model) {
+		log.info("Se ha iniciado la edición de un partido");
+		Partido partido = partidoService.findById(id);
+		List<Jugador> jugadores = new ArrayList<>();
+		jugadores.addAll(partido.getEquipo1().getJugadores());
+		jugadores.addAll(partido.getEquipo2().getJugadores());
+		model.put("jugadores", jugadores);
+		model.put("partido", partido);
+		return PartidoController.VIEWS_PARTIDO_ADMIN_JUGADORES_FORM;
+	}
 
 	@PostMapping(value = "/partidos/{id}/administrarJugadores")
-	public String processAdministrarJugadores(@PathVariable("id") final int id, @Valid final Partido partido, final BindingResult result) {
+	public String processAdministrarJugadores(@Valid final Partido partido, final BindingResult result,ModelMap model,@PathVariable("id") final int id) {
 		if (result.hasErrors()) {
-			
+			List<Jugador> jugadores = new ArrayList<>();
+			jugadores.addAll(partido.getEquipo1().getJugadores());
+			jugadores.addAll(partido.getEquipo2().getJugadores());
+			model.put("jugadores", jugadores);
+			log.warn("Se ha abortado la edición de jugadores de un partido");
 			return PartidoController.VIEWS_PARTIDO_ADMIN_JUGADORES_FORM;
 		} else {
-			partido.setId(id);
-			this.partidoService.savePartido(partido);
+			log.info("Se ha finalizado la edición de jugadores de un partido");
+			for(Competicion c: competicionService.findAll()) {
+				for(Partido p: c.getPartidos()) {
+					if(p.getId().equals(partido.getId())){
+						partido.setCompeticion(c);
+					}
+				}
+			}
+			partidoService.savePartido(partido);
 			return "redirect:/partidos/" + partido.getId();
 		}
 	}

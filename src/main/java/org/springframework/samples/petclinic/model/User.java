@@ -65,7 +65,7 @@ public class User {
 	private String	email;
 
 	@Column(name = "birth_date")
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate	birthDate;
 
 	@NotEmpty

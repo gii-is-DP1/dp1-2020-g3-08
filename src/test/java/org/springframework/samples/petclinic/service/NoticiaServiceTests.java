@@ -54,7 +54,7 @@ class NoticiaServiceTests {
 	void shouldFindAllNoticias() {
 		Collection<Noticia> noticias = this.noticiaService.findAll();
 		Assertions.assertThat(noticias.isEmpty()).isFalse();
-		Assertions.assertThat(noticias.size()).isEqualTo(1);
+		Assertions.assertThat(noticias.size()).isEqualTo(8);
 
 	}
 
