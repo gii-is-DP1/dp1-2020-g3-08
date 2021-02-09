@@ -93,7 +93,7 @@ public class UserControllerTests {
 
 	@WithMockUser(value = "admin1")
 	@Test
-	void testProcessUpdateEntrenadorFormHasErrors() throws Exception {
+	void testProcessUpdateUserFormHasErrors() throws Exception {
 		mockMvc.perform(
 			post("/users/{id}/edit", TEST_USER_ID).with(csrf())
 			.param("firstName", "").param("lastName", "Romano")
@@ -105,7 +105,7 @@ public class UserControllerTests {
 
 	@WithMockUser(value = "admin1")
 	@Test
-	void testShowEntrenador() throws Exception {
+	void testShowUser() throws Exception {
 		mockMvc.perform(get("/users/{id}", TEST_USER_ID)).andExpect(status().isOk())
 		.andExpect(model().attributeExists("user"))
 		.andExpect(view().name("users/userDetails"));
