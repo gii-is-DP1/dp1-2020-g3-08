@@ -24,7 +24,7 @@ public class ArbitroServiceTests {
 	void shouldFindAllArbitros() {
 		Collection<Arbitro> arbitros = this.arbitroService.findAll();
 		Assertions.assertThat(arbitros.isEmpty()).isFalse();
-		Assertions.assertThat(arbitros.size()).isEqualTo(1);
+		Assertions.assertThat(arbitros.size()).isEqualTo(10);
 	}
 
 	@Test

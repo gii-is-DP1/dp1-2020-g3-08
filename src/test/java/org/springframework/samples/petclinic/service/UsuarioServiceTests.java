@@ -62,7 +62,7 @@ class UsuarioServiceTests {
 	void shouldFindAllUsers() {
 		Collection<User> usuarios = this.userService.findAll();
 		Assertions.assertThat(usuarios.isEmpty()).isFalse();
-		Assertions.assertThat(usuarios.size()).isEqualTo(1);
+		Assertions.assertThat(usuarios.size()).isEqualTo(8);
 		
 	}
 	

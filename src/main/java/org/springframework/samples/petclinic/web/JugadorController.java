@@ -90,15 +90,11 @@ public class JugadorController {
 			jugador.setTarjetaAmarilla(0);
 			jugador.setTarjetaRoja(0);
 			Equipo e = this.equipoService.findEquipoById(equipoId);
-			try {
 				
-				e.addJugador(jugador);
-				this.jugadorService.saveJugador(jugador);
-				this.equipoService.saveEquipo(e);
-			} catch (DuplicatedException ex) {
-				result.rejectValue("name", "duplicate", "already exists");
-				return JugadorController.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
-			}
+			e.addJugador(jugador);
+			this.jugadorService.saveJugador(jugador);
+			this.equipoService.saveEquipo(e);
+			
 			return "redirect:/equipos/{equipoId}";
 		}
 	}
@@ -154,15 +150,12 @@ public class JugadorController {
 			model.put("jugador", jugador);
 			return JugadorController.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
 		} else {
-			try {
+		
 				Equipo e = this.equipoService.findEquipoById(equipoId);
 				jugador.setId(jugadorId);
 				jugador.setEquipo(e);
 				this.jugadorService.saveJugador(jugador);
-			} catch (DuplicatedException ex) {
-				result.rejectValue("name", "duplicate", "already exists");
-				return JugadorController.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
-			}
+			
 			return "redirect:/equipos/{equipoId}";
 		}
 	}

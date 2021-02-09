@@ -28,7 +28,7 @@ public class EntrenadorServiceTests {
 	@Test
 	void shouldFindAllEntrenadores() {
 		Collection<Entrenador> entrenadores = this.entrenadorService.findAll();
-		Assertions.assertThat(entrenadores.isEmpty()).isTrue();
+		Assertions.assertThat(entrenadores.size()).isEqualTo(4);
 
 	}
 

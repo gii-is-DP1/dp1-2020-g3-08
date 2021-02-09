@@ -87,9 +87,9 @@ class CompeticionServiceTests {
 	
 	@Test
 	public void shouldDeleteCompeticion() throws Exception {
-		Competicion competicion = this.competicionService.findCompeticionById(1);
+		Competicion competicion = this.competicionService.findCompeticionById(3);
 		this.competicionService.deleteCompeticion(competicion);
-		Competicion competicionNueva = this.competicionService.findCompeticionById(1);
+		Competicion competicionNueva = this.competicionService.findCompeticionById(3);
 		Assertions.assertThat(competicionNueva).isEqualTo(null);
 	}
 
