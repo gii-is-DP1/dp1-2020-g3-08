@@ -24,10 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.repository.JugadorRepository;
-import org.springframework.samples.petclinic.service.exceptions.DuplicatedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,14 +41,10 @@ public class JugadorService {
 		this.jugadorRepository = jugadorRepository;
 	}
 
-	@Transactional(rollbackFor = DuplicatedException.class)
-	public void saveJugador(final Jugador jugador) throws DataAccessException, DuplicatedException {
-		log.info("Se han guardado un Jugador");
-		Jugador otherJugador = jugador.getEquipo().getJugadorwithIdDifferent(jugador.getDni(), jugador.getId());
-		if (StringUtils.hasLength(jugador.getDni()) && otherJugador != null && otherJugador.getId() != jugador.getId())
-			throw new DuplicatedException();
-		else
-			jugadorRepository.save(jugador);
+
+	public void saveJugador(final Jugador jugador) throws DataAccessException {
+		this.jugadorRepository.save(jugador);
+
 	}
 
 	@Transactional(readOnly = true)

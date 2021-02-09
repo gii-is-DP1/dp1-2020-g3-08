@@ -90,16 +90,12 @@ public class JugadorController {
 			log.info("Se ha finalizado la creación de un jugador");
 			jugador.setTarjetaAmarilla(0);
 			jugador.setTarjetaRoja(0);
-			Equipo e = equipoService.findEquipoById(equipoId);
-			try {
-
-				e.addJugador(jugador);
-				jugadorService.saveJugador(jugador);
-				equipoService.saveEquipo(e);
-			} catch (DuplicatedException ex) {
-				result.rejectValue("name", "duplicate", "already exists");
-				return JugadorController.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
-			}
+			Equipo e = this.equipoService.findEquipoById(equipoId);
+				
+			e.addJugador(jugador);
+			this.jugadorService.saveJugador(jugador);
+			this.equipoService.saveEquipo(e);
+			
 			return "redirect:/equipos/{equipoId}";
 		}
 	}
@@ -148,16 +144,12 @@ public class JugadorController {
 			model.put("jugador", jugador);
 			return JugadorController.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
 		} else {
-			try {
-				Equipo e = equipoService.findEquipoById(equipoId);
+		
+				Equipo e = this.equipoService.findEquipoById(equipoId);
 				jugador.setId(jugadorId);
 				jugador.setEquipo(e);
-				jugadorService.saveJugador(jugador);
-			} catch (DuplicatedException ex) {
-				result.rejectValue("name", "duplicate", "already exists");
-				return JugadorController.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
-			}
-			log.info("Se ha finalizado la edición de un jugador");
+				this.jugadorService.saveJugador(jugador);
+			
 			return "redirect:/equipos/{equipoId}";
 		}
 	}
