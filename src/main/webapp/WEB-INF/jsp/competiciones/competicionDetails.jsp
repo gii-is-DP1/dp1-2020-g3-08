@@ -33,12 +33,12 @@
 		<spring:param name="competicionId" value="${competicion.id}" />
 	</spring:url>
 
-	<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">Anadir nuevo equipo</a>
+	<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">A&ntilde;adir nuevo equipo</a>
 	
 	<spring:url value="{competicionId}/partidos/new" var="addUrl">
 		<spring:param name="competicionId" value="${competicion.id}" />
 	</spring:url>
-	<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">Anadir nuevo partido</a>
+	<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">A&ntilde;adir nuevo partido</a>
 
 	
 	<h2>Equipos</h2>
@@ -58,6 +58,10 @@
 						<dt>Lugar</dt>
 						<dd>
 							<c:out value="${equipo.lugar}" />
+						</dd>
+							<dt>Entrenador</dt>
+						<dd>
+							<c:out value="${equipo.entrenador.user.username}" />
 						</dd>
 						<spring:url value="/competiciones/{competicionId}/equipos/{equipoId}/edit" var="equipoUrl">
 							<spring:param name="competicionId" value="${competicion.id}" />
@@ -101,7 +105,7 @@
 							<c:out value="${partido.equipo2.nombre}" />
 						</dd>
 						
-						<dt>Arbitro</dt>
+						<dt>&Aacute;rbitro</dt>
 						<dd>
 							<c:out value="${partido.arbitro.nombre}" />
 						</dd>

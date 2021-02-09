@@ -41,6 +41,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 public class UserController {
 
@@ -69,6 +72,7 @@ public class UserController {
 
 	@GetMapping(value = "/users/new")
 	public String initCreationForm(Map<String, Object> model) {
+		log.info("Se ha iniciado la creación de un user");
 		User user = new User();
 		model.put("user", user);
 		return VIEWS_USER_CREATE_OR_UPDATE_FORM;
@@ -77,8 +81,10 @@ public class UserController {
 	@PostMapping(value = "/users/new")
 	public String processCreationForm(@Valid User user, BindingResult result) {
 		if (result.hasErrors()) {
+			log.warn("Se ha abortado la creación de un user");
 			return VIEWS_USER_CREATE_OR_UPDATE_FORM;
 		} else {
+			log.info("Se ha finalizado la creación de un user");
 			userService.saveUser(user);
 			authoritiesService.saveAuthorities(user.getUsername(), "user");
 			return "redirect:/users/" + user.getUsername();
@@ -87,6 +93,7 @@ public class UserController {
 
 	@GetMapping(value = "/users/{username}/edit")
 	public String initUpdateUserForm(@PathVariable("username") String username, Model model) {
+		log.info("Se ha iniciado la edición de un user");
 		User user = userService.findUserByUsername(username);
 		model.addAttribute(user);
 		return VIEWS_USER_CREATE_OR_UPDATE_FORM;
@@ -95,11 +102,13 @@ public class UserController {
 	@PostMapping(value = "/users/{username}/edit")
 	public String processUpdateUserForm(@Valid User user, BindingResult result, @PathVariable("username") String username) {
 		if (result.hasErrors()) {
+			log.warn("Se ha abortado la edición de un user");
 			return VIEWS_USER_CREATE_OR_UPDATE_FORM;
 		} else {
-			if(user.getUsername().equals(username)) {
+			log.info("Se ha finalizado la edición de un user");
+			if(user.getUsername().equals(username))
 				userService.saveUser(user);
-			}else {
+			else {
 				userService.saveUser(user);
 				authoritiesService.saveAuthorities(user.getUsername(), "user");
 				// Eliminamos el Usuario y su autoridad con el username abandonado
@@ -122,6 +131,7 @@ public class UserController {
 
 	@GetMapping("/users/{username}")
 	public ModelAndView showUser(@PathVariable("username") String username) {
+		log.info("Se ha iniciado la muestra de detalles de un user");
 		ModelAndView mav = new ModelAndView(VIEWS_USER_SHOW);
 		mav.addObject(userService.findUserByUsername(username));
 		return mav;

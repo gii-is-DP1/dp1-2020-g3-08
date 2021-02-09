@@ -19,17 +19,11 @@
 			<th>Lugar</th>
 			<td><c:out value="${equipo.lugar}" /></td>
 		</tr>
+		<tr>
+			<th>Entrenador</th>
+			<td><c:out value="${equipo.entrenador.user.username}" /></td>
+		</tr>
 	</table>
-
-	<spring:url value="{equipoId}/edit" var="editUrl">
-		<spring:param name="equipoId" value="${equipo.id}" />
-	</spring:url>
-	<a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Equipo</a>
-	
-	<spring:url value="{equipoId}/delete" var="deleteUrl">
-		<spring:param name="equipoId" value="${equipo.id}" />
-	</spring:url>
-	<a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Borrar Equipo</a>
 	
 	<spring:url value="{equipoId}/jugadores/new" var="addUrl">
 		<spring:param name="equipoId" value="${equipo.id}" />
@@ -40,10 +34,6 @@
 		<spring:param name="equipoId" value="${equipo.id}" />
 	</spring:url>
 	<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">A&ntilde;adir nuevo entrenador</a>
-
-	<br />
-	<br />
-	<br />
 	<h2>Entrenador</h2>
 
 	<table class="table table-striped">
@@ -63,11 +53,7 @@
 							<spring:param name="entrenadorId" value="${equipo.entrenador.id}" />
 						</spring:url>
 						<a href="${fn:escapeXml(entrenadorUrl)}">Editar entrenador</a>
-						<spring:url value="/equipos/{equipoId}/entrenadores/{entrenadorId}/delete" var="entrenadorUrl">
-							<spring:param name="equipoId" value="${equipo.id}" />
-							<spring:param name="entrenadorId" value="${equipo.entrenador.id}" />
-						</spring:url>
-						<a href="${fn:escapeXml(entrenadorUrl)}">Borrar entrenador</a>
+						
 					</dl>
 				</td>
 			</tr>

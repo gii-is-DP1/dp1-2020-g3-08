@@ -57,6 +57,7 @@ public class Person extends BaseEntity {
 	@NotEmpty
 	protected String	nacionalidad;
 
+	
 	@Column(name = "dni")
 	@NotEmpty
 	@Pattern(regexp = "[0-9]{8,8}[A-Z]")

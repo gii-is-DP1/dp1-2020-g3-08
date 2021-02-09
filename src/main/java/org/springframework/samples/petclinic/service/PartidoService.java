@@ -20,12 +20,14 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.model.Arbitro;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.repository.PartidoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class PartidoService {
 
@@ -39,22 +41,26 @@ public class PartidoService {
 
 	@Transactional(readOnly = true)
 	public Collection<Partido> findAll() throws DataAccessException {
-		return this.partidoRepository.findAll();
+		log.info("Se han recogido todos los Partidos");
+		return partidoRepository.findAll();
 	}
 
 	@Transactional(readOnly = true)
 	public Partido findById(final int id) throws DataAccessException {
-		return this.partidoRepository.findById(id);
+		log.info("Se han recogido un Partido por id");
+		return partidoRepository.findById(id);
 	}
 
 	@Transactional
 	public void savePartido(final Partido partido) throws DataAccessException {
-		this.partidoRepository.save(partido);
+		log.info("Se han guardado un Partido");
+		partidoRepository.save(partido);
 	}
 
 	@Transactional
 	public void deletePartido(final Partido partido) {
-		this.partidoRepository.delete(partido);
+		log.info("Se han eliminado un Partido");
+		partidoRepository.delete(partido);
 
 	}
 

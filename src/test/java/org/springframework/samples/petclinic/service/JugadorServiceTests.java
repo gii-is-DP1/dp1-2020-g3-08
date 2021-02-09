@@ -85,56 +85,15 @@ class JugadorServiceTests {
 		equipo1.addJugador(jugador);
 		assertThat(equipo1.getJugadores().size()).isEqualTo(found + 1);
 
-		try {
-			this.jugadorService.saveJugador(jugador);
-		} catch (DuplicatedException ex) {
-			Logger.getLogger(JugadorServiceTests.class.getName()).log(Level.SEVERE, null, ex);
-		}
 		this.equipoService.saveEquipo(equipo1);
 
 		equipo1 = this.equipoService.findEquipoById(1);
 		assertThat(equipo1.getJugadores().size()).isEqualTo(found + 1);
 		// checks that id has been generated
-		assertThat(jugador.getId()).isNotNull();
+		assertThat(jugadorService.findJugadorByNombre("Paco").iterator().next().getId()).isNotNull();
 	}
 
-	@Test
-	@Transactional
-	public void shouldThrowExceptionInsertingJugadoresWithTheSameDNI() {
-		Equipo equipo1 = this.equipoService.findEquipoById(1);
-		Jugador jugador = new Jugador();
-
-		jugador.setNombre("Paco");
-		jugador.setApellidos("Perez");
-		jugador.setDni("29517543X");
-		jugador.setFechaNacimiento(LocalDate.now().minusYears(12));
-		jugador.setNacionalidad("España");
-		jugador.setLesion(false);
-		jugador.setTarjetaAmarilla(0);
-		jugador.setTarjetaRoja(0);
-		equipo1.addJugador(jugador);
-		try {
-			this.jugadorService.saveJugador(jugador);
-		} catch (DuplicatedException e) {
-			// Jugador already exists!
-			e.printStackTrace();
-		}
-
-		Jugador anotherJugadorWithTheSameDNI = new Jugador();
-		anotherJugadorWithTheSameDNI.setNombre("Pepe");
-		anotherJugadorWithTheSameDNI.setApellidos("Pepin");
-		anotherJugadorWithTheSameDNI.setDni("29517543X");
-		anotherJugadorWithTheSameDNI.setFechaNacimiento(LocalDate.now().minusYears(12));
-		anotherJugadorWithTheSameDNI.setNacionalidad("España");
-		anotherJugadorWithTheSameDNI.setLesion(false);
-		anotherJugadorWithTheSameDNI.setTarjetaAmarilla(0);
-		anotherJugadorWithTheSameDNI.setTarjetaRoja(0);
-
-		Assertions.assertThrows(DuplicatedException.class, () -> {
-			equipo1.addJugador(anotherJugadorWithTheSameDNI);
-			this.jugadorService.saveJugador(anotherJugadorWithTheSameDNI);
-		});
-	}
+	
 
 	@Test
 	@Transactional
@@ -160,46 +119,7 @@ class JugadorServiceTests {
 		assertThat(jugador1.getNombre()).isEqualTo(newName);
 	}
 
-	@Test
-	@Transactional
-	public void shouldThrowExceptionUpdatingJugadorWithTheSameDNI() {
-		Equipo equipo1 = this.equipoService.findEquipoById(1);
-		Jugador jugador = new Jugador();
-
-		jugador.setNombre("Paco");
-		jugador.setApellidos("Perez");
-		jugador.setDni("29517543X");
-		jugador.setFechaNacimiento(LocalDate.now().minusYears(12));
-		jugador.setNacionalidad("España");
-		jugador.setLesion(false);
-		jugador.setTarjetaAmarilla(0);
-		jugador.setTarjetaRoja(0);
-		equipo1.addJugador(jugador);
-
-		Jugador anotherJugador = new Jugador();
-		anotherJugador.setNombre("Paco");
-		anotherJugador.setApellidos("Pepe");
-		anotherJugador.setDni("22222222F");
-		anotherJugador.setFechaNacimiento(LocalDate.now().minusYears(12));
-		anotherJugador.setNacionalidad("España");
-		anotherJugador.setLesion(false);
-		anotherJugador.setTarjetaAmarilla(0);
-		anotherJugador.setTarjetaRoja(0);
-		equipo1.addJugador(anotherJugador);
-		try {
-			this.jugadorService.saveJugador(jugador);
-			this.jugadorService.saveJugador(anotherJugador);
-		} catch (DuplicatedException e) {
-			// The pets already exists!
-			e.printStackTrace();
-		}
-
-		Assertions.assertThrows(DuplicatedException.class, () -> {
-			anotherJugador.setDni("29517543X");
-			this.jugadorService.saveJugador(anotherJugador);
-		});
-
-	}
+	
 
 	@Test
 	@Transactional

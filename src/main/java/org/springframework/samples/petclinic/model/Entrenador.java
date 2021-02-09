@@ -1,8 +1,5 @@
 package org.springframework.samples.petclinic.model;
 
-
-import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -23,14 +20,5 @@ public class Entrenador extends BaseEntity {
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 
-	public Entrenador getEntrenadorwithIdDifferent(Set<Entrenador> entrenadores,String telefono, final Integer id) {
-		
-		for (Entrenador entrenador : entrenadores) {
-			String compTel = entrenador.getUser().getTelephone();
-			if (compTel.equals(telefono) && entrenador.getId() != id) {
-				return entrenador;
-			}
-		}
-		return null;
-	}
+	
 }

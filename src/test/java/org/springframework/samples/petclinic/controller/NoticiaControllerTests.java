@@ -27,7 +27,6 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(controllers = NoticiaController.class,
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
 classes = WebSecurityConfigurer.class),excludeAutoConfiguration = SecurityConfiguration.class)
-
 public class NoticiaControllerTests {
 
 	private static final int TEST_NOTICIA_ID = 1;
@@ -60,9 +59,9 @@ public class NoticiaControllerTests {
 	@Test
 	void testProcessNewNoticiaFormSuccess() throws Exception {
 		mockMvc.perform(post("/noticias/new")
-			.param("title", "Titulo")
+			.param("titulo", "Titulo")
 			.with(csrf())
-			.param("text", "Texto"))
+			.param("texto", "Texto"))
 		.andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/noticias/null"));
 	}
@@ -72,10 +71,10 @@ public class NoticiaControllerTests {
 	@Test
 	void testProcessNewNoticiaFormHasErrors() throws Exception {
 		mockMvc.perform(post("/noticias/new")
-			.param("title", "")
+			.param("titulo", "")
 			.with(csrf())
-			.param("date", "2015/02/12")
-			.param("text", "Texto"))
+			.param("fecha", "2015/02/12")
+			.param("texto", "Texto"))
 		.andExpect(model().attributeHasErrors("noticia"))
 		.andExpect(status().isOk())
 		.andExpect(view().name("noticias/createOrUpdateNoticiaForm"));
