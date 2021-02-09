@@ -24,7 +24,9 @@ import org.springframework.samples.petclinic.repository.NoticiaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class NoticiaService {
 
@@ -37,20 +39,24 @@ public class NoticiaService {
 
 	@Transactional(readOnly = true)
 	public Collection<Noticia> findAll() throws DataAccessException {
+		log.info("Se han recogido todas las Noticias");
 		return noticiaRepository.findAll();
 	}
 
 	@Transactional(readOnly = true)
 	public Noticia findById(int id) throws DataAccessException {
+		log.info("Se han recogido una Noticia por id");
 		return noticiaRepository.findById(id);
 	}
 
 	@Transactional
 	public void saveNoticia(Noticia noticia) throws DataAccessException {
+		log.info("Se han guardado una Noticia");
 		noticiaRepository.save(noticia);
 	}
 	@Transactional
 	public void deleteNoticia(Noticia noticia) throws DataAccessException {
+		log.info("Se han eliminado una Noticia");
 		noticiaRepository.delete(noticia);
 	}
 

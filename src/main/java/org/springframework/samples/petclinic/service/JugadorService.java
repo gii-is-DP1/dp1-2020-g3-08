@@ -27,12 +27,9 @@ import org.springframework.samples.petclinic.repository.JugadorRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Mostly used as a facade for all Petclinic controllers Also a placeholder
- * for @Transactional and @Cacheable annotations
- *
- * @author Michael Isvy
- */
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class JugadorService {
 
@@ -44,28 +41,34 @@ public class JugadorService {
 		this.jugadorRepository = jugadorRepository;
 	}
 
+
 	public void saveJugador(final Jugador jugador) throws DataAccessException {
 		this.jugadorRepository.save(jugador);
+
 	}
 
 	@Transactional(readOnly = true)
 	public Jugador findJugadorById(final int id) throws DataAccessException {
-		return this.jugadorRepository.findById(id);
+		log.info("Se han recogido un Jugador por id");
+		return jugadorRepository.findById(id);
 	}
 
 	@Transactional(readOnly = true)
 	public Collection<Jugador> findJugadorByNombre(final String nombre) throws DataAccessException {
-		return this.jugadorRepository.findJugadorByNombre(nombre);
+		log.info("Se han recogido todos los Jugadores por nombre");
+		return jugadorRepository.findJugadorByNombre(nombre);
 	}
 
 	@Transactional(readOnly = true)
 	public Collection<Jugador> findJugadores() throws DataAccessException {
-		return this.jugadorRepository.findAll();
+		log.info("Se han recogido todos los Jugadores");
+		return jugadorRepository.findAll();
 	}
 
 	@Transactional
 	public void deleteJugador(final Jugador jugador) {
-		this.jugadorRepository.delete(jugador);
+		log.info("Se han eliminado un Jugador");
+		jugadorRepository.delete(jugador);
 	}
 
 

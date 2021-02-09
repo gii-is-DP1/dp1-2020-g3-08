@@ -28,12 +28,9 @@ import org.springframework.samples.petclinic.repository.AuthoritiesRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Mostly used as a facade for all Petclinic controllers Also a placeholder
- * for @Transactional and @Cacheable annotations
- *
- * @author Michael Isvy
- */
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class AuthoritiesService {
 
@@ -48,6 +45,7 @@ public class AuthoritiesService {
 
 	@Transactional
 	public Collection<Authorities> findAllAuthorities() throws DataAccessException {
+		log.info("Se han recogido todas las Authorities");
 		List<Authorities> result = new ArrayList<>();
 		authoritiesRepository.findAll().forEach(result::add);
 		System.out.println(result.toString());
@@ -70,9 +68,8 @@ public class AuthoritiesService {
 			authorities.setAuthority(role);
 			//user.get().getAuthorities().add(authority);
 			authoritiesRepository.save(authorities);
-		} else {
+		} else
 			throw new DataAccessException("User '"+username+"' not found!") {};
-		}
 	}
 
 	@Transactional

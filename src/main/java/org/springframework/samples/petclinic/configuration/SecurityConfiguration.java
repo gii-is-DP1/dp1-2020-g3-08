@@ -39,15 +39,39 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 		http.authorizeRequests().antMatchers("/resources/**", "/webjars/**", "/h2-console/**").permitAll()
 		.antMatchers(HttpMethod.GET, "/", "/oups").permitAll()
-		.antMatchers("/noticias/**").permitAll()
+		//NOTICIAS
+		.antMatchers("/noticias/new").hasAnyAuthority("admin")
+		.antMatchers("/noticias/**/delete").hasAnyAuthority("admin")
+		.antMatchers("/noticias/**/edit").hasAnyAuthority("admin")
+		.antMatchers("/noticias/**").hasAnyAuthority("user", "admin", "entrenador")
+		//USERS
 		.antMatchers("/users/new").permitAll()
 		.antMatchers("/users/**").hasAnyAuthority("user", "admin", "entrenador")
 		.antMatchers("/admin/**").hasAnyAuthority("admin")
-		.antMatchers("/equipos/**").permitAll()
-		.antMatchers("/jugadores/**").permitAll()
-		.antMatchers("/arbitros/**").permitAll()
+		//EQUIPOS
+		.antMatchers("/equipos/**").hasAnyAuthority("user", "admin", "entrenador")
+		//JUGADORES
+		.antMatchers("/jugadores/**").hasAnyAuthority("user", "admin", "entrenador")
+		//ARBITROS
+		.antMatchers("/arbitros/**/new").hasAnyAuthority("admin")
+		.antMatchers("/arbitros/**/edit").hasAnyAuthority("admin")
+		.antMatchers("/arbitros/**/delete").hasAnyAuthority("admin")
+		.antMatchers("/arbitros/**").hasAnyAuthority("user", "admin", "entrenador")
+		//COMPETICIONES
+		.antMatchers("/competiciones/**/new").hasAnyAuthority("admin")
+		.antMatchers("/competiciones/**/edit").hasAnyAuthority("admin")
+		.antMatchers("/competiciones/**/delete").hasAnyAuthority("admin")
+		.antMatchers("/competiciones/**/equipos/new").hasAnyAuthority("admin")
+		.antMatchers("/competiciones/**/equipos/**").hasAnyAuthority("admin","entrenador")
+		.antMatchers("/competiciones/**/partidos/**/new").hasAnyAuthority("admin")
+		.antMatchers("/competiciones/**/partidos/**/edit").hasAnyAuthority("admin")
+		.antMatchers("/competiciones/**/partidos/**/delete").hasAnyAuthority("admin")
+		.antMatchers("/competiciones/**/partidos/**").hasAnyAuthority("user", "admin", "entrenador")
 		.antMatchers("/competiciones/**").permitAll()
-		.antMatchers("/entrenadores/**").permitAll()
+		//ENTRENADORES
+		.antMatchers("/entrenadores/**").hasAnyAuthority("admin")
+		//PARTIDOS
+		.antMatchers("/partidos/**/administrarJugadores").hasAnyAuthority("admin","entrenador")
 		.antMatchers("/partidos/**").permitAll()
 		.anyRequest().denyAll().and().formLogin()
 		.failureUrl("/login-error").and().logout().logoutSuccessUrl("/");
